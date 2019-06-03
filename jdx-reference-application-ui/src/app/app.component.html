@@ -1,0 +1,37 @@
+<main class="container-fluid pt-3 pb-5" style="max-width: 1140px;">
+
+  <div class="pt-4 d-flex justify-content-between">
+    <h1 class="pb-4">Organization Information</h1>
+    <p class="flex-shrink-0">1 of 4</p>
+  </div>
+
+  <p class="w-75 mb-5">Information provided here will appear by default in your job descriptions. Fields are optional unless otherwise noted but the more details you can provide, the better your job descriptions will be.</p>
+
+  <form>
+    <div class="form-group mb-4">
+      <div class="d-flex justify-content-between">
+        <label class="font-weight-bold" for="org-name">Organization Name</label>
+        <div>Required</div>
+      </div>
+      <input type="text" class="form-control form-control-lg" id="org-name" aria-describedby="emailHelp" placeholder="Organization Name">
+    </div>
+    <div class="form-group mb-4">
+      <label class="font-weight-bold" for="ein">Employer Identification Number (EIN)</label>
+      <input type="text" class="form-control form-control-lg" id="ein" placeholder="999-999999">
+    </div>
+    <div class="form-group mb-4 position-relative">
+      <label class="font-weight-bold" for="industry-code">Industry Description</label>
+      <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" class="form-control form-control-lg tt-hint" readonly="" spellcheck="false" tabindex="-1" dir="ltr" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box padding-box rgb(255, 255, 255);"><input type="text" class="form-control form-control-lg tt-input" id="industry-code" placeholder="Industry keyword (e.g. Software, Education)" spellcheck="false" dir="auto" aria-activedescendant="" aria-owns="industry-code_listbox" role="combobox" aria-readonly="true" aria-autocomplete="list" style="position: relative; vertical-align: top; background-color: transparent;"><span role="status" aria-live="polite" style="position: absolute; padding: 0px; border: 0px; height: 1px; width: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap;"></span><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 20px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div role="listbox" class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div role="presentation" class="tt-dataset tt-dataset-industry"></div></div></span>
+      <i class="fas fa-angle-down text-primary position-absolute" style="bottom: 11px; right: 12px; font-size: 24px;"></i>
+    </div>
+    <div class="form-group mb-4">
+      <label class="font-weight-bold" for="website">Website</label>
+      <input type="text" class="form-control form-control-lg" id="website" placeholder="http://example.com">
+    </div>
+    <div class="d-flex justify-content-between pt-5">
+      <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+      <button type="submit" class="btn btn-lg btn-primary">Next</button>
+    </div>
+  </form>
+
+</main>
