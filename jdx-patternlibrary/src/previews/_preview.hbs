@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <title>JDX Prototype</title>
+
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.min.js"></script>
+
+
+
+  <!--<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">-->
+  <link rel="stylesheet" href="{{path '/css/bootstrap.css'}}">
+
+  <!--<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+
+
+  <style>
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #aaa !important;
+      opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: #aaa !important;
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+      color: #aaa !important;
+    }
+
+    .twitter-typeahead {
+      width: 100%;
+    }
+
+    .tt-menu {
+      background: #fff !important;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 0px;
+      padding: 8px 0;
+    }
+    .tt-suggestion {
+      font-size: 16px;  /* Set suggestion dropdown font size */
+      padding: 3px 20px;
+    }
+    .tt-suggestion:hover {
+      cursor: pointer;
+      background-color: #0097CF;
+      color: #FFFFFF;
+    }
+    .tt-suggestion p {
+      margin: 0;
+    }
+
+    .pipe {
+      margin: 0 8px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<main class="container-fluid pt-3 pb-5" style="max-width: 1140px;">
+
+{{{yield}}}
+
+</main>
+
+</body>
+
+</html>
