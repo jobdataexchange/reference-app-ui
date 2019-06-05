@@ -16,10 +16,12 @@
 
 
 
-  <!--<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">-->
   <link rel="stylesheet" href="{{path '/css/bootstrap.css'}}">
 
-  <!--<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
 
 
   <style>
@@ -64,6 +66,26 @@
 
     .pipe {
       margin: 0 8px;
+    }
+
+    .multiselect-native-select .btn-group {
+      display: flex;
+    }
+
+    .multiselect-native-select .btn-group > .btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .multiselect-native-select .btn-group .btn-default {
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc;
+    }
+
+    .multiselect-container>li>a>label {
+      padding-left: 20px;
     }
 
     .required {
