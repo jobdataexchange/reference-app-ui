@@ -1,14 +1,21 @@
 {
-  "name": "jdx-reference-application",
+  "name": "@jdx/jdx-reference-application",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run update-local-dependencies && npm run start-without-dependencies",
+    "start-without-dependencies": "ng serve",
+    "update-local-dependencies": "npx install-local",
+    "build": "npm run update-local-dependencies && npm run build-without-dependencies",
+    "build-without-dependencies": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "package": "rm -rf dist && npm run update-local-dependencies && npm run ng -- build --prod --aot=true --build-optimizer=true"
   },
+  "files": [
+    "dist/"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.0",
@@ -25,6 +32,9 @@
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
+  },
+  "localDependencies": {
+    "@jdx/jdx-reference-application-api-client": "../jdx-reference-application-api-client/dist"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
