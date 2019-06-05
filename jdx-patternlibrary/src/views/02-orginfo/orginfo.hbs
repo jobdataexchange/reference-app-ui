@@ -1,0 +1,60 @@
+<div class="pt-4 d-flex justify-content-between">
+  <h1 class="pb-4">Organization Information</h1>
+  <p class="flex-shrink-0">1 of 4</p>
+</div>
+
+<p class="w-75 mb-5">Information provided here will appear by default in your job descriptions. Fields are optional unless otherwise noted - but the more details you can provide, the better your job descriptions will be.</p>
+
+<form>
+  <div class="form-group mb-4">
+    <div class="d-flex justify-content-between">
+      <label class="font-weight-bold" for="org-name">Organization Name</label>
+      <div>Required</div>
+    </div>
+    <input type="text" class="form-control form-control-lg" id="org-name" aria-describedby="emailHelp" placeholder="Organization Name">
+  </div>
+  <div class="form-group mb-4 position-relative">
+    <label class="font-weight-bold" for="industry-code">Industry Description</label>
+    <input type="text" class="form-control form-control-lg" id="industry-code" placeholder="Industry keyword (e.g. Software, Education)">
+    <i class="fas fa-angle-down text-primary position-absolute" style="bottom: 11px; right: 12px; font-size: 24px;"></i>
+  </div>
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="website">Website</label>
+    <input type="text" class="form-control form-control-lg" id="website" placeholder="http://example.com">
+  </div>
+  <div class="d-flex justify-content-between pt-5">
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+    <button type="submit" class="btn btn-lg btn-primary">Next</button>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function(){
+
+    // Constructing the suggestion engine
+    var industry = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: ['Software', 'Systems', 'Education', 'Law', 'Medicine']
+    });
+
+    // Initializing the typeahead
+    $('#industry-code').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: 'industry',
+        source: industry
+      });
+  });
+</script>

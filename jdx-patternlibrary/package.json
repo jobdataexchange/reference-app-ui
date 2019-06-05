@@ -1,0 +1,20 @@
+{
+  "name": "jdx-patternlibrary",
+  "version": "0.0.0",
+  "dependencies": {
+    "@frctl/fractal": "^1.1.7"
+  },
+  "scripts": {
+    "start": "fractal start --sync",
+    "build": "fractal build",
+    "build-css": "node-sass src/scss/bootstrap.scss public/css/bootstrap.css"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.3.1",
+    "json": "^9.0.6",
+    "node-sass": "^4.12.0"
+  },
+  "publishConfig": {
+    "registry": "http://nexus.concentricsky.com:8081/repository/npm-private/"
+  }
+}

@@ -1,0 +1,86 @@
+<div class="pt-4 d-flex justify-content-end">
+  <button class="btn pr-0 exit-button" aria-label="Exit">
+    <i class="fas fa-times" style="font-size: 36px;"></i>
+  </button>
+  <div class="confirm-exit d-none">
+    <div class="d-flex align-items-baseline">
+      Exit now? This will lose unsaved work.
+      <button class="btn btn-lg text-primary exit-now">Exit</button>
+      <button class="btn btn-lg text-primary keep-working">Keep Working</button>
+    </div>
+  </div>
+</div>
+
+<div class="pt-4 d-flex justify-content-between">
+  <h1 class="pb-4">Confirm General Information</h1>
+  <p class="flex-shrink-0">2 of 7</p>
+</div>
+
+<p class="w-75 mb-5">To help standardize your job description, please confirm the following:</p>
+
+<form>
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="job-title">Job Title</label>
+    <input type="text" class="form-control form-control-lg" id="job-title" placeholder="Job Title">
+  </div>
+
+  <div class="form-group mb-4 position-relative">
+    <label class="font-weight-bold" for="industry-code">Occupational Category</label>
+    <input type="text" class="form-control form-control-lg" id="industry-code" placeholder="Occupation keyword (e.g. Software, Education)">
+    <i class="fas fa-angle-down text-primary position-absolute" style="bottom: 11px; right: 12px; font-size: 24px;"></i>
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="education-level">Education Level</label>
+    <select id="education-level" class="form-control form-control-lg">
+      <option value="1">Select</option>
+      <option value="2">Option 1</option>
+      <option value="3">Option 2</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="location">Location</label>
+    <input type="text" class="form-control form-control-lg" id="location" placeholder="Location">
+  </div>
+
+  <div class="d-flex justify-content-between pt-5">
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+    <button type="submit" class="btn btn-lg btn-primary">Next</button>
+  </div>
+</form>
+
+
+
+<script>
+  $(document).ready(function(){
+
+    // Constructing the suggestion engine
+    var industry = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: ['Software', 'Education', 'Law', 'Medicine']
+    });
+
+    // Initializing the typeahead
+    $('#industry-code').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: 'industry',
+        source: industry
+      });
+
+    $('.exit-button').click(function(e){
+      $(this).hide();
+      $('.confirm-exit').removeClass('d-none');
+    });
+
+    $('.keep-working').click(function(e){
+      $('.exit-button').show();
+      $('.confirm-exit').addClass('d-none');
+    });
+  });
+</script>
