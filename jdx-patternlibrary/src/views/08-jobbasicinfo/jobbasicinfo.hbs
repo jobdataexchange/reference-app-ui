@@ -16,23 +16,23 @@
   <p class="flex-shrink-0">2 of 7</p>
 </div>
 
-<p class="w-75 mb-5">To help standardize your job description, please confirm the following:</p>
+<p class="w-75 mb-5">The JDX best practice is to complete the information that follows. Fill in all that apply. All required fields are based off of Google guidance for job posting.</p>
 
 <form>
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="job-title">Job Title</label>
-    <input type="text" class="form-control form-control-lg" id="job-title" placeholder="Job Title">
+    <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
+    <input type="text" class="form-control form-control-lg" id="title" placeholder="Job Title">
   </div>
 
   <div class="form-group mb-4 position-relative">
-    <label class="font-weight-bold" for="industry-code">Occupational Category</label>
-    <input type="text" class="form-control form-control-lg" id="industry-code" placeholder="Occupation keyword (e.g. Software, Education)">
+    <label class="font-weight-bold" for="industry">Industry Description</label>
+    <input type="text" class="form-control form-control-lg" id="industry" placeholder="Industry Description">
     <i class="fas fa-angle-down text-primary position-absolute" style="bottom: 11px; right: 12px; font-size: 24px;"></i>
   </div>
 
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="education-level">Education Level</label>
-    <select id="education-level" class="form-control form-control-lg">
+    <label class="font-weight-bold" for="industry-code">Industry Code</label>
+    <select id="industry-code" class="form-control form-control-lg">
       <option value="1">Select</option>
       <option value="2">Option 1</option>
       <option value="3">Option 2</option>
@@ -40,8 +40,32 @@
   </div>
 
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="location">Location</label>
-    <input type="text" class="form-control form-control-lg" id="location" placeholder="Location">
+    <label class="font-weight-bold" for="occupation-code">Occupation Code</label>
+    <select id="occupation-code" class="form-control form-control-lg">
+      <option value="1">Select</option>
+      <option value="2">Option 1</option>
+      <option value="3">Option 2</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="job-location">Job Location<span class="sr-only">, required field</span></label><span class="required">*</span>
+    <input type="text" class="form-control form-control-lg" id="job-location" placeholder="Job Location">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="job-location-type">Job Location Type/Remote Work Allowed</label>
+    <input type="text" class="form-control form-control-lg" id="job-location-type" placeholder="Job Location Type">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="employment-unit">Employment Unit</label>
+    <input type="text" class="form-control form-control-lg" id="employment-unit" placeholder="Employment Unit">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="internal-identifier">Internal Identifier</label>
+    <input type="text" class="form-control form-control-lg" id="internal-identifier" placeholder="Internal Identifier" disabled>
   </div>
 
   <div class="d-flex justify-content-between pt-5">
@@ -63,7 +87,7 @@
     });
 
     // Initializing the typeahead
-    $('#industry-code').typeahead({
+    $('#industry').typeahead({
         hint: true,
         highlight: true,
         minLength: 1
