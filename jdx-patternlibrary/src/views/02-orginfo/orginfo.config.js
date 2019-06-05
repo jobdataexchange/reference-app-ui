@@ -1,3 +1,4 @@
 module.exports = {
-  label: 'Org 1: Org Info'
+  label: 'Org 1: Org Info',
+  status: 'wip'
 };
