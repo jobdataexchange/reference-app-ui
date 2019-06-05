@@ -1,3 +1,4 @@
 module.exports = {
-  label: 'Org 5: Confirm Completion'
+  label: 'Org 5: Confirm Completion',
+  status: 'wip'
 };
