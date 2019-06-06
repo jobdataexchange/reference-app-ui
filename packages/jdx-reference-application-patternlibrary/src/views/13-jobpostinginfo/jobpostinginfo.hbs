@@ -13,7 +13,7 @@
 
 
 <div class="pt-4 d-flex justify-content-between">
-  <h1 class="pb-4">Open/Close Dates</h1>
+  <h1 class="pb-4">Posting Info (Optional)</h1>
   <p class="flex-shrink-0">7 of 7</p>
 </div>
 
@@ -21,13 +21,18 @@
 
 <form>
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="open-date">Open Date</label>
-    <input type="date" class="form-control form-control-lg" id="open-date">
+    <label class="font-weight-bold" for="date-posted">Date Posted</label>
+    <input type="date" class="form-control form-control-lg" id="date-posted" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="yyyy-mm-dd">
   </div>
 
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="close-date">Close Date</label>
-    <input type="date" class="form-control form-control-lg" id="close-date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+    <label class="font-weight-bold" for="valid-through">Valid Through</label>
+    <input type="date" class="form-control form-control-lg" id="valid-through" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="yyyy-mm-dd">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="total-job-openings">Total Job Openings</label>
+    <input type="number" class="form-control form-control-lg" id="total-job-openings" placeholder="Total Job Openings">
   </div>
 
   <div class="d-flex justify-content-between pt-5">
