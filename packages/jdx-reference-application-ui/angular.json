@@ -10,7 +10,7 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "spec": false
+          "spec": true
         },
         "@schematics/angular:directive": {
           "prefix": "fmp",
