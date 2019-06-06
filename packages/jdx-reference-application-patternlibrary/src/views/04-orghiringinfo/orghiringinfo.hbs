@@ -1,8 +1,9 @@
 <div class="pt-4 d-flex justify-content-between">
-  <h1 class="pb-4">Hiring Information</h1>
+  <p>ORGANIZATION</p>
   <p class="flex-shrink-0">3 of 4</p>
 </div>
 
+<h1 class="pb-4">Hiring Information</h1>
 <p class="w-75 mb-5">Please add some general hiring information.</p>
 
 <form>
@@ -13,74 +14,9 @@
       <option>No, remote work is not allowed</option>
     </select>
   </div>
-  <div class="form-group mb-4">
-    <fieldset class="benefits form-group mb-1">
-      <legend class=" h6 font-weight-bold">Benefits Description</legend>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Health Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Dental Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Vision Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Life Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="PTO" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="401(k)" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Gym membership" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Commuting/travel assistance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Workplace perks such as recreation activities, food and coffee" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-    </fieldset>
-    <button type="button" class="add-benefit btn btn-outline-primary btn-lg">+ Add Benefit</button>
 
-  </div>
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
     <button type="submit" class="btn btn-lg btn-primary">Next</button>
   </div>
 </form>
-
-
-
-<script>
-  $(document).ready(function(){
-
-    $(document).on('click', 'button.close', function() {
-      $(this).parent().remove();
-    });
-
-    $('button.add-benefit').click(function(){
-      $('.benefits').append(
-        '<div class="benefit-field d-flex mb-2">' +
-        '<input type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">' +
-        '<button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;">' +
-        '<span aria-hidden="true">&times;</span>' +
-        '</button>' +
-        '</div>'
-      );
-    });
-
-  });
-</script>
