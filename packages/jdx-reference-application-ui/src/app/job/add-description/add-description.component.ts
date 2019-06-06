@@ -38,15 +38,12 @@ export class AddDescriptionComponent implements OnInit {
       const fileReader = new FileReader();
       fileReader.onload = () => this.patchJobDescription(fileReader.result)
       fileReader.readAsText(files.item(0));
-
     }
   }
 
   patchJobDescription(value) {
     this.form.patchValue({ [this.JOB_DESCRIPTION_FIELD_NAME]: value});
   }
-
-  // this._api.uploadJobDescriptionFilePost('TEXT', this._filename, this.blobFromFieldControlValue()).toPromise().then(response => {
 
   submitForm() {
     this._api.uploadJobDescriptionFilePost(
@@ -60,6 +57,5 @@ export class AddDescriptionComponent implements OnInit {
   private blobFromFieldControlValue() {
     return new Blob([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value]);
   }
-
 
 }
