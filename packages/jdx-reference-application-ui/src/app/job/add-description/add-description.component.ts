@@ -11,13 +11,16 @@ export class AddDescriptionComponent implements OnInit {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder
-
   ) { }
-
 
   form: FormGroup;
 
+  selectableFileTypes = '.docx, .txt'
+
   readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description'
+
+  // TODO: Do we need to pass a filename uploadJobDescriptionFilePost? If so what is the default name for manually entered text
+  private _filename = 'foo.txt';
 
   ngOnInit() {
     this.initForm()
@@ -25,28 +28,38 @@ export class AddDescriptionComponent implements OnInit {
 
   initForm() {
     this.form = this._fb.group({
-      [this.JOB_DESCRIPTION_FIELD_NAME]: ["", Validators.required]
+      [this.JOB_DESCRIPTION_FIELD_NAME]: ['', Validators.required]
     });
   }
 
   onFileUpload(files: FileList) {
     if (files && files.length) {
+      this._filename = files[0].name;
       const fileReader = new FileReader();
+      fileReader.onload = () => this.patchJobDescription(fileReader.result)
+      fileReader.readAsText(files.item(0));
 
-      fileReader.onload = () => {
-        console.log('fileReader.result ', fileReader.result)
-        this.form.patchValue({ [this.JOB_DESCRIPTION_FIELD_NAME]: fileReader.result });
-      };
-
-      fileReader.readAsDataURL(files.item(0));
     }
   }
 
-  submitForm() {
-    console.log('submit = ',this.form.value)
-    this._api.uploadJobDescriptionFilePost('TEXT', 'foo.txt', new Blob(['some text in the file'])).toPromise().then(response => {
-      console.log(response);
-    });
+  patchJobDescription(value) {
+    this.form.patchValue({ [this.JOB_DESCRIPTION_FIELD_NAME]: value});
   }
+
+  // this._api.uploadJobDescriptionFilePost('TEXT', this._filename, this.blobFromFieldControlValue()).toPromise().then(response => {
+
+  submitForm() {
+    this._api.uploadJobDescriptionFilePost(
+      'TEXT',
+      this._filename,
+      this.blobFromFieldControlValue()
+    )
+      .toPromise().then(response => console.log(response));
+  }
+
+  private blobFromFieldControlValue() {
+    return new Blob([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value]);
+  }
+
 
 }
