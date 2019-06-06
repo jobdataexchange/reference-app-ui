@@ -4,9 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-// WRONG FIX THIS BEFORE CHECKING IN
-// import { ApiModule } from '../../../jdx-reference-application-api-client/generated-sources';
+import { ApiModule, Configuration } from '@jdx/jdx-reference-application-api-client';
 import { HttpClientModule } from '@angular/common/http';
+
+export function apiConfigFactory() {
+  const params = {
+    // set configuration parameters here.
+    basePath: 'https://jdx-api.brighthive.net',
+    // accessToken: 'Foobar'
+  };
+  return new Configuration(params);
+}
+
 
 @NgModule({
   declarations: [
@@ -14,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     WelcomeComponent
   ],
   imports: [
-    // ApiModule, // note: the angular error about how ApiModule isn't a module can be disregarded.
+    ApiModule.forRoot(apiConfigFactory),
     BrowserModule,
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575

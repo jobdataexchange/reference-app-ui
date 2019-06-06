@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DefaultService } from '../../../../../jdx-reference-application-api-client/generated-sources';
-// import { DefaultService } from '../../../../../jdx-reference-application-api-client/generated-sources';
+import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 
 @Component({
   selector: 'app-add-description',
@@ -9,8 +8,8 @@ import { DefaultService } from '../../../../../jdx-reference-application-api-cli
   styleUrls: ['./add-description.component.css']
 })
 export class AddDescriptionComponent implements OnInit {
-  // private _api: DefaultService
   constructor(
+    private _api: DefaultService,
     private _fb: FormBuilder
 
   ) { }
@@ -45,6 +44,9 @@ export class AddDescriptionComponent implements OnInit {
 
   submitForm() {
     console.log('submit = ',this.form.value)
+    this._api.uploadJobDescriptionFilePost('TEXT', 'foo.txt', new Blob(['some text in the file'])).toPromise().then(response => {
+      console.log(response);
+    });
   }
 
 }
