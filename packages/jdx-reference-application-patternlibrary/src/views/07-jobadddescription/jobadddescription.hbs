@@ -1,15 +1,3 @@
-<div class="pt-4 d-flex justify-content-end">
-  <button class="btn pr-0 exit-button" aria-label="Exit">
-    <i class="fas fa-times" style="font-size: 36px;"></i>
-  </button>
-  <div class="confirm-exit d-none">
-    <div class="d-flex align-items-baseline">
-      Exit now? This will lose unsaved work.
-      <button class="btn btn-lg text-primary exit-now">Exit</button>
-      <button class="btn btn-lg text-primary keep-working">Keep Working</button>
-    </div>
-  </div>
-</div>
 
 <div class="pt-4 d-flex justify-content-between">
   <p>JOB OVERVIEW</p>
@@ -49,22 +37,12 @@
     });
 
     $('.description-textarea').on('input', function(e){
-      let value = $(this).val();
+      var value = $(this).val();
       if (value) {
         $('.next-button').attr('disabled', false);
       } else {
         $('.next-button').attr('disabled', true);
       }
-    });
-
-    $('.exit-button').click(function(e){
-      $(this).hide();
-      $('.confirm-exit').removeClass('d-none');
-    });
-
-    $('.keep-working').click(function(e){
-      $('.exit-button').show();
-      $('.confirm-exit').addClass('d-none');
     });
 
   });
