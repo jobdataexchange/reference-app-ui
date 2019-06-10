@@ -2,7 +2,7 @@
 
 <div class="pt-4 d-flex justify-content-between">
   <p>JOB OVERVIEW</p>
-  <p class="flex-shrink-0">2 of 11</p>
+  <p class="flex-shrink-0">3 of 12</p>
 </div>
 
 <h1 class="pb-4">Confirm General Information</h1>
@@ -12,6 +12,11 @@
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
     <input type="text" class="form-control form-control-lg" id="title" placeholder="Job Title">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="job-summary">Job Summary</label>
+    <textarea class="form-control description-textarea" id="job-summary" rows="3" placeholder="Job Summary"></textarea>
   </div>
 
   <div class="form-group mb-4 position-relative">
@@ -54,8 +59,13 @@
   </div>
 
   <div class="form-group mb-4">
-    <label class="font-weight-bold" for="identifier">Identifier</label>
-    <input type="text" class="form-control form-control-lg" id="identifier" placeholder="Identifier">
+    <label class="font-weight-bold" for="job-identifier">Job Identifier</label>
+    <input value="xxx-xxxx-xxx" type="text" class="form-control form-control-lg" id="job-identifier" placeholder="Job Identifier" disabled>
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="font-weight-bold" for="employer-identifier">Employer Job Identifier</label>
+    <input type="text" class="form-control form-control-lg" id="employer-identifier" placeholder="Employer Job Identifier">
   </div>
 
   <div class="d-flex justify-content-between pt-5">
