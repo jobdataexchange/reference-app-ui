@@ -33,6 +33,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "showCircularDependencies": false,
             "outputPath": "dist/jdx-reference-application",
             "index": "src/index.html",
             "main": "src/main.ts",

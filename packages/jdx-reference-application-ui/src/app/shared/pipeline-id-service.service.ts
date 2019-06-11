@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -7,7 +8,9 @@ import { BehaviorSubject } from 'rxjs';
 export class PipelineIdServiceService {
   constructor() { }
 
-  get pipelineIdSub$() {
+  private _currentPipelineId = null;
+
+  get pipelineId$() {
     return this._pipelineIdSub.asObservable();
   }
 
@@ -15,10 +18,15 @@ export class PipelineIdServiceService {
     this.announceCurrentPipelineId(id);
   }
 
+  isResponsePipelineIdCurrent(r: Response) {
+    return r.pipelineID === this._currentPipelineId
+  }
+
   private _pipelineIdSub = new BehaviorSubject<string>(null);
 
   private announceCurrentPipelineId(id: string) {
     this._pipelineIdSub.next(id);
+    this._currentPipelineId = id;
   }
 
   ngOnDestroy() {
