@@ -14,6 +14,7 @@ export class AddDescriptionComponent implements OnInit {
   ) { }
 
   form: FormGroup;
+  fileToUpload: any;
 
   selectableFileTypes = '.docx, .txt'
 
@@ -35,27 +36,28 @@ export class AddDescriptionComponent implements OnInit {
   onFileUpload(files: FileList) {
     if (files && files.length) {
       this._filename = files[0].name;
-      const fileReader = new FileReader();
-      fileReader.onload = () => this.patchJobDescription(fileReader.result)
-      fileReader.readAsText(files.item(0));
+      // const fileReader = new FileReader();
+      // fileReader.onload = () => this.patchJobDescription(fileReader.result)
+      // fileReader.readAsText(files.item(0));
+      this.fileToUpload = files[0];
     }
   }
 
   patchJobDescription(value) {
+    console.log('patch', value);
     this.form.patchValue({ [this.JOB_DESCRIPTION_FIELD_NAME]: value});
   }
 
   submitForm() {
     this._api.uploadJobDescriptionFilePost(
-      'TEXT',
-      this._filename,
       this.blobFromFieldControlValue()
+      // this.fileToUpload
     )
       .toPromise().then(response => console.log(response));
   }
 
   private blobFromFieldControlValue() {
-    return new Blob([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value]);
+    return new File([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value], 'some.txt', {type: 'text/plain'});
   }
 
 }
