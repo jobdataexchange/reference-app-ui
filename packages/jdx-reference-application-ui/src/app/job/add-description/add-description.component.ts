@@ -15,12 +15,13 @@ export class AddDescriptionComponent implements OnInit {
 
   form: FormGroup;
 
-  selectableFileTypes = '.docx, .txt'
+  selectableFileTypes = '.docx, .txt';
 
-  readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description'
+  readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description';
 
-  // TODO: Do we need to pass a filename uploadJobDescriptionFilePost? If so what is the default name for manually entered text
-  private _filename = 'foo.txt';
+  readonly JOB_DESCRIPTION_FILE_NAME = 'user-entered-content.txt';
+
+  private _filename = this.JOB_DESCRIPTION_FILE_NAME;
 
   ngOnInit() {
     this.initForm()
@@ -36,7 +37,7 @@ export class AddDescriptionComponent implements OnInit {
     if (files && files.length) {
       this._filename = files[0].name;
       const fileReader = new FileReader();
-      fileReader.onload = () => this.patchJobDescription(fileReader.result)
+      fileReader.onload = () => this.patchJobDescription(fileReader.result);
       fileReader.readAsText(files.item(0));
     }
   }
@@ -46,16 +47,20 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   submitForm() {
-    this._api.uploadJobDescriptionFilePost(
-      'TEXT',
-      this._filename,
-      this.blobFromFieldControlValue()
-    )
-      .toPromise().then(response => console.log(response));
+    this._api.uploadJobDescriptionFilePost(this.fileFromFieldControlValue())
+      .toPromise()
+      .then(r => console.log('<- uploadJobDescriptionFilePost ', r));
   }
 
-  private blobFromFieldControlValue() {
-    return new Blob([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value]);
+  private fileFromFieldControlValue() {
+    const f = new File(
+      [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
+      this._filename,
+      {type: 'text/plain'});
+
+    console.log('-> uploadJobDescriptionFilePost ', f);
+
+    return f;
   }
 
 }

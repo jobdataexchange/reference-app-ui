@@ -7,7 +7,6 @@
     "start-without-dependencies": "ng serve",
     "update-local-dependencies": "npx install-local",
     "build": "npm run update-local-dependencies && npm run build-without-dependencies",
-    "build-without-dependencies": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
