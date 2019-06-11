@@ -14,14 +14,14 @@ export class AddDescriptionComponent implements OnInit {
   ) { }
 
   form: FormGroup;
-  fileToUpload: any;
 
-  selectableFileTypes = '.docx, .txt'
+  selectableFileTypes = '.docx, .txt';
 
-  readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description'
+  readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description';
 
-  // TODO: Do we need to pass a filename uploadJobDescriptionFilePost? If so what is the default name for manually entered text
-  private _filename = 'foo.txt';
+  readonly JOB_DESCRIPTION_FILE_NAME = 'user-entered-content.txt';
+
+  private _filename = this.JOB_DESCRIPTION_FILE_NAME;
 
   ngOnInit() {
     this.initForm()
@@ -36,28 +36,31 @@ export class AddDescriptionComponent implements OnInit {
   onFileUpload(files: FileList) {
     if (files && files.length) {
       this._filename = files[0].name;
-      // const fileReader = new FileReader();
-      // fileReader.onload = () => this.patchJobDescription(fileReader.result)
-      // fileReader.readAsText(files.item(0));
-      this.fileToUpload = files[0];
+      const fileReader = new FileReader();
+      fileReader.onload = () => this.patchJobDescription(fileReader.result);
+      fileReader.readAsText(files.item(0));
     }
   }
 
   patchJobDescription(value) {
-    console.log('patch', value);
     this.form.patchValue({ [this.JOB_DESCRIPTION_FIELD_NAME]: value});
   }
 
   submitForm() {
-    this._api.uploadJobDescriptionFilePost(
-      this.blobFromFieldControlValue()
-      // this.fileToUpload
-    )
-      .toPromise().then(response => console.log(response));
+    this._api.uploadJobDescriptionFilePost(this.fileFromFieldControlValue())
+      .toPromise()
+      .then(r => console.log('<- uploadJobDescriptionFilePost ', r));
   }
 
-  private blobFromFieldControlValue() {
-    return new File([this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value], 'some.txt', {type: 'text/plain'});
+  private fileFromFieldControlValue() {
+    const f = new File(
+      [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
+      this._filename,
+      {type: 'text/plain'});
+
+    console.log('-> uploadJobDescriptionFilePost ', f);
+
+    return f;
   }
 
 }

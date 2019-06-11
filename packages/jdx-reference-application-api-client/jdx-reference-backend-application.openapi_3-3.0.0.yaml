@@ -1,11 +1,14 @@
 openapi: 3.0.0
 servers:
-  - url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
   - url: https://jdx-api.brighthive.net
+    description: Live API
+  - url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
+    description: Server running off of swagger spec that returns mock examples
+
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.1"
+  version: "0.0.3"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -13,35 +16,38 @@ info:
   license:
     name: MIT
     url: 'https://opensource.org/licenses/MIT'
-security:
-  - oAuthNoScopes: []
+# security:
+#   - oAuthNoScopes: []
 paths:
   /upload-job-description-file:
-    # WARNING !!! PLEASE REFER TO THE JDX-API REPO
-    # TO SEE HOW THIS IS CURRENTLY IMPLEMENTED!!!
     post:
-      summary: Upload the raw job description.
+      summary: Upload a raw job description file.
       requestBody:
-        description: The user uploads the raw job description in a given format for the server to process into utf-8 text.
+        description: |
+          Upload a raw job description in one of the given formats for the server to begin the automatic competency translation service.
+
+          Allowed file types
+          ___
+          DOCX, DOC - Microsoft Word file format (version 2012+)
+
+          TXT - Text file format
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/rawJobDescriptionRequest'
       responses:
         '200':
-          description: A job description was converted to text format.
+          description: Created. A pipeline was created and the provided job description was converted to text and attached to the pipeline.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/rawJobDescriptionResponse'
-        '422':
-          $ref: '#/components/responses/422'
         '400':
-          $ref: '#/components/responses/400'
-        '415':
-          $ref: '#/components/responses/415'
-        '503':
-          $ref: '#/components/responses/503'
+          description: Bad Request
+        '422':
+          description: Validation error
+        '500':
+          description: Internal server error
 
   /upload-job-description-context:
     post:
@@ -59,26 +65,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/jobDescriptionContextResponse'
-        '422':
-          $ref: '#/components/responses/422'
         '400':
-          $ref: '#/components/responses/400'
-        '415':
-          $ref: '#/components/responses/415'
+          description: Bad Request
+        '404':
+          description: Pipeline was not found
+        '422':
+          description: Validation error
+        '500':
+          description: Internal server error
         '503':
-          $ref: '#/components/responses/503'
+          description: Service is down
 
   /framework-recommendation:
     post:
       summary: Get framework recommendations based on the uploaded job descripton and context
       parameters:
         - in: path
-          name: jobDescriptionID
+          name: pipelineID
           schema:
             type: string
             format: uuid
           required: true
-          description: job description ID
+          description: Pipeline ID
       responses:
         '200':
           description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more).
@@ -221,15 +229,22 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-
   /health:
     get:
       summary: Health Check
-      description: The healthcheck endpoint can be used to check if the API is up. If the API is running it will return a 200 OK response.
+      description: The health check endpoint can be used to check if the API is up. If the API is running it will return a 200 OK response.
       responses:
-        201:
-          description: Health Check report
-
+        '200':
+          description: The API is up!
+          content:
+            application/json:
+              schema:
+                title: healthResponse
+                type: object
+                properties:
+                  api:
+                    type: integer
+                    example: 200
 components:
   responses:
     '422':
@@ -257,13 +272,13 @@ components:
           schema:
             $ref: '#/components/schemas/serviceUnavailableError'
 
-#  securitySchemes:
-#    oAuthNoScopes:
-#      type: oauth2
-#      flows:
-#        authorizationCode:
-#          authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
-#          tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
+          # securitySchemes:
+          #   oAuthNoScopes:
+          #     type: oauth2
+          #     flows:
+          #       authorizationCode:
+          #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
+          #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
 
   schemas:
     serviceUnavailableError:
@@ -338,35 +353,8 @@ components:
       # see: https://swagger.io/docs/specification/describing-request-body/file-upload/
       type: object
       properties:
-        fileFormat:
-          description: |-
-            Format of the file passed in, where the format is from one of the allowed enumerations. The enumeration may be in upper or lower case.
-
-            Enumerations
-            ___
-            DOCX, DOC, WORD - Microsoft Word file format (version 2012+)
-
-            TXT, TEXT - Text file format in utf-8
-
-            PDF, ADOBE - Adobe Acrobat file (version 11.0+)
-          type: string
-          maxLength: 4
-          enum:
-            - DOCX
-            - DOC
-            - WORD
-            - TXT
-            - TEXT
-            - PDF
-            - ADOBE
-          example: PDF
-        fileName:
-          description: the name of the file uploaded (including any extension)
-          type: string
-          maxLength: 1024
-          example: "ACME Junior Software Programmer.docx"
-        fileText:
-          description: the file to upload
+        file:
+          description: The file to upload
           type: string
           format: binary
 
@@ -375,20 +363,18 @@ components:
         - $ref: '#/components/schemas/response'
         - type: object
           properties:
-            jobDescriptionID:
-              description: >-
-                An identifer for the converted job description, this
-                identifer is seperate from the pipelineID and permanently assigns
-                an id for this job description
+            fileText:
+              description: number of words in the converted job description
               type: string
-              format: uuid
-              example: "a8c9a9c3-894f-4a18-92ba-e5713be097c3"
+              example: |
+                Job Title - ACME software developer.
+                Duties - Carry out meetings. Write code.
             convertedLength:
               description: number of words in the converted job description
               type: integer
               minimum: 0
               maximum: 999999
-              example: 240445
+              example: 240
 
     jobDescriptionContextRequest:
       allOf:
@@ -399,27 +385,17 @@ components:
               type: string
               maxLength: 1024
               example: "Making and selling software products"
-            joblocation:
+            jobLocation:
               $ref: '#/components/schemas/place'
             occupationCategory:
               $ref: '#/components/schemas/annotatedDefinedTerm'
             industryCategory:
               $ref: '#/components/schemas/annotatedDefinedTerm'
-              # example: {
-              #   "name": "Computer Systems Design Services",
-              #   "description": "This U.S. industry comprises establishments primarily engaged in planning and designing computer systems ...",
-              #   "termCode": "541512",
-              #   "definedTermSet": "NAICS"
-              # }
-            # responsibilties:
-            #   description: An optional ad hoc list of responsibilties for this job description.
-            #   example: ['walking the dog', 'writing code', 'attending meetings']
-            #   type: array
-            #   items:
-            #     type: string
 
     jobDescriptionContextResponse:
-      $ref: '#/components/schemas/response'
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/jobDescriptionContextRequest'
 
     frameworkSelectionRequest:
       allOf:

@@ -26,7 +26,7 @@
              class="custom-file-input"
              id="customFile"
              [accept]="selectableFileTypes"
-             (change)="onFileUpload($event.target.files)"
+             (change)="onFileUpload($event.target['files'])"
              [attr.disabled]="textArea.value.length ? true : null"
              #fileInput
       >
@@ -52,9 +52,9 @@
   </div>
 
   <div class="d-flex justify-content-end pt-5">
-     - > {{form.controls[JOB_DESCRIPTION_FIELD_NAME].valid }}
     <button type="submit"
             class="btn btn-lg btn-primary next-button"
+            [attr.disabled]="!form.controls[JOB_DESCRIPTION_FIELD_NAME].valid ? true : null"
     >Next</button>
   </div>
 
