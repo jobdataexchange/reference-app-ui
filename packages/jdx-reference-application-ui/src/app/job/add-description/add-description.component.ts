@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+import { DefaultService, RawJobDescriptionResponse } from '@jdx/jdx-reference-application-api-client';
+import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 
 @Component({
   selector: 'app-add-description',
@@ -10,10 +11,13 @@ import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 export class AddDescriptionComponent implements OnInit {
   constructor(
     private _api: DefaultService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _pipelineIdService: PipelineIdServiceService
   ) { }
 
   form: FormGroup;
+
+  isSubmitting = false;
 
   selectableFileTypes = '.docx, .txt';
 
@@ -47,20 +51,38 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   submitForm() {
+    this.isSubmitting = true;
+
     this._api.uploadJobDescriptionFilePost(this.fileFromFieldControlValue())
       .toPromise()
-      .then(r => console.log('<- uploadJobDescriptionFilePost ', r));
+      .then((r: RawJobDescriptionResponse) => this.onSuccess(r))
+      .catch( e => this.onError(e))
+      .finally(() => this.isSubmitting = false)
+  }
+
+  private setPipelineId(id) {
+    this._pipelineIdService.setPipelineId(id)
   }
 
   private fileFromFieldControlValue() {
     const f = new File(
       [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
       this._filename,
-      {type: 'text/plain'});
+      {type: 'image'}
+    );
 
     console.log('-> uploadJobDescriptionFilePost ', f);
-
     return f;
+  }
+
+  private onSuccess(r: RawJobDescriptionResponse){
+    console.log('<- uploadJobDescriptionFilePost ', r)
+    this.setPipelineId(r.pipelineID);
+  }
+
+  private onError(e){
+    // TODO: how are we handling errors?
+    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e)
   }
 
 }
