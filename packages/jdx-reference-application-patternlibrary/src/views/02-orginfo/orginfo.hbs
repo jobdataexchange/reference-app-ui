@@ -9,12 +9,14 @@
 <form>
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="org-name">Hiring Organization Name<span class="sr-only">, required field</span></label><span class="required">*</span>
-    <input type="text" class="form-control form-control-lg" id="org-name" placeholder="Hiring Organization Name">
+    <input type="text" class="form-control form-control-lg" id="org-name" placeholder="Hiring Organization Name" aria-describedby="nameHelpBlock">
+    <small id="nameHelpBlock" class="form-text text-muted">The official name of the organization, e.g. the registered company name.</small>
   </div>
 
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="overview">Hiring Organization Overview</label>
-    <textarea class="form-control description-textarea" id="overview" rows="3" placeholder="Hiring Organization Overview"></textarea>
+    <textarea class="form-control description-textarea" id="overview" rows="3" placeholder="Hiring Organization Overview" aria-describedby="overviewHelpBlock"></textarea>
+    <small id="overviewHelpBlock" class="form-text text-muted">Description of the employer, career opportunities, and work environment.</small>
   </div>
 
   <div class="form-group mb-4">

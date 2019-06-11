@@ -11,7 +11,7 @@
 <form>
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="job-agreement">Job Agrement</label>
-    <select id="job-agreement" class="form-control form-control-lg">
+    <select id="job-agreement" class="form-control form-control-lg" aria-describedby="jobagreementHelpBlock">
       <option value="1">Select</option>
       <option value="2">Employee</option>
       <option value="2">Employee eligible for overtime</option>
@@ -24,21 +24,23 @@
       <option value="2">Apprenticeship</option>
       <option value="2">Student volunteer</option>
     </select>
+    <small id="jobagreementHelpBlock" class="form-text text-muted">Employment agreement (e.g. employee, contract-to-hire, contract, internship, externship, apprenticeship, student, volunteer, under collective bargaining, eligible for overtime).</small>
   </div>
 
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="job-term">Job Term</label>
-    <select id="job-term" class="form-control form-control-lg">
+    <select id="job-term" class="form-control form-control-lg" aria-describedby="jobtermHelpBlock">
       <option value="1">Select</option>
       <option value="2">Temporary</option>
       <option value="2">Regular</option>
       <option value="2">Seasonal</option>
     </select>
+    <small id="jobtermHelpBlock" class="form-text text-muted">Term of employment (e.g. temporary, regular, seasonal).</small>
   </div>
 
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="job-schedule">Job Schedule</label>
-    <select id="job-schedule" class="form-control form-control-lg">
+    <select id="job-schedule" class="form-control form-control-lg" aria-describedby="jobscheduleHelpBlock">
       <option value="1">Select</option>
       <option value="2">Full-time</option>
       <option value="2">Part-time</option>
@@ -46,6 +48,7 @@
       <option value="2">Hourly</option>
       <option value="2">Shared-time</option>
     </select>
+    <small id="jobscheduleHelpBlock" class="form-text text-muted">Schedule of the employment (e.g. full-time, part-time, flextime, hourly, shared-time).</small>
   </div>
 
   <div class="d-flex justify-content-between pt-5">
