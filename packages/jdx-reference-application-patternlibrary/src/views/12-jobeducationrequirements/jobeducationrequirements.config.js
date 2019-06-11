@@ -1,3 +1,3 @@
 module.exports = {
-  label: 'Job 7: Education Requirements'
+  label: 'Job 8: Education Requirements'
 };

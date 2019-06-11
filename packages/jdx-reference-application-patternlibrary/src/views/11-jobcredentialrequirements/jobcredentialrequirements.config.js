@@ -1,3 +1,3 @@
 module.exports = {
-  label: 'Job 6: Credential Requirements'
+  label: 'Job 7: Credential Requirements'
 };
