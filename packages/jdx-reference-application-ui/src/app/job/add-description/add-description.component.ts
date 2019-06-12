@@ -71,7 +71,7 @@ export class AddDescriptionComponent implements OnInit {
     const f = new File(
       [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
       this._filename,
-      {type: 'text'}
+      {type: 'text/plain'}
     );
 
     console.log('-> uploadJobDescriptionFilePost ', f);
