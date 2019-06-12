@@ -84,6 +84,28 @@
     </div>
   </div>
 
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="work-hours">Work Hours</label>
+      <select id="work-hours" class="form-control form-control-lg" aria-describedby="hoursHelpBlock">
+        <option value="1">Select</option>
+        <option value="2">Normal work hours</option>
+        <option value="2">Changing work hours</option>
+        <option value="2">Flexible work hours (set your own schedule)</option>
+      </select>
+      <small id="hoursHelpBlock" class="form-text text-muted">Typical working hours for this job: normal work hours (day/evening/overnight), changing work hours, flexible work hours.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
     <button type="submit" class="btn btn-lg btn-primary">Next</button>
