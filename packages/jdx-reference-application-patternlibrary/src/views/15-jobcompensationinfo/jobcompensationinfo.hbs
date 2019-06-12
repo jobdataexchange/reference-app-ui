@@ -10,96 +10,173 @@
 
 <form>
 
-  <div class="form-group mb-5">
-    <label class="font-weight-bold" for="currency">Currency</label>
-    <select id="currency" class="form-control form-control-lg" aria-describedby="currencyHelpBlock">
-      <option>USD</option>
-    </select>
-    <small id="currencyHelpBlock" class="form-text text-muted">The Currency (e.g. USD) used for the main salary information in this job posting or for this employee.</small>
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="currency">Currency</label>
+      <select id="currency" class="form-control form-control-lg" aria-describedby="currencyHelpBlock">
+        <option>USD</option>
+      </select>
+      <small id="currencyHelpBlock" class="form-text text-muted">The Currency (e.g. USD) used for the main salary information in this job posting or for this employee.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <fieldset class="form-group mb-5">
+  <fieldset class="form-group mb-4">
     <legend class="h6 font-weight-bold">Base Salary</legend>
 
-    <div class="form-group mb-2">
-      <label class="font-weight-bold" for="minimum">Minimum</label>
-      <input type="text" class="form-control form-control-lg" id="minimum" placeholder="Minimum">
+    <div class="form-row">
+      <div class="form-group col-md-9">
+        <label class="font-weight-bold" for="minimum">Minimum</label>
+        <input type="text" class="form-control form-control-lg" id="minimum" placeholder="Minimum">
+      </div>
+      <div class="col-md-3">
+        <div class="invisible mb-2">number of matches</div>
+        <div class="alert alert-success d-flex justify-content-between">
+          <span>2 matches</span>
+          <a href="#" class="" data-toggle="modal" data-target="#modal">
+            View
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group mb-2">
-      <label class="font-weight-bold" for="maximum">Maximum</label>
-      <input type="text" class="form-control form-control-lg" id="maximum" placeholder="Maximum">
+    <div class="form-row">
+      <div class="form-group col-md-9">
+        <label class="font-weight-bold" for="maximum">Maximum</label>
+        <input type="text" class="form-control form-control-lg" id="maximum" placeholder="Maximum">
+      </div>
+      <div class="col-md-3">
+        <div class="invisible mb-2">number of matches</div>
+        <div class="alert alert-success d-flex justify-content-between">
+          <span>2 matches</span>
+          <a href="#" class="" data-toggle="modal" data-target="#modal">
+            View
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group mb-2">
-      <label class="font-weight-bold" for="currency">Frequency</label>
-      <select id="currency" class="form-control form-control-lg" aria-describedby="salaryHelpBlock">
-        <option>Year</option>
-        <option>Hour</option>
-      </select>
-      <small id="salaryHelpBlock" class="form-text text-muted">Base salary of the job or of an employee in an employee role including minimum and maximum salary and unit value (e.g. hour, day, week, month, or year).</small>
+    <div class="form-row">
+      <div class="form-group col-md-9">
+        <label class="font-weight-bold" for="currency">Frequency</label>
+        <select id="currency" class="form-control form-control-lg" aria-describedby="salaryHelpBlock">
+          <option>Year</option>
+          <option>Hour</option>
+        </select>
+        <small id="salaryHelpBlock" class="form-text text-muted">Base salary of the job or of an employee in an employee role including minimum and maximum salary and unit value (e.g. hour, day, week, month, or year).</small>
+      </div>
+      <div class="col-md-3">
+        <div class="invisible mb-2">number of matches</div>
+        <div class="alert alert-success d-flex justify-content-between">
+          <span>2 matches</span>
+          <a href="#" class="" data-toggle="modal" data-target="#modal">
+            View
+          </a>
+        </div>
+      </div>
     </div>
   </fieldset>
 
-  <div class="form-group mb-5">
-    <label class="font-weight-bold" for="incentive-compensation-info">Incentive Compensation</label>
-    <input type="text" class="form-control form-control-lg" id="incentive-compensation-info" placeholder="Incentive Compensation Info" aria-describedby="incentiveHelpBlock">
-    <small id="incentiveHelpBlock" class="form-text text-muted">Description of bonus and commission compensation aspects of the job.</small>
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="incentive-compensation-info">Incentive Compensation</label>
+      <input type="text" class="form-control form-control-lg" id="incentive-compensation-info" placeholder="Incentive Compensation Info" aria-describedby="incentiveHelpBlock">
+      <small id="incentiveHelpBlock" class="form-text text-muted">Description of bonus and commission compensation aspects of the job.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-5">
-    <fieldset class="benefits form-group mb-1" aria-describedby="benefitsHelpBlock">
-      <legend class=" h6 font-weight-bold">Job Benefit</legend>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Health Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <fieldset class="benefits form-group mb-1" aria-describedby="benefitsHelpBlock">
+        <legend class=" h6 font-weight-bold">Job Benefit</legend>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Health Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Dental Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Vision Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Life Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="PTO" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="401(k)" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Gym membership" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Commuting/travel assistance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Workplace perks such as recreation activities, food and coffee" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <small id="benefitsHelpBlock" class="form-text text-muted">Description of benefits associated with the job (e.g. employee discount, health insurance, a U.S. 401K plan).</small>
+      </fieldset>
+      <button type="button" class="add-benefit btn btn-outline-primary btn-lg">+ Add Benefit</button>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
       </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Dental Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Vision Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Life Insurance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="PTO" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="401(k)" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Gym membership" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Commuting/travel assistance" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="benefit-field d-flex mb-2">
-        <input value="Workplace perks such as recreation activities, food and coffee" type="text" class="form-control form-control-lg" placeholder="Benefit" aria-label="benefit">
-        <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <small id="benefitsHelpBlock" class="form-text text-muted">Description of benefits associated with the job (e.g. employee discount, health insurance, a U.S. 401K plan).</small>
-    </fieldset>
-    <button type="button" class="add-benefit btn btn-outline-primary btn-lg">+ Add Benefit</button>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="work-hours">Work Hours</label>
-    <select id="work-hours" class="form-control form-control-lg" aria-describedby="hoursHelpBlock">
-      <option value="1">Select</option>
-      <option value="2">Normal work hours</option>
-      <option value="2">Changing work hours</option>
-      <option value="2">Flexible work hours (set your own schedule)</option>
-    </select>
-    <small id="hoursHelpBlock" class="form-text text-muted">Typical working hours for this job: normal work hours (day/evening/overnight), changing work hours, flexible work hours.</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="work-hours">Work Hours</label>
+      <select id="work-hours" class="form-control form-control-lg" aria-describedby="hoursHelpBlock">
+        <option value="1">Select</option>
+        <option value="2">Normal work hours</option>
+        <option value="2">Changing work hours</option>
+        <option value="2">Flexible work hours (set your own schedule)</option>
+      </select>
+      <small id="hoursHelpBlock" class="form-text text-muted">Typical working hours for this job: normal work hours (day/evening/overnight), changing work hours, flexible work hours.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="d-flex justify-content-between pt-5">
