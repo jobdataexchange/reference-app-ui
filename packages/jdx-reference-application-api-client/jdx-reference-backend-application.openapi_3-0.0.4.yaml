@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.3"
+  version: "0.0.4"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -76,7 +76,7 @@ paths:
         '503':
           description: Service is down
 
-  /framework-recommendation:
+  /framework-recommendations:
     post:
       summary: Get framework recommendations based on the uploaded job descripton and context
       parameters:
@@ -279,6 +279,7 @@ components:
           #       authorizationCode:
           #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
           #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
+          #         scopes: {}
 
   schemas:
     serviceUnavailableError:
@@ -401,6 +402,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/request'
         - type: object
+          title: word
           properties:
             frameworks:
               type: object

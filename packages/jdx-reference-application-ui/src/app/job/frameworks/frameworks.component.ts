@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-framework',
@@ -67,7 +66,6 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   submitForm() {
     this.isSubmitting = true;
-
     // this._api.frameworkSelectionsPost(this.fileFromFieldControlValue())
     //   .toPromise()
     //   .then((r: Response) => this.onSuccess(r))
@@ -75,7 +73,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
     //   .finally(() => this.isSubmitting = false)
   }
 
-  createFrameworkSelectionRequest(): FrameworkSelectionRequest {
+  private createFrameworkSelectionRequest(): FrameworkSelectionRequest {
     return {
       pipelineID: this._currentPipelineId,
       frameworks: this._frameworksFormForm()
@@ -83,14 +81,13 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   }
 
   private getFrameworkRecommendation(id) {
-
     if(isNullOrUndefined(this._currentPipelineId)){
       return this.navigateTo(JobRoutes.DESCRIPTION);
     }
 
     console.log('this._currentPipelineId ',this._currentPipelineId)
     this._frameworkRecommendationSub =
-      this._api.frameworkRecommendationPost(this._currentPipelineId)
+      this._api.frameworkRecommendationsPost(this._currentPipelineId)
         .subscribe(
           (r:FrameworkRecommendationResponse) => this.scoredRecommendation = r.frameworkRecommendations
         )
@@ -103,7 +100,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private onSuccess(r: Response){
     console.log('<- uploadJobDescriptionFilePost ', r)
     if( this._pipelineIdService.isResponsePipelineIdCurrent(r)){
-
+      // Do stuff
     }
     else {
       // TODO: handle this case.
