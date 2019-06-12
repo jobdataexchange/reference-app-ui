@@ -1,3 +1,3 @@
 module.exports = {
-  label: 'Job 10: Compensation Info'
+  label: 'Job 11: Compensation Info'
 };
