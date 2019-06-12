@@ -1,0 +1,113 @@
+
+
+<div class="pt-4 d-flex justify-content-between">
+  <p>COMPETENCY RELATED INFORMATION</p>
+  <p class="flex-shrink-0">8 of 14</p>
+</div>
+
+<h1 class="pb-4">Confirm Core Competencies</h1>
+<p class="w-75 mb-5">We derived the following core competencies from the job description you provided. Please review and adjust as needed.</p>
+
+<form>
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <fieldset class="competencies form-group mb-1">
+        <legend class="h6 font-weight-bold">Competency statement from raw text.</legend>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Competency 1" type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Competency 2" type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Competency 3" type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+      </fieldset>
+      <button type="button" class="add-competency btn btn-outline-primary btn-lg">+ Add Competency</button>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <fieldset class="competencies form-group mb-1">
+        <legend class="h6 font-weight-bold">Competency statement from raw text maybe this is long and ends up going for two lines or maybe even more.</legend>
+        <div class="benefit-field d-flex mb-2">
+          <input value="Competency 1" type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">
+          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
+        </div>
+      </fieldset>
+      <button type="button" class="add-competency btn btn-outline-primary btn-lg">+ Add Competency</button>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <fieldset class="competencies form-group mb-1">
+        <legend class="h6 font-weight-bold">Additional Competencies</legend>
+      </fieldset>
+      <button type="button" class="add-competency btn btn-outline-primary btn-lg">+ Add Competency</button>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between pt-5">
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+    <button type="submit" class="btn btn-lg btn-primary">Next</button>
+  </div>
+</form>
+
+
+
+
+
+<script>
+  $(document).ready(function(){
+
+    $(document).on('click', 'button.close', function() {
+      $(this).parent().remove();
+    });
+
+    $('button.add-competency').click(function(){
+      $(this).prev('.competencies').append(
+        '<div class="benefit-field d-flex mb-2">' +
+        '<input type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">' +
+        '<button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;">' +
+        '<span aria-hidden="true">&times;</span>' +
+        '</button>' +
+        '</div>'
+      );
+    });
+
+
+  });
+</script>
+
