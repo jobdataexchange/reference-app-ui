@@ -106,7 +106,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
     }
     else {
-      // TODO: handel this case.
+      // TODO: handle this case.
       console.log('[ERROR] Response PipelineId does not match current id')
     }
 
