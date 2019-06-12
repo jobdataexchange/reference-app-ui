@@ -1,3 +1,3 @@
 module.exports = {
-  label: 'Job 14: Confirm Completion'
+  label: 'Job 12: Confirm Completion'
 };
