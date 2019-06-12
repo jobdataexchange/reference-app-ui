@@ -9,75 +9,186 @@
 <p class="w-75 mb-5">The JDX best practice is to complete the information that follows. Fill in all that apply. All required fields are based off of Google guidance for job posting.</p>
 
 <form>
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
-    <input type="text" class="form-control form-control-lg" id="title" placeholder="Job Title" aria-describedby="titleHelpBlock">
-    <small id="titleHelpBlock" class="form-text text-muted">Title of the job.</small>
-  </div>
-
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="job-summary">Job Summary</label>
-    <textarea class="form-control description-textarea" id="job-summary" rows="3" placeholder="Job Summary" aria-describedby="summaryHelpBlock"></textarea>
-    <small id="summaryHelpBlock" class="form-text text-muted">A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements.</small>
-  </div>
-
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="industry">Industry</label>
-    <div class="position-relative">
-      <input type="text" class="form-control form-control-lg" id="industry" placeholder="Industry" aria-describedby="industryHelpBlock">
-      <i class="fas fa-angle-down text-primary position-absolute vertical-align-center" style="right: 12px; font-size: 24px;"></i>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
+      <input type="text" class="form-control form-control-lg" id="title" placeholder="Job Title" aria-describedby="titleHelpBlock">
+      <small id="titleHelpBlock" class="form-text text-muted">Title of the job.</small>
     </div>
-    <small id="industryHelpBlock" class="form-text text-muted">Description of the most critical economic or work activities performed (e.g. software development, electronic manufacturing, motor vehicle production, or diagnostic and therapeutic services).</small>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="industry-code">Industry Code</label>
-    <select id="industry-code" class="form-control form-control-lg" aria-describedby="codeHelpBlock">
-      <option value="1">Select</option>
-      <option value="2">Option 1</option>
-      <option value="3">Option 2</option>
-    </select>
-    <small id="codeHelpBlock" class="form-text text-muted">Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed.</small>
+
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="job-summary">Job Summary</label>
+      <textarea class="form-control description-textarea" id="job-summary" rows="3" placeholder="Job Summary" aria-describedby="summaryHelpBlock"></textarea>
+      <small id="summaryHelpBlock" class="form-text text-muted">A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="occupation-category">Occupation Category</label>
-    <select id="occupation-category" class="form-control form-control-lg" aria-describedby="categoryHelpBlock">
-      <option value="1">Select</option>
-      <option value="2">Option 1</option>
-      <option value="3">Option 2</option>
-    </select>
-    <small id="categoryHelpBlock" class="form-text text-muted">Category of the relevant occupation of the job used in the country of employment.</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="industry">Industry</label>
+      <div class="position-relative">
+        <input type="text" class="form-control form-control-lg" id="industry" placeholder="Industry" aria-describedby="industryHelpBlock">
+        <i class="fas fa-angle-down text-primary position-absolute vertical-align-center" style="right: 12px; font-size: 24px;"></i>
+      </div>
+      <small id="industryHelpBlock" class="form-text text-muted">Description of the most critical economic or work activities performed (e.g. software development, electronic manufacturing, motor vehicle production, or diagnostic and therapeutic services).</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="job-location">Job Location<span class="sr-only">, required field</span></label><span class="required">*</span>
-    <input type="text" class="form-control form-control-lg" id="job-location" placeholder="Job Location" aria-describedby="locationHelpBlock">
-    <small id="locationHelpBlock" class="form-text text-muted">Geographic location associated with the job position (typically single).</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="industry-code">Industry Code</label>
+      <select id="industry-code" class="form-control form-control-lg" aria-describedby="codeHelpBlock">
+        <option value="1">Select</option>
+        <option value="2">Option 1</option>
+        <option value="3">Option 2</option>
+      </select>
+      <small id="codeHelpBlock" class="form-text text-muted">Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="job-location-type">Job Location Type</label>
-    <input type="text" class="form-control form-control-lg" id="job-location-type" placeholder="Job Location Type" aria-describedby="locationtypeHelpBlock">
-    <small id="locationtypeHelpBlock" class="form-text text-muted">A description of the locations where the job can be performed including in-person, remote/telecommute, or a combination.</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="occupation-category">Occupation Category</label>
+      <select id="occupation-category" class="form-control form-control-lg" aria-describedby="categoryHelpBlock">
+        <option value="1">Select</option>
+        <option value="2">Option 1</option>
+        <option value="3">Option 2</option>
+      </select>
+      <small id="categoryHelpBlock" class="form-text text-muted">Category of the relevant occupation of the job used in the country of employment.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="employment-unit">Employment Unit</label>
-    <input type="text" class="form-control form-control-lg" id="employment-unit" placeholder="Employment Unit" aria-describedby="unitHelpBlock">
-    <small id="unitHelpBlock" class="form-text text-muted">Department, unit and/or facility where the employee reports and/or in which the job is to be performed.</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="job-location">Job Location<span class="sr-only">, required field</span></label><span class="required">*</span>
+      <input type="text" class="form-control form-control-lg" id="job-location" placeholder="Job Location" aria-describedby="locationHelpBlock">
+      <small id="locationHelpBlock" class="form-text text-muted">Geographic location associated with the job position (typically single).</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="job-identifier">Job Identifier</label>
-    <input value="xxx-xxxx-xxx" type="text" class="form-control form-control-lg" id="job-identifier" placeholder="Job Identifier" disabled aria-describedby="jobidentifierHelpBlock">
-    <small id="jobidentifierHelpBlock" class="form-text text-muted">Identifier for any entity for internal or external uses (e.g. job, job posting, and department).</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="job-location-type">Job Location Type</label>
+      <input type="text" class="form-control form-control-lg" id="job-location-type" placeholder="Job Location Type" aria-describedby="locationtypeHelpBlock">
+      <small id="locationtypeHelpBlock" class="form-text text-muted">A description of the locations where the job can be performed including in-person, remote/telecommute, or a combination.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group mb-4">
-    <label class="font-weight-bold" for="employer-identifier">Employer Job Identifier</label>
-    <input type="text" class="form-control form-control-lg" id="employer-identifier" placeholder="Employer Job Identifier" aria-describedby="employeridentifierHelpBlock">
-    <small id="employeridentifierHelpBlock" class="form-text text-muted">Employer's identifier for a particular position.</small>
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="employment-unit">Employment Unit</label>
+      <input type="text" class="form-control form-control-lg" id="employment-unit" placeholder="Employment Unit" aria-describedby="unitHelpBlock">
+      <small id="unitHelpBlock" class="form-text text-muted">Department, unit and/or facility where the employee reports and/or in which the job is to be performed.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="job-identifier">Job Identifier</label>
+      <input value="xxx-xxxx-xxx" type="text" class="form-control form-control-lg" id="job-identifier" placeholder="Job Identifier" disabled aria-describedby="jobidentifierHelpBlock">
+      <small id="jobidentifierHelpBlock" class="form-text text-muted">Identifier for any entity for internal or external uses (e.g. job, job posting, and department).</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-2">
+    <div class="form-group col-md-9">
+      <label class="font-weight-bold" for="employer-identifier">Employer Job Identifier</label>
+      <input type="text" class="form-control form-control-lg" id="employer-identifier" placeholder="Employer Job Identifier" aria-describedby="employeridentifierHelpBlock">
+      <small id="employeridentifierHelpBlock" class="form-text text-muted">Employer's identifier for a particular position.</small>
+    </div>
+    <div class="col-md-3">
+      <div class="invisible mb-2">number of matches</div>
+      <div class="alert alert-success d-flex justify-content-between">
+        <span>2 matches</span>
+        <a href="#" class="" data-toggle="modal" data-target="#modal">
+          View
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="d-flex justify-content-between pt-5">
