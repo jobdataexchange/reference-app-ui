@@ -10,10 +10,16 @@
 
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="competency-framework">Competency Framework</label>
-    <select id="competency-framework" class="form-control form-control-lg" multiple aria-describedby="competencyHelpBlock">
-      <option value="2">Framework 1</option>
-      <option value="3">Framework 2</option>
-      <option value="4">Framework 3</option>
+    <select id="competency-framework"
+            class="form-control form-control-lg"
+            aria-describedby="competencyHelpBlock"
+            [formControlName]="FRAMEWORK_FIELD_NAME"
+            multiple
+    >
+      <option *ngFor="let option of frameworkRecommendations"
+              [ngValue]="option.metrics.uuid"
+
+      >{{option.metrics['name']}}</option>
     </select>
     <small id="competencyHelpBlock" class="form-text text-muted">This property includes: abilities, attitudes, knowledge, skills, tasks, and tools/technologies (associated with some task).</small>
   </div>
@@ -24,9 +30,3 @@
   </div>
 
 </form>
-
-
-<!--<script>-->
-<!--  $(document).ready(function() {-->
-<!--    $('#competency-framework').multiselect();-->
-<!--  });-->

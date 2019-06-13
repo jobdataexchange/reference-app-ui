@@ -1,0 +1,709 @@
+openapi: 3.0.0
+servers:
+  - url: https://jdx-api.brighthive.net
+    description: Live API
+  - url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
+    description: Server running off of swagger spec that returns mock examples
+
+info:
+  description: |-
+    This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
+  version: "0.0.5"
+  title: JDX reference application API
+  termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
+  contact:
+    email: engineering@brighthive.io
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+# security:
+#   - oAuthNoScopes: []
+paths:
+  /upload-job-description-file:
+    post:
+      summary: Upload a raw job description file.
+      requestBody:
+        description: |
+          Upload a raw job description in one of the given formats for the server to begin the automatic competency translation service.
+
+          Allowed file types
+          ___
+          DOCX, DOC - Microsoft Word file format (version 2012+)
+
+          TXT - Text file format
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/rawJobDescriptionRequest'
+      responses:
+        '200':
+          description: Created. A pipeline was created and the provided job description was converted to text and attached to the pipeline.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rawJobDescriptionResponse'
+        '400':
+          description: Bad Request
+        '422':
+          description: Validation error
+        '500':
+          description: Internal server error
+
+  /upload-job-description-context:
+    post:
+      summary: Provide job description context (e.g metadata) on the job description
+      requestBody:
+        description: job description context
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jobDescriptionContextRequest'
+      responses:
+        '200':
+          description: Stored the context object associated with `pipelineID`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jobDescriptionContextResponse'
+        '400':
+          description: Bad Request
+        '404':
+          description: Pipeline was not found
+        '422':
+          description: Validation error
+        '500':
+          description: Internal server error
+        '503':
+          description: Service is down
+
+  /framework-recommendations:
+    post:
+      summary: Get framework recommendations based on the uploaded job descripton and context.
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frameworkRecommendationResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /framework-selections:
+    post:
+      summary: The user indicates what frameworks they selected
+      requestBody:
+        description: framework selections
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/frameworkSelectionRequest'
+      responses:
+        '200':
+          description: Stored the context object associated with `pipelineID`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frameworkSelectionResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /match-table:
+    post:
+      summary: Get the match table associated with the provided `pipelineID`
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: Provides a match table with `uuid` references along with a json-ld object. The json-ld object contains `uuid`'s that reference into the match table, for instance, containing a list of possble competencies that the user should be asked to choose among, reject or approve one of.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/matchTableResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /get-scored-recommendations:
+    post:
+      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scoreResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+  /set-scored-recommendations:
+    post:
+      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
+      requestBody:
+        description: Contains a user replacement to analyze and provide recommendation for
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/scoreRequest'
+      responses:
+        '200':
+          description: The frameworkRecommendation response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scoreResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /user-actions:
+    post:
+      summary: Provide the user responses as a list of user actions
+      requestBody:
+        description: Contains a list of user responses
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userActionRequest'
+      responses:
+        '200':
+          description: The user actions response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userActionResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+  /health:
+    get:
+      summary: Health Check
+      description: The health check endpoint can be used to check if the API is up. If the API is running it will return a 200 OK response.
+      responses:
+        '200':
+          description: The API is up!
+          content:
+            application/json:
+              schema:
+                title: healthResponse
+                type: object
+                properties:
+                  api:
+                    type: integer
+                    example: 200
+components:
+  responses:
+    '422':
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/validationError'
+    '400':
+      description: Bad Request error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/badRequestError'
+    '415':
+      description: Unsupported media type
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/unsupportedMediaTypeError'
+    '503':
+      description: Service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/serviceUnavailableError'
+
+          # securitySchemes:
+          #   oAuthNoScopes:
+          #     type: oauth2
+          #     flows:
+          #       authorizationCode:
+          #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
+          #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
+          #         scopes: {}
+
+  schemas:
+    serviceUnavailableError:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 1024
+          example: Server is down. Please contact engineering@brighthive.io
+    unsupportedMediaTypeError:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 1024
+          example: Provided XML, this media type not supported, please provide json
+    badRequestError:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 1024
+          example: Malformed syntax, `{` is missing on line 102
+
+    validationError:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 1024
+          example: Your request failed to validate. Email not in correct <user>@<host> form
+        statusCode:
+          description: A code identifying the message response. A code of `1` indicates success.
+          type: integer
+          minimum: -1
+          maximum: 9999
+          example: 1
+        validationErrors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              reason:
+                type: string
+
+    request:
+      type: object
+      properties:
+        pipelineID:
+          description: An identifier for this jdx reference application _session_ of converting a raw job description. On first request this is ignored.
+          type: string
+          format: uuid
+          example: "824b40ae-2e95-4823-8c61-330865b10bd7"
+
+    response:
+      type: object
+      properties:
+        pipelineID:
+          description: An identifier for this jdx reference application session of converting a raw job description
+          type: string
+          format: uuid
+          example: "824b40ae-2e95-4823-8c61-330865b10bd7"
+        timestamp:
+          description: A timestamp of when this response was generated
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+
+    rawJobDescriptionRequest:
+      # see: https://swagger.io/docs/specification/describing-request-body/file-upload/
+      type: object
+      properties:
+        file:
+          description: The file to upload
+          type: string
+          format: binary
+
+    rawJobDescriptionResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - type: object
+          properties:
+            fileText:
+              description: number of words in the converted job description
+              type: string
+              example: |
+                Job Title - ACME software developer.
+                Duties - Carry out meetings. Write code.
+            convertedLength:
+              description: number of words in the converted job description
+              type: integer
+              minimum: 0
+              maximum: 999999
+              example: 240
+
+    jobDescriptionContextRequest:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - type: object
+          properties:
+            primaryEconomicActivity:
+              type: string
+              maxLength: 1024
+              example: "Making and selling software products"
+            jobLocation:
+              $ref: '#/components/schemas/place'
+            occupationCategory:
+              $ref: '#/components/schemas/annotatedDefinedTerm'
+            industryCategory:
+              $ref: '#/components/schemas/annotatedDefinedTerm'
+
+    jobDescriptionContextResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/jobDescriptionContextRequest'
+
+    frameworkSelectionRequest:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - type: object
+          properties:
+            frameworks:
+              $ref: '#/components/schemas/frameworks'
+
+    frameworks:
+      type: object
+      properties:
+        competency:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        occupation:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+
+    frameworkSelectionResponse:
+      $ref: '#/components/schemas/response'
+
+    frameworkRecommendationResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - type: object
+          properties:
+            frameworkRecommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/scoredRecommendation'
+        # - type: array
+        #   items:
+        #     $ref: '#/components/schemas/scoredRecommendation'
+
+    matchTableResponse:
+      allOf:
+        - $ref: '#/components/schemas/matchTableRows'
+        - $ref: '#/components/schemas/response'
+
+    matchTableRows:
+      properties:
+        matchTable:
+          type: array
+          items:
+            $ref: '#/components/schemas/substatements'
+
+    substatements:
+      properties:
+        substatementId:
+          description: UUID referring to
+          type: string
+          format: uuid
+          example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+        substatement:
+          description: this is the job description substatment text
+          type: string
+          example: Can perform test driven development
+        matches:
+          type: array
+          items:
+            properties:
+              recommendationId:
+                type: string
+                example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+              name:
+                type: string
+                example: what is this for?
+              descrtiption:
+                type: string
+                example: Performs TDD
+              definedTermSet:
+                type: string
+                example: Standard Occupational Classification system
+              termCode:
+                type: string
+                example: "19-1131.00"
+              value:
+                type: string
+                example: "0.9"
+
+    scoreRequest:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - type: object
+          properties:
+            annotatedDefinedTerm:
+              $ref: '#/components/schemas/annotatedDefinedTerm'
+
+    scoreResponse:
+      $ref: '#/components/schemas/frameworkRecommendationResponse'
+
+    scoredRecommendation:
+      type: object
+      properties:
+        value:
+          description: numeric score, higher is better
+          type: number
+          example: 3.14
+          minimum: 0
+        validUntil:
+          description: A timestamp of the time up until this is valid
+          type: string
+          format: date-time
+          example: "2017-09-21T17:32:28Z"
+        metrics:
+          $ref: '#/components/schemas/metrics'
+
+    metrics:
+      type: object
+      properties:
+        userType:
+          description: the type of user the metric was derived from. For example, a count derived from a `collaborative` is the number of employers in that collaborative, whereas a count derived from `pilot user` is the number of `pilot users` at that time (e.g. using a recomemendation)
+          type: string
+          enum: [abstract, user, pilot user, collaborative]
+          example: abstract
+        uuid:
+          description: If given, the matching uuid in the matchTable (a row in the matchTable) that this `scoredRecommendation` applies to (e.g. one of several `scoredRecommendation`s that could be assigned to a particular competency property in the json-ld file). If no uuid present and recommendation, then this applies to the entire converted job description (e.g., in general you can be recommended to include additional competencies of a certain type based on comparative measures)
+          type: string
+          format: uuid
+          example:  "f6052610-8032-43af-940d-24db36e57187"
+        objectType:
+          description: If `score`, this object simply rates the matching uuid identified object. If `recommendation` an actual recommendation, with `recommendedContent` and other justifications, are provided.
+          type: string
+          enum: [recommendation, score]
+          example: recommendation
+        statisticType:
+          type: string
+          enum: [count, mean, median]
+          example: count
+        extraInfo:
+          description: Typically for `recomendation` `objectType`s, essentially provides a justification for the recommendation in terms of descriptive statistics in regards to class (`metricClass`), e.g. a justification for this recommendation because most `collaborative` users have this `topic`
+          type: object
+          properties:
+            totalNumber:
+              type: number
+              example: 100
+            recommendedContent:
+              description: A string to motivate the user to take some action, typically justified by the metricClass and aiming at improving the job description along the same lines as the metricClass
+              type: string
+              maxLength: 1024
+              example: Include more about IDE tools since a majority of employers in this collaborative have done so.
+        metricClass:
+          description: >-
+            In a scoring context (e.g. `objectType: score`) this describes what kind of framework is being recommended. In a recommendation context this describes the nature of the `recommendedContent` and the area that recommendation seeks to help the user improve in. For example, a `metricClass: actionable`, with `recommendedContent: Consider using more action verbs to describe this competency. 55 out of 100 users in your collaborative have done so.`
+          type: string
+          example: topic
+          enum: [occupation, industry, competency, observable, actionable, brief, topic]
+
+    userActionRequest:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - type: object
+          properties:
+            matchTableSelections:
+              type: array
+              items:
+                properties:
+                  substatementId:
+                    description: UUID referring to
+                    type: string
+                    format: uuid
+                    example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  substatement:
+                    description: this is the job description substatment text
+                    type: string
+                    example: Can perform test driven development
+                  selection:
+                    type: object
+                    properties:
+                      recommendationId:
+                        type: string
+                        example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+                      name:
+                        type: string
+                        example: what is this for?
+                      descrtiption:
+                        type: string
+                        example: Performs TDD
+                      definedTermSet:
+                        type: string
+                        example: Standard Occupational Classification system
+                      termCode:
+                        type: string
+                        example: "19-1131.00"
+                      value:
+                        type: string
+                        example: "0.9"
+
+            # userActions:
+            #   type: array
+            #   items:
+            #     $ref: '#/components/schemas/userAction'
+
+    userActionResponse:
+      $ref: '#/components/schemas/response'
+
+    userAction:
+      type: object
+      properties:
+        recommendationUUID:
+          type: string
+          format: uuid
+        action:
+          type: string
+          enum: [reject, replace, accept]
+        replaced:
+          type: boolean
+          example: true
+        replaceWith:
+          $ref: '#/components/schemas/annotatedDefinedTerm'
+
+    annotatedDefinedTerm:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 1024
+          example: "SOC"
+        description:
+          type: string
+          maxLength: 1024
+          example: Standardized Occupation Code, for use in the US
+        termCode:
+          description: A code that identifies this DefinedTerm within a DefinedTermSet.
+          type: string
+          example:  15-1131.00
+        definedTermSet:
+          description: A defined term set that contains this term.
+          type: string
+          example: Standard Occupational Classification system
+
+    framework:
+      description: a standard framework
+      type: object
+      properties:
+        frameworkId:
+          description: A JDX numerical identifier for this framework
+          type: string
+          format: uuid
+          example:  "4aee8089-2ea6-4167-b39b-381102d29c74"
+
+    place:
+      description: A fixed physical location
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 1024
+          example: ACME Fairfax
+        description:
+          type: string
+          maxLength: 1024
+          example: A place where software is built
+        faxNumber:
+          type: string
+          maxLength: 128
+          example: "+17039999999"
+        telephone:
+          type: string
+          maxLength: 64
+          example: "+17039999999"
+        address:
+          $ref: '#/components/schemas/postalAddress'
+        geo:
+          $ref: '#/components/schemas/geoCoordinates'
+
+    geoCoordinates:
+      description: Geographic coordinates of a place or event.
+      type: object
+      properties:
+        latitude:
+          type: number
+          example: 123.4554534534
+        longitude:
+          type: number
+          example: 223.4554534534
+
+    postalAddress:
+      description: the mailing address of an entity
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 1024
+          example: ACME Fairfax
+        streetAddress:
+          type: string
+          maxLength: 1024
+          example: 101 Acme Way
+        addressLocality:
+          type: string
+          maxLength: 1024
+          example: Fairfax
+        addressRegion:
+          type: string
+          maxLength: 1024
+          example: Virgina
+        addressCountry:
+          type: string
+          maxLength: 1024
+          example: United States of America
+        postalCode:
+          type: string
+          maxLength: 1024
+          example: 22032
+externalDocs:
+  description: Find out more about JDX
+  url: 'https://www.uschamberfoundation.org/workforce-development/JDX'
