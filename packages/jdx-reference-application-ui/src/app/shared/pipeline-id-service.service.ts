@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
+import { LocalStorageService, LocalStorageTypes } from './services/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PipelineIdServiceService {
-  constructor() { }
+  constructor(
+    private _localStorage: LocalStorageService
+  ) {
+    this.setPipelineId(
+      this._localStorage.get(
+        LocalStorageTypes.PIPELINE_ID) || null
+    );
+  }
 
   private _currentPipelineId = null;
 
@@ -16,6 +24,10 @@ export class PipelineIdServiceService {
 
   setPipelineId(id: string) {
     this.announceCurrentPipelineId(id);
+    this._localStorage.set(
+      LocalStorageTypes.PIPELINE_ID,
+      id
+    );
   }
 
   isResponsePipelineIdCurrent(r: Response) {

@@ -42,15 +42,13 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private _pipelineIdSub: Subscription;
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
     this.initSubscriptions();
   }
 
   ngOnDestroy(): void {
     if (this._pipelineIdSub) {this._pipelineIdSub.unsubscribe()}
-    ;
     if (this._frameworkRecommendationSub) {this._frameworkRecommendationSub.unsubscribe()}
-    ;
   }
 
   initForm() {

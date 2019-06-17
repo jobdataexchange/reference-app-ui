@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ApiModule, Configuration } from '@jdx/jdx-reference-application-api-client';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 
 export function apiConfigFactory() {
   const params = {
@@ -28,10 +29,11 @@ export function apiConfigFactory() {
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575
     HttpClientModule,
-    AppRoutingModule,
-
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

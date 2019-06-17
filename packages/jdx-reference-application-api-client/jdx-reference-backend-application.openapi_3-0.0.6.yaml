@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.4"
+  version: "0.0.6"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -49,6 +49,31 @@ paths:
         '500':
           description: Internal server error
 
+  /preview:
+    post:
+      summary: Get preview of job description with tagged matches.
+      requestBody:
+        description: Get preview of job description wth tagged matches.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: Provides a chunked job description with matches that refer to the given paragraph chunks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/previewResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
   /upload-job-description-context:
     post:
       summary: Provide job description context (e.g metadata) on the job description
@@ -78,15 +103,13 @@ paths:
 
   /framework-recommendations:
     post:
-      summary: Get framework recommendations based on the uploaded job descripton and context
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      summary: Get framework recommendations based on the uploaded job descripton and context.
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more).
@@ -131,14 +154,12 @@ paths:
   /match-table:
     post:
       summary: Get the match table associated with the provided `pipelineID`
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a match table with `uuid` references along with a json-ld object. The json-ld object contains `uuid`'s that reference into the match table, for instance, containing a list of possble competencies that the user should be asked to choose among, reject or approve one of.
@@ -155,17 +176,15 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
-  /scored-recommendations:
-    get:
+  /get-scored-recommendations:
+    post:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
@@ -181,6 +200,7 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
+  /set-scored-recommendations:
     post:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
       requestBody:
@@ -398,6 +418,26 @@ components:
         - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/jobDescriptionContextRequest'
 
+    previewResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/previewObject'
+
+    previewObject:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/previewFields'
+
+    previewFields:
+      type: object
+      properties:
+        field:
+          type: string
+          example:
+
     frameworkSelectionRequest:
       allOf:
         - $ref: '#/components/schemas/request'
@@ -424,7 +464,6 @@ components:
 
     frameworkSelectionResponse:
       $ref: '#/components/schemas/response'
-
 
     frameworkRecommendationResponse:
       allOf:
@@ -465,6 +504,7 @@ components:
         matches:
           type: array
           items:
+            type: object
             properties:
               recommendationId:
                 type: string
@@ -472,7 +512,7 @@ components:
               name:
                 type: string
                 example: what is this for?
-              descrtiption:
+              description:
                 type: string
                 example: Performs TDD
               definedTermSet:
@@ -580,7 +620,7 @@ components:
                       name:
                         type: string
                         example: what is this for?
-                      descrtiption:
+                      description:
                         type: string
                         example: Performs TDD
                       definedTermSet:
