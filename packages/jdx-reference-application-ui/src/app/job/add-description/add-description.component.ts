@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DefaultService, RawJobDescriptionResponse } from '@jdx/jdx-reference-application-api-client';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { Router } from '@angular/router';
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 
 @Component({
   selector: 'app-add-description',
@@ -12,7 +14,8 @@ export class AddDescriptionComponent implements OnInit {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipelineIdService: PipelineIdServiceService
+    private _pipelineIdService: PipelineIdServiceService,
+    private _router: Router
   ) { }
 
   form: FormGroup;
@@ -78,11 +81,18 @@ export class AddDescriptionComponent implements OnInit {
   private onSuccess(r: RawJobDescriptionResponse){
     console.log('<- uploadJobDescriptionFilePost ', r)
     this.setPipelineId(r.pipelineID);
+    this.navigateTo(JobRoutes.FRAMEWORKS);
+  }
+
+  navigateTo(route:JobRoutes){
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
   }
 
   private onError(e){
     // TODO: how are we handling errors?
     console.log('[[ Error ]] uploadJobDescriptionFilePost ', e)
   }
+
+
 
 }

@@ -10,6 +10,10 @@ export enum JobRoutes {
   FRAMEWORKS = 'frameworks',
 }
 
+export function createRouteUrlByJobRoute(r:JobRoutes): string {
+  return `job/${r}`;
+}
+
 const routes: Routes = [
   {
     path: '',
