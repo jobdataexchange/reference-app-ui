@@ -112,7 +112,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private onSuccess(r: Response) {
     console.log('<- uploadJobDescriptionFilePost ', r)
     if (this._pipelineIdService.isResponsePipelineIdCurrent(r)) {
-      // Do stuff
+      this.navigateTo(JobRoutes.COMPETENCIES)
     } else {
       // TODO: handle this case.
       console.log('[ERROR] Response PipelineId does not match current id')

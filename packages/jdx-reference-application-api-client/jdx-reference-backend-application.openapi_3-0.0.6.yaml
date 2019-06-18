@@ -630,7 +630,7 @@ components:
                         type: string
                         example: "19-1131.00"
                       value:
-                        type: string
+#                        type: string
                         example: "0.9"
 
             # userActions:

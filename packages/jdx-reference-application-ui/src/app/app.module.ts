@@ -32,7 +32,7 @@ export function apiConfigFactory() {
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

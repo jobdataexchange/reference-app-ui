@@ -17,7 +17,7 @@
             multiple
     >
       <option *ngFor="let option of frameworkRecommendations"
-              [ngValue]="option.metrics.uuid"
+              [value]="option.metrics.uuid"
 
       >{{option.metrics['name']}}</option>
     </select>

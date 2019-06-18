@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddDescriptionComponent } from './add-description/add-description.component';
 import { CompetenciesComponent } from './competencies/competencies.component';
 import { FrameworksComponent } from './frameworks/frameworks.component';
+import { BasicInfoComponent } from './basic-info/basic-info.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
   COMPETENCIES = 'competencies',
   FRAMEWORKS = 'frameworks',
+  BASIC_INFO = 'basic-info'
 }
 
 export function createRouteUrlByJobRoute(r:JobRoutes): string {
@@ -34,6 +36,11 @@ const routes: Routes = [
   {
     path: JobRoutes.FRAMEWORKS,
     component: FrameworksComponent
+  },
+
+  {
+    path: JobRoutes.BASIC_INFO,
+    component: BasicInfoComponent
   }
 
 ];

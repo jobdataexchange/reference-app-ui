@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } fr
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { MatchTable } from './data/MatchTable';
+import { match_table } from './data/MatchTable';
 
 
 @Injectable()
@@ -21,8 +21,8 @@ export class MockBackendInterceptor implements HttpInterceptor {
         const r = {
           pipelineID: request.body['pipelineID'],
           timestamp: Date.now(),
-          matchTable: MatchTable
-        }
+          match_table: match_table
+        };
         console.log('<- HttpRequest :: matchTablePost',r);
         return of(new HttpResponse(
           { status: 200, body: r }
