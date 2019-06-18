@@ -41,14 +41,16 @@
 
   <div class="form-row mb-4">
     <div class="form-group col-md-9">
-      <fieldset class="competencies form-group mb-1">
-        <legend class="h6 font-weight-bold">Competency statement from raw text maybe this is long and ends up going for two lines or maybe even more.</legend>
-        <div class="benefit-field d-flex mb-2">
-          <input value="Competency 1" type="text" class="form-control form-control-lg" placeholder="Competency" aria-label="competency">
-          <button class="close ml-3" type="button" aria-label="Close" style="font-size: 3rem;"><span aria-hidden="true">&times;</span></button>
-        </div>
-      </fieldset>
-      <button type="button" class="add-competency btn btn-outline-primary btn-lg">+ Add Competency</button>
+      <label class="font-weight-bold" for="competency-2">Competency statement from raw text maybe this is long and ends up going for two lines or maybe even more.</label>
+      <select id="competency-2" class="form-control form-control-lg">
+        <option value="1">Competency 1</option>
+        <option value="2">None</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="competency-other" style="display: none;">
+        <label class="font-weight-bold mt-3" for="optional-competency-2">Competency</label>
+        <input type="text" class="form-control form-control-lg" id="optional-competency-2" placeholder="">
+      </div>
     </div>
     <div class="col-md-3">
       <div class="invisible mb-2">number of matches</div>
@@ -63,10 +65,16 @@
 
   <div class="form-row mb-4">
     <div class="form-group col-md-9">
-      <fieldset class="competencies form-group mb-1">
-        <legend class="h6 font-weight-bold">Additional Competencies</legend>
-      </fieldset>
-      <button type="button" class="add-competency btn btn-outline-primary btn-lg">+ Add Competency</button>
+      <label class="font-weight-bold" for="competency-3">Additional Competencies</label>
+      <select id="competency-3" class="form-control form-control-lg">
+        <option value="1">Competency 1</option>
+        <option value="2">None</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="competency-other" style="display: none;">
+        <label class="font-weight-bold mt-3" for="optional-competency-3">Competency</label>
+        <input type="text" class="form-control form-control-lg" id="optional-competency-3" placeholder="">
+      </div>
     </div>
     <div class="col-md-3">
       <div class="invisible mb-2">number of matches</div>
@@ -105,6 +113,14 @@
         '</button>' +
         '</div>'
       );
+    });
+
+    $('#competency-2, #competency-3').change(function(){
+      if ($(this).val() === 'other') {
+        $(this).next().slideDown();
+      } else {
+        $(this).next().slideUp();
+      }
     });
 
 
