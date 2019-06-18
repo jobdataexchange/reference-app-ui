@@ -1,3 +1,4 @@
 module.exports = {
-  label: 'Org Dashboard'
+  label: 'Org Dashboard',
+  status: 'wip'
 };
