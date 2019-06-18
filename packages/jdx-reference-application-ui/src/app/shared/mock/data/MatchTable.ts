@@ -1,4 +1,6 @@
-export const MatchTable = [
+import { Substatements } from '@jdx/jdx-reference-application-api-client';
+
+export const match_table: Substatements[]  = [
   {
     "substatement": "Competency statement from raw text.",
     "substatementId": "11111111-1111-1111-1111-111111111111",
@@ -30,7 +32,6 @@ export const MatchTable = [
     ]
   },
 
-
   {
     "substatement": "Competency statement from raw text maybe this is long and ...",
     "substatementId": "22222222-2222-2222-2222-222222222222",
@@ -46,4 +47,3 @@ export const MatchTable = [
     ]
   }
 ];
-

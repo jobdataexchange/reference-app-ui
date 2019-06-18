@@ -29,7 +29,10 @@
 
   <p class="w-75 mb-5">Upload an existing document that includes your job description OR enter a brief description below.</p>
 
-  <form *ngIf="form" [formGroup]="form" (submit)="submitForm()">
+  <form *ngIf="form"
+        [formGroup]="form"
+        (submit)="submitForm()"
+  >
 
     <div class="form-group mb-5">
       <div class="custom-file d-flex justify-content-center align-items-center flex-wrap p-5">

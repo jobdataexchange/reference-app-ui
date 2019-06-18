@@ -90,7 +90,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         .pipe(switchMap(id => this._api.matchTablePost( {pipelineID:id})))
         .subscribe(mt => {
           this._matchTableResponse = mt;
-          this.setSubstatement(mt.matchTable)
+          this.setSubstatement(mt['match_table'])
         })
   }
 
