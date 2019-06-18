@@ -9,28 +9,26 @@
 <form [formGroup]=form
       (submit)="next()"
 >
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
-      <input type="text"
-             [formControlName]="f.TITLE"
-             class="form-control form-control-lg"
-             id="title"
-             placeholder="Job Title"
-             aria-describedby="titleHelpBlock"
-      >
-      <small id="titleHelpBlock" class="form-text text-muted">Title of the job.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="1">
+    <app-input-text id="title"
+                    [control]="this.form.get(f.TITLE)"
+                    required="true"
+                    label="Title"
+                    placeholder="Job Title"
+                    helpBlock="Title of the job"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" matchCount="2">
+    <app-input-text id="job-summary"
+                    [control]="this.form.get(f.JOB_SUMMARY)"
+                    label="Job Summary"
+                    placeholder="Job Summary"
+                    helpBlock="A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements."
+    ></app-input-text>
+  </app-form-wrapper>
+
+
 
   <div class="form-row mb-2">
     <div class="form-group col-md-9">

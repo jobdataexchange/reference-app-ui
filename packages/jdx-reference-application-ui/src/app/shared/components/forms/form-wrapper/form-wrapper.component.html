@@ -1,0 +1,16 @@
+<div class="form-row"
+     [ngClass]="classList"
+>
+
+  <div class="form-group col-md-9">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="col-md-3"
+       *ngIf="matchCount > 0"
+  >
+    <app-preview-alert [matches]="matchCount"></app-preview-alert>
+  </div>
+
+</div>
+

@@ -1,0 +1,12 @@
+<label class="font-weight-bold" [for]="id">
+  {{label}} <span class="sr-only">, required field</span>
+</label>
+<span class="required">*</span>
+<input type="text"
+       [formControl]="control"
+       class="form-control form-control-lg"
+       [id]="id"
+       [placeholder]="placeholder"
+       [attr.aria-describedby]="id+'HelpBlock'"
+>
+<small [id]="id+'HelpBlock'" class="form-text text-muted">{{helpBlock}}</small>
