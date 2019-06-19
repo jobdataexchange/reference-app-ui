@@ -27,7 +27,7 @@
                    placeholder="Competency"
                    aria-label="competency"
                    (change)="patchValue(competencyControl, $event.target.value)"
-                   [disabled]="competencyControl.value.competency.termCode ? true : null"
+                   [attr.disabled]="competencyControl.value.competency.termCode ? true : null"
             >
 
             <button class="close ml-3"

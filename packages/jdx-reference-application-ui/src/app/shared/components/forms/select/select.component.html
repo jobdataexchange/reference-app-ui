@@ -1,0 +1,23 @@
+<label class="font-weight-bold" [for]="id">
+  {{label}} <span class="sr-only" *ngIf="required">,required field</span>
+</label>
+
+<select [id]="id"
+        [formControl]="control"
+        class="form-control form-control-lg"
+        [attr.aria-describedby]="id+'HelpBlock'"
+>
+
+  <option *ngIf="!defaultValue" disabled="" hidden="" selected="" value="">{{defaultOptionText}}</option>
+
+  <option *ngFor="let option of options"
+          [value]="option.value"
+          [selected]="option.value == defaultValue"
+  >
+    {{option.name}}
+  </option>
+
+
+</select>
+
+<small id="codeHelpBlock" class="form-text text-muted">{{helpBlock}}</small>

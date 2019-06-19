@@ -4,17 +4,23 @@ import { FormWrapperComponent } from './components/forms/form-wrapper/form-wrapp
 import { PreviewAlertComponent } from './components/preview-alert/preview-alert.component';
 import { InputTextComponent } from './components/forms/input-text/input-text.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TextareaComponent } from './components/forms/textarea/textarea.component';
+import { SelectComponent } from './components/forms/select/select.component';
 
 @NgModule({
   declarations: [
     FormWrapperComponent,
     PreviewAlertComponent,
-    InputTextComponent
+    InputTextComponent,
+    TextareaComponent,
+    SelectComponent
   ],
   exports: [
     FormWrapperComponent,
     PreviewAlertComponent,
-    InputTextComponent
+    InputTextComponent,
+    TextareaComponent,
+    SelectComponent
   ],
   imports: [
     CommonModule,
