@@ -37,7 +37,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
           [this.f.INDUSTRY]: [''],
           [this.f.INDUSTRY_CODE]: [''],
           [this.f.OCCUPATION_CATEGORY]: [''],
-          [this.f.JOB_LOCATION]: [''],
+          [this.f.JOB_LOCATION]: ['', Validators.required],
           [this.f.JOB_LOCATION_TYPE]: [''],
           [this.f.EMPLOYMENT_UNIT]: [''],
           [this.f.JOB_IDENTIFIER]: [''],

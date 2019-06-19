@@ -7,6 +7,7 @@ import { FrameworksComponent } from './frameworks/frameworks.component';
 import { CompetenciesComponent } from './competencies/competencies.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
   imports: [
     CommonModule,
     JobRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class JobModule { }

@@ -9,268 +9,106 @@
 <form [formGroup]=form
       (submit)="next()"
 >
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="title">Title<span class="sr-only">, required field</span></label><span class="required">*</span>
-      <input type="text"
-             [formControlName]="f.TITLE"
-             class="form-control form-control-lg"
-             id="title"
-             placeholder="Job Title"
-             aria-describedby="titleHelpBlock"
-      >
-      <small id="titleHelpBlock" class="form-text text-muted">Title of the job.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="1">
+    <app-input-text id="title"
+                    [control]="this.form.get(f.TITLE)"
+                    [required]="true"
+                    label="Title"
+                    placeholder="Job Title"
+                    helpBlock="Title of the job"
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="job-summary">Job Summary</label>
-      <textarea class="form-control description-textarea"
-                [formControlName]="f.JOB_SUMMARY"
-                id="job-summary"
-                rows="3"
-                placeholder="Job Summary"
-                aria-describedby="summaryHelpBlock"
-      ></textarea>
-      <small id="summaryHelpBlock" class="form-text text-muted">A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="2">
+    <app-textarea id="job-summary"
+                  rows="3"
+                  [control]="this.form.get(f.JOB_SUMMARY)"
+                  label="Job Summary"
+                  placeholder="Job Summary"
+                  helpBlock="A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements."
+    ></app-textarea>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="industry">Industry</label>
-      <div class="position-relative">
-        <input type="text"
-               [formControlName]="f.INDUSTRY"
-               id="industry"
-               class="form-control form-control-lg"
-               placeholder="Industry"
-               aria-describedby="industryHelpBlock"
-        >
-        <i class="fas fa-angle-down text-primary position-absolute vertical-align-center" style="right: 12px; font-size: 24px;"></i>
-      </div>
-      <small id="industryHelpBlock" class="form-text text-muted">Description of the most critical economic or work activities performed (e.g. software development, electronic manufacturing, motor vehicle production, or diagnostic and therapeutic services).</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="industry"
+                    [control]="this.form.get(f.INDUSTRY)"
+                    label="Industry"
+                    placeholder="Industry"
+                    helpBlock="Description of the most critical economic or work activities performed (e.g. software development, electronic manufacturing, motor vehicle production, or diagnostic and therapeutic services)."
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="industry-code">Industry Code</label>
-      <select id="industry-code"
-              [formControlName]="f.INDUSTRY_CODE"
-              class="form-control form-control-lg"
-              aria-describedby="codeHelpBlock"
-      >
-        <option disabled="" hidden="" selected="" value="">Select</option>
-        <option *ngFor="let option of industryCodes"
-                [value]="option.value"
-        >{{option.name}}</option>
-      </select>
-      <small id="codeHelpBlock" class="form-text text-muted">Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-select id="industry-code"
+                [control]="this.form.get(f.INDUSTRY_CODE)"
+                [options]="industryCodes"
+                label="Industry Codex"
+                defaultOptionText="Select"
+                helpBlock="Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed."
+    ></app-select>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="occupation-category">Occupation Category</label>
-      <select id="occupation-category"
-              [formControlName]="f.OCCUPATION_CATEGORY"
-              class="form-control form-control-lg"
-              aria-describedby="categoryHelpBlock"
-      >
-        <option disabled="" hidden="" selected="" value="">Select</option>
-        <option *ngFor="let option of occupationCategories"
-                [value]="option.value"
-        >{{option.name}}</option>
-      </select>
-      <small id="categoryHelpBlock" class="form-text text-muted">Category of the relevant occupation of the job used in the country of employment.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-select id="occupation-category"
+                [control]="this.form.get(f.INDUSTRY_CODE)"
+                [options]="industryCodes"
+                label="Occupation Category"
+                defaultOptionText="Select"
+                helpBlock="Category of the relevant occupation of the job used in the country of employment."
+    ></app-select>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="job-location">Job Location<span class="sr-only">, required field</span></label><span class="required">*</span>
-      <input type="text"
-             [formControlName]="f.JOB_LOCATION"
-             id="job-location"
-             class="form-control form-control-lg"
-             placeholder="Job Location" aria-describedby="locationHelpBlock"
-      >
-      <small id="locationHelpBlock" class="form-text text-muted">Geographic location associated with the job position (typically single).</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="job-location"
+                    [control]="this.form.get(f.JOB_LOCATION)"
+                    [required]="true"
+                    label="Job Location"
+                    placeholder="Job Location"
+                    helpBlock="Geographic location associated with the job position (typically single)."
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="job-location-type">Job Location Type</label>
-      <input type="text"
-             [formControlName]="f.JOB_LOCATION_TYPE"
-             id="job-location-type"
-             class="form-control form-control-lg"
-             placeholder="Job Location Type"
-             aria-describedby="locationtypeHelpBlock"
-      >
-      <small id="locationtypeHelpBlock" class="form-text text-muted">A description of the locations where the job can be performed including in-person, remote/telecommute, or a combination.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="job-location-type"
+                    [control]="this.form.get(f.JOB_LOCATION_TYPE)"
+                    label="Job Location"
+                    placeholder="Job Location Type"
+                    helpBlock="A description of the locations where the job can be performed including in-person, remote/telecommute, or a combination."
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="employment-unit">Employment Unit</label>
-      <input type="text"
-             [formControlName]="f.EMPLOYMENT_UNIT"
-             id="employment-unit"
-             class="form-control form-control-lg"
-             placeholder="Employment Unit"
-             aria-describedby="unitHelpBlock"
-      >
-      <small id="unitHelpBlock" class="form-text text-muted">Department, unit and/or facility where the employee reports and/or in which the job is to be performed.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="employment-unit"
+                    [control]="this.form.get(f.EMPLOYMENT_UNIT)"
+                    label="Employment Unit"
+                    placeholder="Employment Unit"
+                    helpBlock="Department, unit and/or facility where the employee reports and/or in which the job is to be performed."
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="job-identifier">Job Identifier</label>
-      <input [formControlName]="f.JOB_IDENTIFIER"
-             [value]="jobIdentifier"
-             id="job-identifier"
-             type="text" class="form-control form-control-lg"
-             placeholder="Job Identifier"
-             disabled aria-describedby="jobidentifierHelpBlock"
-      >
-      <small id="jobidentifierHelpBlock" class="form-text text-muted">Identifier for any entity for internal or external uses (e.g. job, job posting, and department).</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="job-identifier"
+                    [defaultValue]="jobIdentifier"
+                    [control]="this.form.get(f.JOB_IDENTIFIER)"
+                    label="Job Identifier"
+                    placeholder="Employment Unit"
+                    helpBlock="Identifier for any entity for internal or external uses (e.g. job, job posting, and department)."
+    ></app-input-text>
+  </app-form-wrapper>
 
-  <div class="form-row mb-2">
-    <div class="form-group col-md-9">
-      <label class="font-weight-bold" for="employer-identifier">Employer Job Identifier</label>
-      <input type="text"
-             [formControlName]="f.EMPLOYER_IDENTIFIER"
-             id="employer-identifier"
-             class="form-control form-control-lg"
-             placeholder="Employer Job Identifier"
-             aria-describedby="employeridentifierHelpBlock"
-      >
-      <small id="employeridentifierHelpBlock" class="form-text text-muted">Employer's identifier for a particular position.</small>
-    </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-form-wrapper classList="mb-2" matchCount="0">
+    <app-input-text id="employer-identifier"
+                    [control]="this.form.get(f.EMPLOYER_IDENTIFIER)"
+                    label="Employer Job Identifier"
+                    placeholder="Employer Job Identifier"
+                    helpBlock="Employer's identifier for a particular position."
+    ></app-input-text>
+  </app-form-wrapper>
 
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
     <button type="submit"
-            [disabled]="!form.valid ? true : null "
+            [attr.disabled]="!form.valid ? true : null "
             class="btn btn-lg btn-primary">Next</button>
   </div>
 </form>
-
-<!--<script>-->
-<!--  $(document).ready(function() {-->
-<!--    // Constructing the suggestion engine-->
-<!--    var industry = new Bloodhound({-->
-<!--      datumTokenizer: Bloodhound.tokenizers.whitespace,-->
-<!--      queryTokenizer: Bloodhound.tokenizers.whitespace,-->
-<!--      local: ['Software', 'Education', 'Law', 'Medicine']-->
-<!--    });-->
-<!--    // Initializing the typeahead-->
-<!--    $('#industry').typeahead({-->
-<!--      hint: true,-->
-<!--      highlight: true,-->
-<!--      minLength: 1-->
-<!--    }, {-->
-<!--      name: 'industry',-->
-<!--      source: industry-->
-<!--    });-->
-<!--  });-->
-<!--</script>-->

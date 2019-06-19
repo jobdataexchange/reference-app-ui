@@ -1,0 +1,16 @@
+<label class="font-weight-bold" [for]="id">
+  {{label}} <span class="sr-only">, required field</span>
+  <span class="sr-only" *ngIf="required">,required field</span>
+</label>
+
+<span class="required" *ngIf="required">*</span>
+
+<textarea [id]="id"
+          [formControl]="control"
+          [rows]="rows"
+          class="form-control description-textarea"
+          [placeholder]="placeholder"
+          [attr.aria-describedby]="id+'HelpBlock'"
+></textarea>
+
+<small [id]="id+'HelpBlock'" class="form-text text-muted">{{helpBlock}}</small>
