@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
 
 @Component({
   selector: 'app-basic-info',
@@ -17,8 +18,8 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
 
   f = FormFieldsBasicInfo;
 
-  industryCodes: Array<{name:string, value:string}>;
-  occupationCategories: Array<{name:string, value:string}>;
+  industryCodes: selectTypeDefault[];
+  occupationCategories: selectTypeDefault[];
   jobIdentifier = null;
 
   ngOnInit() {
@@ -40,7 +41,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
           [this.f.JOB_LOCATION]: ['', Validators.required],
           [this.f.JOB_LOCATION_TYPE]: [''],
           [this.f.EMPLOYMENT_UNIT]: [''],
-          [this.f.JOB_IDENTIFIER]: [''],
+          [this.f.JOB_IDENTIFIER]: [ this.jobIdentifier || ''],
           [this.f.EMPLOYER_IDENTIFIER]: [''],
         }
       );

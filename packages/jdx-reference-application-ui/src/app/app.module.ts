@@ -34,7 +34,7 @@ export function apiConfigFactory() {
     SharedModule
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

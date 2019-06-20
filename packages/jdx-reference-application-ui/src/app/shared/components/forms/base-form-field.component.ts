@@ -12,6 +12,4 @@ export abstract class BaseFormField {
   @Input() placeholder?;
 
   @Input() required? = false;
-
-  @Input() defaultValue?;
 }

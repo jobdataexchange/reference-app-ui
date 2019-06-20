@@ -3,20 +3,16 @@
 </label>
 
 <select [id]="id"
+        [name]="id"
         [formControl]="control"
         class="form-control form-control-lg"
         [attr.aria-describedby]="id+'HelpBlock'"
 >
 
-  <option *ngIf="!defaultValue" disabled="" hidden="" selected="" value="">{{defaultOptionText}}</option>
-
-  <option *ngFor="let option of options"
-          [value]="option.value"
-          [selected]="option.value == defaultValue"
-  >
+  <option  disabled="" hidden="" selected="" value=''>{{defaultOptionText}}</option>
+  <option *ngFor="let option of options" [value]="option.value">
     {{option.name}}
   </option>
-
 
 </select>
 

@@ -10,6 +10,18 @@ import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { switchMap } from 'rxjs/operators';
 
+export enum CompetencySelectOptions {
+  SUGGESTED = 'SUGGESTED',
+  NONE = 'NONE',
+  OTHER = 'OTHER'
+}
+export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
+
+export interface SelectedMatch extends SubstatementsMatches{
+  customCompetency: string;
+  selectedCompetencyOption: CompetencySelectOption;
+}
+
 @Component({
   selector: 'app-competencies',
   templateUrl: './competencies.component.html'
@@ -20,6 +32,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _fb: FormBuilder,
     private _pipeLineIdService: PipelineIdServiceService
   ) {}
+
+  competencySelectOptions = CompetencySelectOptions;
 
   get substatementControls() {
     return this.substatementsFormArray.controls
@@ -104,11 +118,11 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return {
       'substatement': s.substatement,
       'substatementId': s.substatementId,
-      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompentencies(s.matches)
+      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setWrappedCompentencies(s.matches)
     }
   }
 
-  private setCompentencies(compentencies: SubstatementsMatches[]) {
+  private setWrappedCompentencies(compentencies: SubstatementsMatches[]) {
     let arr = new FormArray([])
     compentencies.forEach(c =>
       arr.push(this._fb.control({
@@ -118,13 +132,16 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-  private createSubstatementsMatch(c:SubstatementsMatches = {}){
+  private createSubstatementsMatch(c:SubstatementsMatches = {}): SelectedMatch{
     return {
       definedTermSet: c.definedTermSet || '',
       description: c.description || '',
       name: c.name || '',
       recommendationId: c.recommendationId || '',
       termCode: c.termCode || '',
+      value: c.value || '',
+      customCompetency: '',
+      selectedCompetencyOption: CompetencySelectOptions.SUGGESTED
     }
   }
 
