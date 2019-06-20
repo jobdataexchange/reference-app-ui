@@ -11,82 +11,41 @@
        [formArrayName]="SUBSTATEMENT_FORM_ARRAY_NAME"
        *ngFor="let substatementControl of substatementControls let i = index;"
   >
-    <div class="form-group col-md-9"
-         [formGroupName]="i"
-    >
-      <fieldset class="competencies form-group mb-1">
-<!--        <legend class="h6 font-weight-bold">{{substatementControl.value.substatement}}</legend>-->
+    <div class="form-group col-md-9" [formGroupName]="i">
 
-        <ng-container [formArrayName]="COMPETENCY_FORM_ARRAY_NAME">
-          <ng-container formGroupName]="j"
-                        *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'] let j = index"
+      <app-form-wrapper classList="mb-4" [matchCount]="1">
+        <label class="font-weight-bold" for="competency-2">
+          {{substatementControl.value.substatement}}
+        </label>
+
+        <select id="competency-2" class="form-control form-control-lg"
+                (change)="substatementControl.value.selectedCompetencyOption = $event.target.value"
+        >
+          <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls']; let first = first"
+                  [selected]="first"
+                  [value]="competencyControl.value.competency.recommendationId"
           >
-            <app-form-wrapper classList="mb-4" [matchCount]="1">
-              <label class="font-weight-bold" for="competency-2">
-                {{substatementControl.value.substatement}}
-              </label>
+            {{competencyControl.value.competency.name}}
+          </option>
+          <option [value]="competencySelectOptions.NONE">None</option>
+          <option [value]="competencySelectOptions.OTHER">Other</option>
+        </select>
 
-              <select id="competency-2" class="form-control form-control-lg"
-                      (change)="competencyControl.value.competency.selectedCompetencyOption = $event.target.value"
-              >
-                <option [value]="competencySelectOptions.SUGGESTED">{{competencyControl.value.competency.name}}</option>
-                <option [value]="competencySelectOptions.NONE">None</option>
-                <option [value]="competencySelectOptions.OTHER">Other</option>
-              </select>
-
-              <div class="competency-other"
-                   *ngIf="competencyControl.value.competency.selectedCompetencyOption === competencySelectOptions.OTHER"
-              >
-                <label class="font-weight-bold mt-3" for="optional-competency-2">Competency</label>
-                <input type="text"
-                       [value]="competencyControl.value.competency.customCompetency"
-                       (change)="competencyControl.value.competency.customCompetency = $event.target.value"
-                       class="form-control form-control-lg" id="optional-competency-2"
-                       placeholder="Competency"
-                >
-              </div>
-            </app-form-wrapper>
-
-          </ng-container>
-
-          <div class="benefit-field d-flex mb-2"
-               [formGroupName]="j"
-               *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'] let j = index"
+        <div class="competency-other"
+             *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
+        >
+          <label class="font-weight-bold mt-3" for="optional-competency-2">Competency</label>
+          <input type="text"
+                 [value]="substatementControl.value.customCompetency"
+                 (change)="substatementControl.value.customCompetency = $event.target.value"
+                 class="form-control form-control-lg" id="optional-competency-2"
+                 placeholder="Competency"
           >
-            <input [value]="competencyControl.value.competency.name"
-                   type="text"
-                   class="form-control form-control-lg"
-                   placeholder="Competency"
-                   aria-label="competency"
-                   (change)="patchValue(competencyControl, $event.target.value)"
-                   [attr.disabled]="competencyControl.value.competency.termCode ? true : null"
-            >
+        </div>
+      </app-form-wrapper>
 
-            <button class="close ml-3"
-                    type="button"
-                    aria-label="Close"
-                    style="font-size: 3rem;"
-                    (click)="removeCompetency(substatementControl.get(COMPETENCY_FORM_ARRAY_NAME),j)"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </ng-container>
-      </fieldset>
-      <button type="button"
-              class="add-competency btn btn-outline-primary btn-lg"
-              (click)="addCompetency(substatementControl.get(COMPETENCY_FORM_ARRAY_NAME))"
-      >+ Add Competency</button>
     </div>
-    <div class="col-md-3">
-      <div class="invisible mb-2">number of matches</div>
-      <div class="alert alert-success d-flex justify-content-between">
-        <span>2 matches</span>
-        <a href="#" class="" data-toggle="modal" data-target="#modal">
-          View
-        </a>
-      </div>
-    </div>
+
   </div>
 
   <div class="d-flex justify-content-between pt-5">
@@ -100,4 +59,5 @@
             (click)="this.submit()"
     >Next</button>
   </div>
+
 </form>

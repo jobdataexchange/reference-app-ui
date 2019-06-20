@@ -11,15 +11,15 @@ import { PipelineIdServiceService } from '../../shared/pipeline-id-service.servi
 import { switchMap } from 'rxjs/operators';
 
 export enum CompetencySelectOptions {
-  SUGGESTED = 'SUGGESTED',
   NONE = 'NONE',
   OTHER = 'OTHER'
 }
 export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
 
-export interface SelectedMatch extends SubstatementsMatches{
+export interface SubstatementsSelectedMatch extends Substatements{
   customCompetency: string;
-  selectedCompetencyOption: CompetencySelectOption;
+  selectedCompetencyOption?: CompetencySelectOption;
+  competencyArray: FormArray
 }
 
 @Component({
@@ -63,20 +63,20 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe()}
   }
 
-  addCompetency(competencyControl) {
-    competencyControl.push(
-      this._fb.group({
-          [this.COMPETENCY]: this.createSubstatementsMatch()
-        }
+  // addCompetency(competencyControl) {
+  //   competencyControl.push(
+  //     this._fb.group({
+  //         [this.COMPETENCY]: this.createSubstatementsMatch()
+  //       }
+  //
+  //     )
+  //   )
+  // }
 
-      )
-    )
-  }
-
-  removeCompetency(control, index) {
-    // TODO: report removed competency to backend
-    control.removeAt(index)
-  }
+  // removeCompetency(control, index) {
+  //   // TODO: report removed competency to backend
+  //   control.removeAt(index)
+  // }
 
   submit() {
     console.log('FORM = ', this.form.value)
@@ -93,6 +93,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.form =
       this._fb.group(
         {
+          customCompetency: '',
+          selectedCompetencyOption: null,
           [this.SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
         }
       );
@@ -111,18 +113,24 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private setSubstatement(substatements:Substatements[]) {
     let control = this.substatementsFormArray;
     substatements
-      .forEach(s => control.push(this._fb.group( this.createSubstatement(s))))
+      .forEach(s =>
+        control.push(
+          this._fb.group( this.createSubstatement(s),{})
+        )
+      )
   }
 
-  private createSubstatement(s: Substatements){
+  private createSubstatement(s: Substatements): SubstatementsSelectedMatch{
     return {
-      'substatement': s.substatement,
-      'substatementId': s.substatementId,
-      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setWrappedCompentencies(s.matches)
+      substatement: s.substatement,
+      substatementId: s.substatementId,
+      customCompetency: '',
+      selectedCompetencyOption: null,
+      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompentencies(s.matches)
     }
   }
 
-  private setWrappedCompentencies(compentencies: SubstatementsMatches[]) {
+  private setCompentencies(compentencies: SubstatementsMatches[]) {
     let arr = new FormArray([])
     compentencies.forEach(c =>
       arr.push(this._fb.control({
@@ -132,16 +140,14 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-  private createSubstatementsMatch(c:SubstatementsMatches = {}): SelectedMatch{
+  private createSubstatementsMatch(c:SubstatementsMatches = {}){
     return {
       definedTermSet: c.definedTermSet || '',
       description: c.description || '',
       name: c.name || '',
       recommendationId: c.recommendationId || '',
       termCode: c.termCode || '',
-      value: c.value || '',
-      customCompetency: '',
-      selectedCompetencyOption: CompetencySelectOptions.SUGGESTED
+      value: c.value || ''
     }
   }
 
