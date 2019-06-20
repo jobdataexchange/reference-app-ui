@@ -1,16 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseFormField } from '../base-form-field.component';
+
+export type selectTypeDefault = {name:string, value:string};
+// export type selectTypeCompetencies = Array<{name:string, value:string}>;
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html'
 })
-export class SelectComponent extends BaseFormField implements OnInit {
+export class SelectComponent extends BaseFormField{
 
   @Input() defaultOptionText? = 'Select';
 
-  @Input() options: Array<{name:string, value:string}>;
-
-  ngOnInit(): void {}
+  @Input() options: selectTypeDefault[];
 
 }
+
+

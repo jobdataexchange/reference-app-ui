@@ -44,14 +44,15 @@
                 [options]="industryCodes"
                 label="Industry Codex"
                 defaultOptionText="Select"
+
                 helpBlock="Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed."
     ></app-select>
   </app-form-wrapper>
 
   <app-form-wrapper classList="mb-2" matchCount="0">
     <app-select id="occupation-category"
-                [control]="this.form.get(f.INDUSTRY_CODE)"
-                [options]="industryCodes"
+                [control]="this.form.get(f.OCCUPATION_CATEGORY)"
+                [options]="occupationCategories"
                 label="Occupation Category"
                 defaultOptionText="Select"
                 helpBlock="Category of the relevant occupation of the job used in the country of employment."
@@ -88,7 +89,6 @@
 
   <app-form-wrapper classList="mb-2" matchCount="0">
     <app-input-text id="job-identifier"
-                    [defaultValue]="jobIdentifier"
                     [control]="this.form.get(f.JOB_IDENTIFIER)"
                     label="Job Identifier"
                     placeholder="Employment Unit"

@@ -3,14 +3,25 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   DefaultService,
   MatchTableResponse,
-  MatchTableSelection,
   Substatements,
   SubstatementsMatches,
   UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
 import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
-import {map, switchMap} from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+
+export enum CompetencySelectOptions {
+  NONE = 'NONE',
+  OTHER = 'OTHER'
+}
+export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
+
+export interface SubstatementsSelectedMatch extends Substatements{
+  customCompetency: string;
+  selectedCompetencyOption?: CompetencySelectOption;
+  competencyArray: FormArray
+}
 
 @Component({
   selector: 'app-competencies',
@@ -23,7 +34,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _pipeLineIdService: PipelineIdServiceService
   ) {}
 
+  competencySelectOptions = CompetencySelectOptions;
+
   private _pipelineID;
+
 
   get substatementControls() {
     return this.substatementsFormArray.controls;
@@ -53,20 +67,20 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
 
-  addCompetency(competencyControl) {
-    competencyControl.push(
-      this._fb.group({
-          [this.COMPETENCY]: this.createSubstatementsMatch()
-        }
+  // addCompetency(competencyControl) {
+  //   competencyControl.push(
+  //     this._fb.group({
+  //         [this.COMPETENCY]: this.createSubstatementsMatch()
+  //       }
+  //
+  //     )
+  //   )
+  // }
 
-      )
-    );
-  }
-
-  removeCompetency(control, index) {
-    // TODO: report removed competency to backend
-    control.removeAt(index);
-  }
+  // removeCompetency(control, index) {
+  //   // TODO: report removed competency to backend
+  //   control.removeAt(index)
+  // }
 
   submit() {
     console.log('FORM = ', this.form.value);
@@ -97,6 +111,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.form =
       this._fb.group(
         {
+          customCompetency: '',
+          selectedCompetencyOption: null,
           [this.SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
         }
       );
@@ -118,13 +134,19 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private setSubstatement(substatements: Substatements[]) {
     const control = this.substatementsFormArray;
     substatements
-      .forEach(s => control.push(this._fb.group( this.createSubstatement(s))));
+      .forEach(s =>
+        control.push(
+          this._fb.group( this.createSubstatement(s),{})
+        )
+      );
   }
 
-  private createSubstatement(s: Substatements): MatchTableSelection {
+  private createSubstatement(s: Substatements): SubstatementsSelectedMatch{
     return {
       substatement: s.substatement,
       substatementId: s.substatementId,
+      customCompetency: '',
+      selectedCompetencyOption: null,
       [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompentencies(s.matches)
     };
   }
@@ -146,6 +168,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       name: c.name || '',
       recommendationId: c.recommendationId || '',
       termCode: c.termCode || '',
+      value: c.value || ''
     };
   }
 
