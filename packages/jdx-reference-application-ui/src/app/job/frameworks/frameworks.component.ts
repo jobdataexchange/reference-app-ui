@@ -99,6 +99,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   private getFrameworkRecommendation(id) {
     if (isNullOrUndefined(this._currentPipelineId)) {
+      this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
       return this.navigateTo(JobRoutes.DESCRIPTION);
     }
 
