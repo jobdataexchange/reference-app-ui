@@ -1,5 +1,5 @@
 {
-  "name": "@jdx/jdx-reference-application",
+  "name": "@jdx/jdx-reference-application-ui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -28,7 +28,6 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "ngx-bootstrap": "^4.2.0",
-    "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
@@ -56,5 +55,8 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
+  },
+  "peerDependencies": {
+    "rxjs": "6.4.0"
   }
 }
