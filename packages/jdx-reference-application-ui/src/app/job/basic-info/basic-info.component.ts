@@ -3,6 +3,7 @@ import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
+import { JobRoutes } from '../job-routing.module';
 
 @Component({
   selector: 'app-basic-info',
@@ -26,10 +27,10 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
     this.initForm();
     this.getIndustryCodes();
     this.getOccupationCategory();
-    this.getJobIdentifier()
+    this.getJobIdentifier();
   }
 
-  initForm(){
+  initForm() {
     this.form =
       this._fb.group(
         {
@@ -49,26 +50,26 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
 
   // these may turn into true Getters once the real logic is in
   getIndustryCodes() {
-    //TODO: real logic to get the Industry codes
+    // TODO: real logic to get the Industry codes
     this.industryCodes = [
-      {name:'Option 1', value:'option1'},
-      {name:'Option 2', value:'option2'},
-      {name:'Option 3', value:'option3'}
-    ]
+      {name: 'Option 1', value: 'option1'},
+      {name: 'Option 2', value: 'option2'},
+      {name: 'Option 3', value: 'option3'}
+    ];
   }
 
   getOccupationCategory() {
-    //TODO: real logic to get the Occupation Categories
+    // TODO: real logic to get the Occupation Categories
     this.occupationCategories = [
-      {name:'Option 1', value:'option1'},
-      {name:'Option 2', value:'option2'},
-      {name:'Option 3', value:'option3'}
-    ]
+      {name: 'Option 1', value: 'option1'},
+      {name: 'Option 2', value: 'option2'},
+      {name: 'Option 3', value: 'option3'}
+    ];
   }
 
-  //TODO: real logic to get Job Identifier
+  // TODO: real logic to get Job Identifier
   getJobIdentifier() {
-    this.jobIdentifier = 'xxx-xxxx-xxx'
+    this.jobIdentifier = 'xxx-xxxx-xxx';
   }
 
 
@@ -77,7 +78,8 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
 
   protected next() {
     // TODO: add to the context object
-    console.log('Basic Information form ', this.form.value)
+    console.log('Basic Information form ', this.form.value);
+    this.navigateTo(JobRoutes.FRAMEWORKS);
   }
 
 }

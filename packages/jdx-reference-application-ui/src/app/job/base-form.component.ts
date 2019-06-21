@@ -5,18 +5,18 @@ import { Router } from '@angular/router';
 export abstract class BaseForm {
   constructor(
     protected _fb: FormBuilder,
-    protected  _router: Router
+    protected _router: Router
     // public readonly injector: Injector
     // contextObject Service
   ) {}
 
   form: FormGroup;
 
-  protected abstract next()
-  protected abstract back()
+  protected abstract next();
+  protected abstract back();
 
-  navigateTo(route:JobRoutes){
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+  navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
 }
@@ -29,7 +29,7 @@ export enum FormFieldsBasicInfo {
   OCCUPATION_CATEGORY = 'occupation-category',
   JOB_LOCATION = 'job-location',
   JOB_LOCATION_TYPE = 'job-location-type',
-  EMPLOYMENT_UNIT ='employment-unit',
+  EMPLOYMENT_UNIT = 'employment-unit',
   JOB_IDENTIFIER = 'job-identifier',
   EMPLOYER_IDENTIFIER = 'employer-identifier',
 }

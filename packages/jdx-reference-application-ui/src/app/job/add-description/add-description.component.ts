@@ -31,7 +31,7 @@ export class AddDescriptionComponent implements OnInit {
   private _uploadedFile = null;
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
   }
 
   initForm() {
@@ -58,11 +58,11 @@ export class AddDescriptionComponent implements OnInit {
       .toPromise()
       .then((r: RawJobDescriptionResponse) => this.onSuccess(r))
       .catch( e => this.onError(e))
-      .finally(() => this.isSubmitting = false)
+      .finally(() => this.isSubmitting = false);
   }
 
   private setPipelineId(id) {
-    this._pipelineIdService.setPipelineId(id)
+    this._pipelineIdService.setPipelineId(id);
   }
 
   private get uploadFile() {
@@ -80,19 +80,19 @@ export class AddDescriptionComponent implements OnInit {
     }
   }
 
-  private onSuccess(r: RawJobDescriptionResponse){
-    console.log('<- uploadJobDescriptionFilePost ', r)
+  private onSuccess(r: RawJobDescriptionResponse) {
+    console.log('<- uploadJobDescriptionFilePost ', r);
     this.setPipelineId(r.pipelineID);
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.BASIC_INFO);
   }
 
-  navigateTo(route:JobRoutes){
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+  navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
-  private onError(e){
+  private onError(e) {
     // TODO: how are we handling errors?
-    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e)
+    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e);
   }
 
 
