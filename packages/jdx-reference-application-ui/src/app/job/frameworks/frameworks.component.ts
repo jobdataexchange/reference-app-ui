@@ -90,9 +90,9 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   }
 
   private competencyFrameworksFromFieldValue(): Framework[] {
-    const f = [];
-    this.form.value[ this.FRAMEWORK_FIELD_NAME ].forEach(id => f.push({ frameworkId: id }));
-    return f;
+    return this.form.value[ this.FRAMEWORK_FIELD_NAME ].map(id => {
+      return { frameworkID: id };
+    });
   }
 
   private getFrameworkRecommendation(id) {

@@ -3,61 +3,64 @@
   <p class="flex-shrink-0">8 of 12</p>
 </div>
 
-<h1 class="pb-4">Confirm Core Competencies</h1>
-<p class="w-75 mb-5">We derived the following core competencies from the job description you provided. Please review and adjust as needed.</p>
+<h1 class="pb-4">Confirm Competencies</h1>
+<p class="w-75 mb-5">We derived the following competencies from the job description you provided. Please review and adjust as needed.</p>
 
 <form [formGroup]="form">
-  <div class="form-row mb-4"
-       [formArrayName]="SUBSTATEMENT_FORM_ARRAY_NAME"
-       *ngFor="let substatementControl of substatementControls let i = index;"
-  >
-    <div class="form-group col-md-9" [formGroupName]="i">
 
-      <app-form-wrapper classList="mb-4" [matchCount]="1">
-        <label class="font-weight-bold" for="competency-2">
-          {{substatementControl.value.substatement}}
-        </label>
+  <div class="form-row mb-4" [formArrayName]="ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME" *ngFor="let substatementControl of substatementControls let i = index;">
 
-        <select id="competency-2" class="form-control form-control-lg"
-                (change)="substatementControl.value.selectedCompetencyOption = $event.target.value"
-        >
-          <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls']; let first = first"
-                  [selected]="first"
-                  [value]="competencyControl.value.competency.recommendationId"
+    <div class="form-group flex-grow-1" [formGroupName]="i">
+      <label class="font-weight-bold" [for]="'competency'+i">{{substatementControl.value.substatement}}</label>
+      <div class="form-row">
+        <div class="col-md-9">
+          <select class="form-control form-control-lg mb-3 mb-md-0" [id]="'competency'+i"
+                  (change)="substatementControl.value.selectedCompetencyOption = $event.target.value"
           >
-            {{competencyControl.value.competency.name}}
-          </option>
-          <option [value]="competencySelectOptions.NONE">None</option>
-          <option [value]="competencySelectOptions.OTHER">Other</option>
-        </select>
+            <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls']; let first = first"
+                    [selected]="first"
+                    [value]="competencyControl.value.competency.recommendationID"
+            >{{competencyControl.value.competency.name}}</option>
+            <option [value]="competencySelectOptions.NONE">None</option> <!-- Dont send anything-->
+            <option [value]="competencySelectOptions.OTHER">Other</option><!-- -->
+          </select>
 
-        <div class="competency-other"
-             *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
-        >
-          <label class="font-weight-bold mt-3" for="optional-competency-2">Competency</label>
-          <input type="text"
-                 [value]="substatementControl.value.customCompetency"
-                 (change)="substatementControl.value.customCompetency = $event.target.value"
-                 class="form-control form-control-lg" id="optional-competency-2"
-                 placeholder="Competency"
+          <div class="competency-other mb-3 mb-md-0"
+               *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
           >
+            <label class="font-weight-bold mt-3" [for]="'competencyName'+i">Competency Name</label>
+            <input type="text" class="form-control form-control-lg" [id]="'competencyName'+i"
+                   [value]="substatementControl.value.AnnotatedDescription"
+                   (change)="substatementControl.value.AnnotatedDescription = $event.target.value"
+                   placeholder="Competency Name"
+            >
+          </div>
+
+          <div class="competency-other mb-3 mb-md-0"
+               *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
+          >
+            <label class="font-weight-bold mt-3" [for]="'competencyDescription'+i">Competency Description</label>
+            <input type="text" class="form-control form-control-lg" [id]="'competencyDescription'+i"
+                   [value]="substatementControl.value.AnnotatedName"
+                   (change)="substatementControl.value.AnnotatedName = $event.target.value"
+                   placeholder="Competency Description"
+            >
+          </div>
         </div>
-      </app-form-wrapper>
-
+        <div class="col-md-3">
+          <div class="alert alert-success d-flex justify-content-between">
+            <span>2 matches</span>
+            <a href="#" class="" data-toggle="modal" data-target="#modal">
+              View
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
 
   <div class="d-flex justify-content-between pt-5">
-    <button type="button"
-            class="btn btn-lg text-primary d-flex align-items-center p-0"
-    >
-      <i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back
-    </button>
-    <button type="submit"
-            class="btn btn-lg btn-primary"
-            (click)="this.submit()"
-    >Next</button>
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+    <button type="submit" class="btn btn-lg btn-primary" (click)="this.submit()">Next</button>
   </div>
-
 </form>

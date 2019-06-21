@@ -292,14 +292,14 @@ components:
           schema:
             $ref: '#/components/schemas/serviceUnavailableError'
 
-          # securitySchemes:
-          #   oAuthNoScopes:
-          #     type: oauth2
-          #     flows:
-          #       authorizationCode:
-          #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
-          #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
-          #         scopes: {}
+  # securitySchemes:
+  #   oAuthNoScopes:
+  #     type: oauth2
+  #     flows:
+  #       authorizationCode:
+  #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
+  #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
+  #         scopes: {}
 
   schemas:
     serviceUnavailableError:
@@ -533,7 +533,7 @@ components:
               name:
                 type: string
                 example: what is this for?
-              descrtiption:
+              description:
                 type: string
                 example: Performs TDD
               definedTermSet:
@@ -622,37 +622,42 @@ components:
             matchTableSelections:
               type: array
               items:
-                properties:
-                  substatementId:
-                    description: UUID referring to
-                    type: string
-                    format: uuid
-                    example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
-                  substatement:
-                    description: this is the job description substatment text
-                    type: string
-                    example: Can perform test driven development
-                  selection:
-                    type: object
-                    properties:
-                      recommendationId:
-                        type: string
-                        example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
-                      name:
-                        type: string
-                        example: what is this for?
-                      descrtiption:
-                        type: string
-                        example: Performs TDD
-                      definedTermSet:
-                        type: string
-                        example: Standard Occupational Classification system
-                      termCode:
-                        type: string
-                        example: "19-1131.00"
-                      value:
-                        type: string
-                        example: "0.9"
+                $ref: '#/components/schemas/matchTableSelection'
+
+    matchTableSelection:
+      type: object
+      properties:
+        substatementId:
+          description: UUID referring to
+          type: string
+          format: uuid
+          example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+        substatement:
+          description: this is the job description substatment text
+          type: string
+          example: Can perform test driven development
+        selection:
+          title: selection
+          type: object
+          properties:
+            recommendationId:
+              type: string
+              example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+            name:
+              type: string
+              example: what is this for?
+            description:
+              type: string
+              example: Performs TDD
+            definedTermSet:
+              type: string
+              example: Standard Occupational Classification system
+            termCode:
+              type: string
+              example: "19-1131.00"
+            value:
+              type: string
+              example: "0.9"
 
             # userActions:
             #   type: array

@@ -58,7 +58,6 @@
       <textarea class="form-control description-textarea"
                 id="job-description"
                 rows="3"
-                placeholder="Brief job description"
                 [attr.disabled]="fileInput.files.length ? true : null"
                 (input)="patchJobDescription(textArea.value)"
                 #textArea
@@ -68,7 +67,7 @@
     <div class="d-flex justify-content-end pt-5">
       <button type="submit"
               class="btn btn-lg btn-primary next-button"
-              [attr.disabled]="!form.controls[JOB_DESCRIPTION_FIELD_NAME].valid ? true : null"
+              [disabled]="!uploadFile"
       >Next</button>
     </div>
 
