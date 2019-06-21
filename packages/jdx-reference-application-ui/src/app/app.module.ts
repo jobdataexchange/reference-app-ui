@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ApiModule, Configuration } from '@jdx/jdx-reference-application-api-client';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 import { SharedModule } from './shared/shared.module';
+import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 
 export function apiConfigFactory() {
   const params = {
