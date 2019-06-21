@@ -36,7 +36,11 @@ export function apiConfigFactory() {
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      closeButton: true,
+      disableTimeOut: true,
+      tapToDismiss: false
+    })
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
