@@ -58,7 +58,6 @@
       <textarea class="form-control description-textarea"
                 id="job-description"
                 rows="3"
-                placeholder="Brief job description"
                 [attr.disabled]="fileInput.files.length ? true : null"
                 (input)="patchJobDescription(textArea.value)"
                 #textArea
