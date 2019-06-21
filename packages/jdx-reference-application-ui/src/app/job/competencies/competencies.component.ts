@@ -103,7 +103,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private initSubscriptions() {
     this._matchTableSub =
       this._pipeLineIdService.pipelineId$
-        .pipe(switchMap(id => this._api.matchTablePost( {pipelineID:id})))
+        .pipe(switchMap(id => this._api.matchTablePost( {pipelineID: id, threshold: 0.35})))
         .subscribe(mt => {
           this._matchTableResponse = mt;
           this.setSubstatement(mt['match_table'])
