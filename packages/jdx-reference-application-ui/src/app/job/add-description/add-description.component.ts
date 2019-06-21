@@ -28,7 +28,7 @@ export class AddDescriptionComponent implements OnInit {
 
   readonly JOB_DESCRIPTION_FILE_NAME = 'user-entered-content.txt';
 
-  private _filename = this.JOB_DESCRIPTION_FILE_NAME;
+  private _uploadedFile = null;
 
   ngOnInit() {
     this.initForm()
@@ -41,11 +41,9 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   onFileUpload(files: FileList) {
+    this._uploadedFile = null;
     if (files && files.length) {
-      this._filename = files[0].name;
-      const fileReader = new FileReader();
-      fileReader.onload = () => this.patchJobDescription(fileReader.result);
-      fileReader.readAsText(files.item(0));
+      this._uploadedFile = files[0];
     }
   }
 
@@ -56,7 +54,7 @@ export class AddDescriptionComponent implements OnInit {
   submitForm() {
     this.isSubmitting = true;
 
-    this._api.uploadJobDescriptionFilePost(this.fileFromFieldControlValue())
+    this._api.uploadJobDescriptionFilePost(this.uploadFile)
       .toPromise()
       .then((r: RawJobDescriptionResponse) => this.onSuccess(r))
       .catch( e => this.onError(e))
@@ -67,15 +65,19 @@ export class AddDescriptionComponent implements OnInit {
     this._pipelineIdService.setPipelineId(id)
   }
 
-  private fileFromFieldControlValue() {
-    const f = new File(
-      [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
-      this._filename,
-      {type: 'text/plain'}
-    );
+  private get uploadFile() {
+    if (this._uploadedFile) {
+      return this._uploadedFile;
+    }
 
-    console.log('-> uploadJobDescriptionFilePost ', f);
-    return f;
+    const userEnteredText = this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value;
+    if (userEnteredText) {
+      return new File(
+        [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
+        this.JOB_DESCRIPTION_FILE_NAME,
+        {type: 'text/plain'}
+      );
+    }
   }
 
   private onSuccess(r: RawJobDescriptionResponse){

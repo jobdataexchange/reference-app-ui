@@ -2,13 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   DefaultService,
+  MatchTableRequest,
   MatchTableResponse,
   Substatements,
-  SubstatementsMatches
+  SubstatementsMatches,
+  UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
 import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { Accept, Replace } from '../../../../../jdx-reference-application-api-client/generated-sources';
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
@@ -16,8 +19,9 @@ export enum CompetencySelectOptions {
 }
 export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
 
-export interface SubstatementsSelectedMatch extends Substatements{
-  customCompetency: string;
+export interface AnnotatedSubstatement extends Substatements{
+  AnnotatedName: string;
+  AnnotatedDescription: string;
   selectedCompetencyOption?: CompetencySelectOption;
   competencyArray: FormArray
 }
@@ -36,22 +40,27 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   competencySelectOptions = CompetencySelectOptions;
 
   get substatementControls() {
-    return this.substatementsFormArray.controls
+    return this.substatementsFormArray.controls;
   }
 
   get substatementsFormArray() {
-    return this.form.controls[ this.SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
+    return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
 
   form: FormGroup;
-  substatementsArray: Substatements[]
+
+  substatementsArray: Substatements[];
 
   private _matchTableSub: Subscription;
+
   private _matchTableResponse: MatchTableResponse;
 
-  readonly SUBSTATEMENT_FORM_ARRAY_NAME = 'substatementArray';
+  private _pipelineID;
+
+  readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
 
   readonly COMPETENCY = 'competency';
+
   readonly COMPETENCY_FORM_ARRAY_NAME = 'competencyArray';
 
   ngOnInit() {
@@ -60,13 +69,13 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._matchTableSub) {this._matchTableSub.unsubscribe()}
+    if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
 
   // addCompetency(competencyControl) {
   //   competencyControl.push(
   //     this._fb.group({
-  //         [this.COMPETENCY]: this.createSubstatementsMatch()
+  //         [this.COMPETENCY]: this.createCompetencyFromSubstatementsMatch()
   //       }
   //
   //     )
@@ -79,76 +88,88 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   // }
 
   submit() {
-    console.log('FORM = ', this.form.value)
+    console.log('Submit')
   }
 
-  patchValue(control: FormControl, value) {
-    // TODO: report new competency to backend
-    control.patchValue({
-      [this.COMPETENCY]: {name:value}
-    })
-  }
+  // patchValue(control: FormControl, value) {
+  //   // TODO: report new competency to backend
+  //   control.patchValue({
+  //     [this.COMPETENCY]: {name: value}
+  //   });
+  // }
 
   private initForm() {
-    this.form =
-      this._fb.group(
-        {
-          customCompetency: '',
-          selectedCompetencyOption: null,
-          [this.SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
-        }
-      );
+      this.form =
+        this._fb.group(
+          { [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([]) }
+        );
   }
 
   private initSubscriptions() {
     this._matchTableSub =
       this._pipeLineIdService.pipelineId$
-        .pipe(switchMap(id => this._api.matchTablePost( {pipelineID:id})))
+        .pipe(
+          switchMap(id => {
+            this._pipelineID = id;
+            return this._api.matchTablePost(
+              this.createMatchTableRequest(id)
+            );
+          })
+        )
         .subscribe(mt => {
+          console.log('<- _api.matchTablePost ',mt)
           this._matchTableResponse = mt;
-          this.setSubstatement(mt['match_table'])
-        })
+          this.createAnnotatedSubstatementsArray(mt.matchTable);
+        });
   }
 
-  private setSubstatement(substatements:Substatements[]) {
-    let control = this.substatementsFormArray;
+
+  private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
+    const control = this.substatementsFormArray;
     substatements
       .forEach(s =>
         control.push(
-          this._fb.group( this.createSubstatement(s),{})
+          this._fb.group( this.createAnnotatedSubstatement(s))
         )
-      )
+      );
   }
 
-  private createSubstatement(s: Substatements): SubstatementsSelectedMatch{
+  private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement{
     return {
       substatement: s.substatement,
-      substatementId: s.substatementId,
-      customCompetency: '',
+      substatementID: s.substatementID,
+      AnnotatedName: '',
+      AnnotatedDescription: '',
       selectedCompetencyOption: null,
-      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompentencies(s.matches)
-    }
+      [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompetencies(s.matches)
+    };
   }
 
-  private setCompentencies(compentencies: SubstatementsMatches[]) {
-    let arr = new FormArray([])
-    compentencies.forEach(c =>
-      arr.push(this._fb.control({
-        [this.COMPETENCY]: this.createSubstatementsMatch(c)
-      }))
+  private setCompetencies(compentencies: SubstatementsMatches[]) {
+    const arr = new FormArray([]);
+    compentencies.forEach(compentency =>
+      arr.push(
+        this._fb.control(
+        {[this.COMPETENCY]: compentency}
+        )
+      )
     );
     return arr;
   }
 
-  private createSubstatementsMatch(c:SubstatementsMatches = {}){
-    return {
-      definedTermSet: c.definedTermSet || '',
-      description: c.description || '',
-      name: c.name || '',
-      recommendationId: c.recommendationId || '',
-      termCode: c.termCode || '',
-      value: c.value || ''
+
+  createMatchTableRequest(id:string, threshold:number = null): MatchTableRequest{
+    const result = {}
+    Object.assign(result,
+      {pipelineID: id}
+    );
+
+    if(threshold){
+      Object.assign(result,
+        {threshold: threshold}
+      )
     }
+    return result;
   }
 
 
