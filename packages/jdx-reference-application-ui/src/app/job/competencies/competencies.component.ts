@@ -106,8 +106,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         .pipe(switchMap(id => this._api.matchTablePost( {pipelineID: id, threshold: 0.35})))
         .subscribe(mt => {
           this._matchTableResponse = mt;
-          this.setSubstatement(mt['match_table'])
-        })
+          this.setSubstatement(mt.matchTable);
+        });
   }
 
   private setSubstatement(substatements:Substatements[]) {
@@ -123,7 +123,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private createSubstatement(s: Substatements): SubstatementsSelectedMatch{
     return {
       substatement: s.substatement,
-      substatementId: s.substatementId,
+      substatementID: s.substatementID,
       customCompetency: '',
       selectedCompetencyOption: null,
       [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompentencies(s.matches)
@@ -145,7 +145,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       definedTermSet: c.definedTermSet || '',
       description: c.description || '',
       name: c.name || '',
-      recommendationId: c.recommendationId || '',
+      recommendationID: c.recommendationID || '',
       termCode: c.termCode || '',
       value: c.value || ''
     }
