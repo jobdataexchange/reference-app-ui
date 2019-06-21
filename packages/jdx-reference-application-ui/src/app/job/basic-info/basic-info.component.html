@@ -3,8 +3,8 @@
   <p class="flex-shrink-0">4 of 12</p>
 </div>
 
-<h1 class="pb-4">Confirm General Information</h1>
-<p class="w-75 mb-5">The JDX best practice is to complete the information that follows. Fill in all that apply. All required fields are based off of Google guidance for job posting.</p>
+<h1 class="pb-4">General Information</h1>
+<p class="w-75 mb-5">Provide as much information as possible to increase JDX compliance.</p>
 
 <form [formGroup]=form
       (submit)="next()"
@@ -13,9 +13,7 @@
     <app-input-text id="title"
                     [control]="this.form.get(f.TITLE)"
                     [required]="true"
-                    label="Title"
-                    placeholder="Job Title"
-                    helpBlock="Title of the job"
+                    label="Job Title"
     ></app-input-text>
   </app-form-wrapper>
 
@@ -25,7 +23,7 @@
                   [control]="this.form.get(f.JOB_SUMMARY)"
                   label="Job Summary"
                   placeholder="Job Summary"
-                  helpBlock="A summary of the job including job responsibilities, qualifications, skills, working hours, education requirements, and experience requirements."
+                  helpBlock="Responsibilities, qualifications, skills, working hours, education, and experience required."
     ></app-textarea>
   </app-form-wrapper>
 
@@ -34,7 +32,7 @@
                     [control]="this.form.get(f.INDUSTRY)"
                     label="Industry"
                     placeholder="Industry"
-                    helpBlock="Description of the most critical economic or work activities performed (e.g. software development, electronic manufacturing, motor vehicle production, or diagnostic and therapeutic services)."
+                    helpBlock="The critical economic or work activity performed by this position."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -44,7 +42,7 @@
                 [options]="industryCodes"
                 label="Industry Code"
                 defaultOptionText="Select"
-                helpBlock="Code from a controlled vocabulary of industry types identifying the primary economic activity of an establishment defined as a single physical location where business is conducted or where services or industrial operations are performed."
+                helpBlock="The primary economic activity at this job location."
     ></app-select>
   </app-form-wrapper>
 
@@ -54,7 +52,6 @@
                 [options]="occupationCategories"
                 label="Occupation Category"
                 defaultOptionText="Select"
-                helpBlock="Category of the relevant occupation of the job used in the country of employment."
     ></app-select>
   </app-form-wrapper>
 
@@ -63,8 +60,7 @@
                     [control]="this.form.get(f.JOB_LOCATION)"
                     [required]="true"
                     label="Job Location"
-                    placeholder="Job Location"
-                    helpBlock="Geographic location associated with the job position (typically single)."
+                    placeholder="City, State"
     ></app-input-text>
   </app-form-wrapper>
 
@@ -73,7 +69,7 @@
                     [control]="this.form.get(f.JOB_LOCATION_TYPE)"
                     label="Job Location"
                     placeholder="Job Location Type"
-                    helpBlock="A description of the locations where the job can be performed including in-person, remote/telecommute, or a combination."
+                    helpBlock="Locations where this job can be performed (for example, in person, remote/telecommute, or a combination)."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -82,7 +78,7 @@
                     [control]="this.form.get(f.EMPLOYMENT_UNIT)"
                     label="Employment Unit"
                     placeholder="Employment Unit"
-                    helpBlock="Department, unit and/or facility where the employee reports and/or in which the job is to be performed."
+                    helpBlock="Department, unit, or facility where this employee reports and/or works."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -91,7 +87,7 @@
                     [control]="this.form.get(f.JOB_IDENTIFIER)"
                     label="Job Identifier"
                     placeholder="Employment Unit"
-                    helpBlock="Identifier for any entity for internal or external uses (e.g. job, job posting, and department)."
+                    helpBlock="Identifier for internal or external uses (for example, job, job posting, and department)."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -100,7 +96,7 @@
                     [control]="this.form.get(f.EMPLOYER_IDENTIFIER)"
                     label="Employer Job Identifier"
                     placeholder="Employer Job Identifier"
-                    helpBlock="Employer's identifier for a particular position."
+                    helpBlock="Employer identifier for this position."
     ></app-input-text>
   </app-form-wrapper>
 
