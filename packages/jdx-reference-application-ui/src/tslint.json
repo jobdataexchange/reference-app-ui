@@ -1,10 +1,6 @@
 {
   "extends": "../tslint.json",
   "rules": {
-    "whitespace": [
-      true,
-      "check-module"
-    ],
     "directive-selector": [
       true,
       "attribute",
