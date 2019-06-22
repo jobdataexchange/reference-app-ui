@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { JobRoutes } from '../job-routing.module';
+import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-basic-info',
   templateUrl: './basic-info.component.html'
 })
-export class BasicInfoComponent extends BaseForm implements OnInit {
+export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
     _fb: FormBuilder,
-    _router: Router
+    _router: Router,
+    private _pipelineIdService: PipelineIdServiceService
   ) {
     super(_fb, _router);
   }
@@ -22,12 +25,17 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
   industryCodes: selectTypeDefault[];
   occupationCategories: selectTypeDefault[];
   jobIdentifier = null;
+  private _pipleineIdSub: Subscription = null;
 
   ngOnInit() {
     this.initForm();
     this.getIndustryCodes();
     this.getOccupationCategory();
     this.getJobIdentifier();
+  }
+
+  ngOnDestroy(): void {
+    this._pipleineIdSub.unsubscribe();
   }
 
   initForm() {
@@ -42,7 +50,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
           [this.f.JOB_LOCATION]: ['', Validators.required],
           [this.f.JOB_LOCATION_TYPE]: [''],
           [this.f.EMPLOYMENT_UNIT]: [''],
-          [this.f.JOB_IDENTIFIER]: [ this.jobIdentifier || ''],
+          [this.f.JOB_IDENTIFIER]: {value: [ this.jobIdentifier || ''], disabled: true},
           [this.f.EMPLOYER_IDENTIFIER]: [''],
         }
       );
@@ -69,7 +77,10 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
 
   // TODO: real logic to get Job Identifier
   getJobIdentifier() {
-    this.jobIdentifier = 'xxx-xxxx-xxx';
+    this._pipleineIdSub = this._pipelineIdService.pipelineId$.subscribe(pipelineId => {
+      this.jobIdentifier = pipelineId;
+      this.form.patchValue({[this.f.JOB_IDENTIFIER]: pipelineId});
+    });
   }
 
 
