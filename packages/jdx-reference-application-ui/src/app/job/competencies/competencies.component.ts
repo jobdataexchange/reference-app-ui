@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {
   DefaultService,
   MatchTableRequest,
   MatchTableResponse,
   Substatements,
-  SubstatementsMatches,
-  UserActionRequest
+  SubstatementsMatches
 } from '@jdx/jdx-reference-application-api-client';
-import { Subscription } from 'rxjs';
-import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
-import { map, switchMap } from 'rxjs/operators';
-import { Accept, Replace } from '../../../../../jdx-reference-application-api-client/generated-sources';
+import {Subscription} from 'rxjs';
+import {PipelineIdServiceService} from '../../shared/pipeline-id-service.service';
+import {switchMap} from 'rxjs/operators';
+import {createRouteUrlByJobRoute, JobRoutes} from '../job-routing.module';
+import {Router} from '@angular/router';
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
@@ -19,11 +19,11 @@ export enum CompetencySelectOptions {
 }
 export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
 
-export interface AnnotatedSubstatement extends Substatements{
+export interface AnnotatedSubstatement extends Substatements {
   AnnotatedName: string;
   AnnotatedDescription: string;
   selectedCompetencyOption?: CompetencySelectOption;
-  competencyArray: FormArray
+  competencyArray: FormArray;
 }
 
 @Component({
@@ -34,7 +34,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipeLineIdService: PipelineIdServiceService
+    private _pipeLineIdService: PipelineIdServiceService,
+    private _router: Router,
   ) {}
 
   competencySelectOptions = CompetencySelectOptions;
@@ -88,7 +89,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   // }
 
   submit() {
-    console.log('Submit')
+    console.log('Submit');
   }
 
   // patchValue(control: FormControl, value) {
@@ -117,7 +118,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe(mt => {
-          console.log('<- _api.matchTablePost ',mt)
+          console.log('<- _api.matchTablePost ', mt);
           this._matchTableResponse = mt;
           this.createAnnotatedSubstatementsArray(mt.matchTable);
         });
@@ -134,7 +135,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       );
   }
 
-  private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement{
+  private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
     return {
       substatement: s.substatement,
       substatementID: s.substatementID,
@@ -158,19 +159,25 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
 
-  createMatchTableRequest(id:string, threshold:number = null): MatchTableRequest{
-    const result = {}
+  createMatchTableRequest(id: string, threshold: number = null): MatchTableRequest {
+    const result = {};
     Object.assign(result,
       {pipelineID: id}
     );
 
-    if(threshold){
+    if (threshold) {
       Object.assign(result,
-        {threshold: threshold}
-      )
+        {threshold}
+      );
     }
     return result;
   }
 
+  navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
+  }
 
+  back() {
+    this.navigateTo(JobRoutes.FRAMEWORKS);
+  }
 }

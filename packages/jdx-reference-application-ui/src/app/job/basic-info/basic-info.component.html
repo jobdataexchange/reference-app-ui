@@ -95,7 +95,11 @@
   </app-form-wrapper>
 
   <div class="d-flex justify-content-between pt-5">
-    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"><i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>Back</button>
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"
+            (click)="back()">
+      <i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>
+      Back
+    </button>
     <button type="submit"
             [attr.disabled]="!form.valid ? true : null "
             class="btn btn-lg btn-primary">Next</button>
