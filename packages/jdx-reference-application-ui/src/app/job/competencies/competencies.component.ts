@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
+  Accept,
   DefaultService,
   MatchTableRequest,
   MatchTableResponse,
@@ -11,7 +12,9 @@ import {
 import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { Router } from '@angular/router';
+
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
@@ -19,7 +22,7 @@ export enum CompetencySelectOptions {
 }
 
 //AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
-export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
+export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions
 
 export interface AnnotatedSubstatement extends Substatements{
   annotatedName: string;
@@ -80,7 +83,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
-
 
   submit() {
     const userActionRequest: UserActionRequest =
@@ -206,7 +208,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-
   createMatchTableRequest(id:string, threshold:number = null): MatchTableRequest{
     const result = {}
     Object.assign(result,
@@ -220,6 +221,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       )
     }
     return result;
+  }
+
+  private navigateTo(route:JobRoutes){
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
   }
 
 

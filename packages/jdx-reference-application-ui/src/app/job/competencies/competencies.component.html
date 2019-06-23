@@ -25,6 +25,8 @@
       <label class="font-weight-bold" [for]="'competency'+i">{{substatementControl.value.substatement}}</label>
       <div class="form-row">
         <div class="col-md-9">
+<!--          [value]="substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'][0].value.competency.recommendationID"-->
+
           <select class="form-control form-control-lg mb-3 mb-md-0" [id]="'competency'+i"
                   (change)="substatementControl.value.selectedCompetencyOption = $event.target.value"
           >
@@ -41,8 +43,8 @@
           >
             <label class="font-weight-bold mt-3" [for]="'competencyName'+i">Competency Name</label>
             <input type="text" class="form-control form-control-lg" [id]="'competencyName'+i"
-                   [value]="substatementControl.value.AnnotatedDescription"
-                   (change)="substatementControl.value.AnnotatedDescription = $event.target.value"
+                   [value]="substatementControl.value.annotatedDescription"
+                   (change)="substatementControl.value.annotatedDescription = $event.target.value"
                    placeholder="Competency Name"
             >
           </div>
@@ -52,8 +54,8 @@
           >
             <label class="font-weight-bold mt-3" [for]="'competencyDescription'+i">Competency Description</label>
             <input type="text" class="form-control form-control-lg" [id]="'competencyDescription'+i"
-                   [value]="substatementControl.value.AnnotatedName"
-                   (change)="substatementControl.value.AnnotatedName = $event.target.value"
+                   [value]="substatementControl.value.annotatedName"
+                   (change)="substatementControl.value.annotatedName = $event.target.value"
                    placeholder="Competency Description"
             >
           </div>
