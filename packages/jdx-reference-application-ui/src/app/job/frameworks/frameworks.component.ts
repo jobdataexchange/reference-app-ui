@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-framework',
@@ -24,7 +25,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
     private _api: DefaultService,
     private _fb: FormBuilder,
     private _pipelineIdService: PipelineIdServiceService,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService,
   ) { }
 
   form: FormGroup;
@@ -47,8 +49,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._pipelineIdSub) {this._pipelineIdSub.unsubscribe()}
-    if (this._frameworkRecommendationSub) {this._frameworkRecommendationSub.unsubscribe()}
+    if (this._pipelineIdSub) {this._pipelineIdSub.unsubscribe();}
+    if (this._frameworkRecommendationSub) {this._frameworkRecommendationSub.unsubscribe();}
   }
 
   initForm() {
@@ -64,9 +66,9 @@ export class FrameworksComponent implements OnInit, OnDestroy {
         .subscribe(
           id => {
             this._currentPipelineId = id;
-            this.getFrameworkRecommendation(id)
+            this.getFrameworkRecommendation(id);
           }
-        )
+        );
   }
 
   submitForm() {
@@ -76,8 +78,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
       .frameworkSelectionsPost(this.createFrameworkSelectionRequest())
       .toPromise()
       .then((r: Response) => this.onSuccess(r))
-      .catch(e => this.onError(e))
-      .finally(() => this.isSubmitting = false)
+      .catch(e => this.onError(e, 'Error Posting Framework Selections'))
+      .finally(() => this.isSubmitting = false);
   }
 
   private createFrameworkSelectionRequest(): FrameworkSelectionRequest {
@@ -97,36 +99,38 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   private getFrameworkRecommendation(id) {
     if (isNullOrUndefined(this._currentPipelineId)) {
+      this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
       return this.navigateTo(JobRoutes.DESCRIPTION);
     }
 
-    console.log('this._currentPipelineId ', this._currentPipelineId)
+    console.log('this._currentPipelineId ', this._currentPipelineId);
     this._frameworkRecommendationSub =
       this._api
         .frameworkRecommendationsPost({ pipelineID: this._currentPipelineId })
         .subscribe(
-          (r: FrameworkRecommendationResponse) => this.frameworkRecommendations = r.frameworkRecommendations
-        )
+          (r: FrameworkRecommendationResponse) => this.frameworkRecommendations = r.frameworkRecommendations,
+          (e: any) => this.onError(e, 'Error Fetching Framework Recommendations')
+        );
   }
 
   private onSuccess(r: Response) {
-    console.log('<- uploadJobDescriptionFilePost ', r)
+    console.log('<- uploadJobDescriptionFilePost ', r);
     if (this._pipelineIdService.isResponsePipelineIdCurrent(r)) {
-      this.navigateTo(JobRoutes.COMPETENCIES)
+      this.navigateTo(JobRoutes.COMPETENCIES);
     } else {
       // TODO: handle this case.
-      console.log('[ERROR] Response PipelineId does not match current id')
+      console.log('[ERROR] Response PipelineId does not match current id');
     }
 
   }
 
-  private onError(e) {
-    // TODO: how are we handling errors?
-    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e)
+  private onError(e, title?: string) {
+    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e);
+    this._toastr.error(e.message, title || 'Unexpected Error');
   }
 
   navigateTo(route: JobRoutes) {
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 }
 
