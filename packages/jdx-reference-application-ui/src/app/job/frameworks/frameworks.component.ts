@@ -132,5 +132,9 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
+
+  back() {
+    this.navigateTo(JobRoutes.BASIC_INFO);
+  }
 }
 
