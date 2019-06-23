@@ -4,6 +4,7 @@ import { DefaultService, RawJobDescriptionResponse } from '@jdx/jdx-reference-ap
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-description',
@@ -15,7 +16,8 @@ export class AddDescriptionComponent implements OnInit {
     private _api: DefaultService,
     private _fb: FormBuilder,
     private _pipelineIdService: PipelineIdServiceService,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService,
   ) { }
 
   form: FormGroup;
@@ -31,7 +33,7 @@ export class AddDescriptionComponent implements OnInit {
   private _uploadedFile = null;
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
   }
 
   initForm() {
@@ -58,11 +60,11 @@ export class AddDescriptionComponent implements OnInit {
       .toPromise()
       .then((r: RawJobDescriptionResponse) => this.onSuccess(r))
       .catch( e => this.onError(e))
-      .finally(() => this.isSubmitting = false)
+      .finally(() => this.isSubmitting = false);
   }
 
   private setPipelineId(id) {
-    this._pipelineIdService.setPipelineId(id)
+    this._pipelineIdService.setPipelineId(id);
   }
 
   private get uploadFile() {
@@ -80,19 +82,19 @@ export class AddDescriptionComponent implements OnInit {
     }
   }
 
-  private onSuccess(r: RawJobDescriptionResponse){
-    console.log('<- uploadJobDescriptionFilePost ', r)
+  private onSuccess(r: RawJobDescriptionResponse) {
+    console.log('<- uploadJobDescriptionFilePost ', r);
     this.setPipelineId(r.pipelineID);
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.BASIC_INFO);
   }
 
-  navigateTo(route:JobRoutes){
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+  navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
-  private onError(e){
-    // TODO: how are we handling errors?
-    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e)
+  private onError(e) {
+    console.log('[[ Error ]] uploadJobDescriptionFilePost ', e);
+    this._toastr.error(e.message, 'Error Posting Job Description');
   }
 
 

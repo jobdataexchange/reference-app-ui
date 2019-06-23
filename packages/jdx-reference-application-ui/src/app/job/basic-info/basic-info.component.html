@@ -9,7 +9,7 @@
 <form [formGroup]=form
       (submit)="next()"
 >
-  <app-form-wrapper classList="mb-2" matchCount="1">
+  <app-form-wrapper classList="mb-2" matchCount="0">
     <app-input-text id="title"
                     [control]="this.form.get(f.TITLE)"
                     [required]="true"
@@ -17,7 +17,7 @@
     ></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="2">
+  <app-form-wrapper classList="mb-2" matchCount="0">
     <app-textarea id="job-summary"
                   rows="3"
                   [control]="this.form.get(f.JOB_SUMMARY)"
@@ -29,7 +29,7 @@
   <app-form-wrapper classList="mb-2" matchCount="0">
     <app-input-text id="industry"
                     [control]="this.form.get(f.INDUSTRY)"
-                    label="Industry"
+                    label="Industry Description"
                     helpBlock="The critical economic or work activity performed by this position."
     ></app-input-text>
   </app-form-wrapper>

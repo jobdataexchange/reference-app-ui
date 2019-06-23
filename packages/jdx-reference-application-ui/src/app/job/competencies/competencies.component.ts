@@ -5,24 +5,27 @@ import {
   MatchTableRequest,
   MatchTableResponse,
   Substatements,
-  SubstatementsMatches
+  SubstatementsMatches,
+  UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
-import {Subscription} from 'rxjs';
-import {PipelineIdServiceService} from '../../shared/pipeline-id-service.service';
-import {switchMap} from 'rxjs/operators';
-import {createRouteUrlByJobRoute, JobRoutes} from '../job-routing.module';
-import {Router} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { map, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
   OTHER = 'OTHER'
 }
+
+//AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
 export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
 
 export interface AnnotatedSubstatement extends Substatements {
-  AnnotatedName: string;
-  AnnotatedDescription: string;
-  selectedCompetencyOption?: CompetencySelectOption;
+  annotatedName: string;
+  annotatedDescription: string;
+  selectedCompetencyOption: string;
   competencyArray: FormArray;
 }
 
@@ -35,7 +38,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _api: DefaultService,
     private _fb: FormBuilder,
     private _pipeLineIdService: PipelineIdServiceService,
-    private _router: Router,
+    private _router: Router
   ) {}
 
   competencySelectOptions = CompetencySelectOptions;
@@ -48,6 +51,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
 
+  // set substatementsFormArray(substatementsFormArray: FormGroup[]) {
+  //   this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
+  // }
+
   form: FormGroup;
 
   substatementsArray: Substatements[];
@@ -59,6 +66,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private _pipelineID;
 
   readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
+
+  readonly THRESHOLD_FIELD = 'threshold';
 
   readonly COMPETENCY = 'competency';
 
@@ -73,37 +82,57 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
 
-  // addCompetency(competencyControl) {
-  //   competencyControl.push(
-  //     this._fb.group({
-  //         [this.COMPETENCY]: this.createCompetencyFromSubstatementsMatch()
-  //       }
-  //
-  //     )
-  //   )
-  // }
-
-  // removeCompetency(control, index) {
-  //   // TODO: report removed competency to backend
-  //   control.removeAt(index)
-  // }
 
   submit() {
-    console.log('Submit');
-  }
+    const userActionRequest: UserActionRequest =
+      this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
+        .map( (annotatedSubstatement:AnnotatedSubstatement) => {
 
-  // patchValue(control: FormControl, value) {
-  //   // TODO: report new competency to backend
-  //   control.patchValue({
-  //     [this.COMPETENCY]: {name: value}
-  //   });
-  // }
+          if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.OTHER) {
+            return {
+              pipelineID: this._pipelineID,
+              matchTableSelections: [{
+                replace: {
+                  name: annotatedSubstatement.annotatedName,
+                  description: annotatedSubstatement.annotatedDescription
+                }
+              }]
+            }
+          }
+          else if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.NONE) {
+            return {
+              pipelineID: this._pipelineID,
+              matchTableSelections: [{
+                substatementID:annotatedSubstatement.substatementID
+              }]
+            }
+          }
+          else {
+            return {
+              pipelineID: this._pipelineID,
+              matchTableSelections: [{
+                accept: {
+                  recommendationID: annotatedSubstatement.selectedCompetencyOption
+                }
+              }]
+            }
+          }
+        });
+    console.log('-> api.userActionsPost', userActionRequest)
+    this._api.userActionsPost(userActionRequest)
+      .pipe(
+        map(response => console.log('<- api.userActionsPost', response))
+      )
+
+
+  }
 
   private initForm() {
       this.form =
-        this._fb.group(
-          { [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([]) }
-        );
+        this._fb.group({
+          [this.THRESHOLD_FIELD]: 0.45,
+          [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
+        });
   }
 
   private initSubscriptions() {
@@ -113,7 +142,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           switchMap(id => {
             this._pipelineID = id;
             return this._api.matchTablePost(
-              this.createMatchTableRequest(id)
+              this.createMatchTableRequest(id, this.threshold)
             );
           })
         )
@@ -122,6 +151,22 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           this._matchTableResponse = mt;
           this.createAnnotatedSubstatementsArray(mt.matchTable);
         });
+  }
+
+  get threshold() {
+    console.log('threshold', this.form.get(this.THRESHOLD_FIELD).value);
+    return parseFloat(this.form.get(this.THRESHOLD_FIELD).value);
+  }
+
+  updateThreshold() {
+    return this._api.matchTablePost(
+      this.createMatchTableRequest(this._pipelineID, this.threshold)
+    )
+    .subscribe(mt => {
+      console.log('<- _api.matchTablePost ',mt)
+      this._matchTableResponse = mt;
+      this.createAnnotatedSubstatementsArray(mt.matchTable);
+    });
   }
 
 
@@ -135,13 +180,18 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       );
   }
 
+  // private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
+  //   this.substatementsFormArray = substatements.map(
+  //     s => this._fb.group( this.createAnnotatedSubstatement(s)));
+  // }
+
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
     return {
       substatement: s.substatement,
       substatementID: s.substatementID,
-      AnnotatedName: '',
-      AnnotatedDescription: '',
-      selectedCompetencyOption: null,
+      annotatedName: '',
+      annotatedDescription: '',
+      selectedCompetencyOption: s.matches[0].recommendationID,
       [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompetencies(s.matches)
     };
   }
@@ -165,6 +215,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       {pipelineID: id}
     );
 
+    console.log(threshold);
     if (threshold) {
       Object.assign(result,
         {threshold}
