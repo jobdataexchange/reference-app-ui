@@ -9,7 +9,7 @@ export abstract class BaseFormField {
 
   @Input() label;
 
-  @Input() placeholder?;
+  @Input() placeholder = '';
 
-  @Input() required? = false;
+  @Input() required = false;
 }

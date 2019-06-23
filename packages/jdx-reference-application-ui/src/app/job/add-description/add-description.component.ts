@@ -85,7 +85,7 @@ export class AddDescriptionComponent implements OnInit {
   private onSuccess(r: RawJobDescriptionResponse) {
     console.log('<- uploadJobDescriptionFilePost ', r);
     this.setPipelineId(r.pipelineID);
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.BASIC_INFO);
   }
 
   navigateTo(route: JobRoutes) {
