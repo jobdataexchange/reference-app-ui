@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {
   Accept,
   DefaultService,
@@ -12,8 +12,8 @@ import {
 import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
-import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { Router } from '@angular/router';
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 
 
 export enum CompetencySelectOptions {
@@ -24,11 +24,11 @@ export enum CompetencySelectOptions {
 //AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
 export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions
 
-export interface AnnotatedSubstatement extends Substatements{
+export interface AnnotatedSubstatement extends Substatements {
   annotatedName: string;
   annotatedDescription: string;
   selectedCompetencyOption: string;
-  competencyArray: FormArray
+  competencyArray: FormArray;
 }
 
 @Component({
@@ -123,7 +123,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this._api.userActionsPost(userActionRequest)
       .pipe(
         map(response => console.log('<- api.userActionsPost', response))
-      );
+      )
+
 
   }
 
@@ -147,7 +148,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe(mt => {
-          console.log('<- _api.matchTablePost ',mt)
+          console.log('<- _api.matchTablePost ', mt);
           this._matchTableResponse = mt;
           this.createAnnotatedSubstatementsArray(mt.matchTable);
         });
@@ -185,7 +186,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   //     s => this._fb.group( this.createAnnotatedSubstatement(s)));
   // }
 
-  private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement{
+  private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
     return {
       substatement: s.substatement,
       substatementID: s.substatementID,
@@ -208,17 +209,17 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-  createMatchTableRequest(id:string, threshold:number = null): MatchTableRequest{
-    const result = {}
+  createMatchTableRequest(id: string, threshold: number = null): MatchTableRequest {
+    const result = {};
     Object.assign(result,
       {pipelineID: id}
     );
 
     console.log(threshold);
-    if(threshold){
+    if (threshold) {
       Object.assign(result,
-        {threshold: threshold}
-      )
+        {threshold}
+      );
     }
     return result;
   }
@@ -228,4 +229,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
 
+  back() {
+    this.navigateTo(JobRoutes.FRAMEWORKS);
+  }
 }
