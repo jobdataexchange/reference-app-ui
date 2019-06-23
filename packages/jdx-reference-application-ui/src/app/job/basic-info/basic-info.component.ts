@@ -3,6 +3,7 @@ import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
+import { JobRoutes } from '../job-routing.module';
 
 @Component({
   selector: 'app-basic-info',
@@ -77,7 +78,10 @@ export class BasicInfoComponent extends BaseForm implements OnInit {
 
   protected next() {
     // TODO: add to the context object
-    console.log('Basic Information form ', this.form.value)
+    console.log('Basic Information form ', this.form.value);
+    this.navigateTo(JobRoutes.FRAMEWORKS);
   }
+
+
 
 }

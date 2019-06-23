@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
+  Accept,
   DefaultService,
   MatchTableRequest,
   MatchTableResponse,
@@ -11,18 +12,20 @@ import {
 import { Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
-import { Accept, Replace } from '../../../../../jdx-reference-application-api-client/generated-sources';
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
+import { Router } from '@angular/router';
+
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
   OTHER = 'OTHER'
 }
-export type CompetencySelectOption = keyof typeof CompetencySelectOptions;
+export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions
 
 export interface AnnotatedSubstatement extends Substatements{
-  AnnotatedName: string;
-  AnnotatedDescription: string;
-  selectedCompetencyOption?: CompetencySelectOption;
+  annotatedName: string;
+  annotatedDescription: string;
+  selectedCompetencyOption: string;
   competencyArray: FormArray
 }
 
@@ -34,7 +37,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipeLineIdService: PipelineIdServiceService
+    private _pipeLineIdService: PipelineIdServiceService,
+    private _router: Router
   ) {}
 
   competencySelectOptions = CompetencySelectOptions;
@@ -72,31 +76,55 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
 
-  // addCompetency(competencyControl) {
-  //   competencyControl.push(
-  //     this._fb.group({
-  //         [this.COMPETENCY]: this.createCompetencyFromSubstatementsMatch()
-  //       }
-  //
-  //     )
-  //   )
-  // }
 
-  // removeCompetency(control, index) {
-  //   // TODO: report removed competency to backend
-  //   control.removeAt(index)
-  // }
-
-  submit() {
-    console.log('Submit')
+  private createUserActionsPostAccept(annotatedSubstatement: AnnotatedSubstatement): Accept {
+    return {
+      recommendationID: annotatedSubstatement.selectedCompetencyOption
+    }
   }
 
-  // patchValue(control: FormControl, value) {
-  //   // TODO: report new competency to backend
-  //   control.patchValue({
-  //     [this.COMPETENCY]: {name: value}
-  //   });
-  // }
+  submit() {
+    const userActionRequest: UserActionRequest =
+    this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
+      .map( (annotatedSubstatement:AnnotatedSubstatement) => {
+
+        if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.OTHER) {
+          return {
+            pipelineID: this._pipelineID,
+            matchTableSelections: [{
+              replace: {
+                name: annotatedSubstatement.annotatedName,
+                description: annotatedSubstatement.annotatedDescription
+              }
+            }]
+          }
+        }
+        else if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.NONE) {
+          return {
+            pipelineID: this._pipelineID,
+            matchTableSelections: [{
+              substatementID:annotatedSubstatement.substatementID
+            }]
+          }
+        }
+        else {
+          return {
+            pipelineID: this._pipelineID,
+            matchTableSelections: [{
+              accept: {
+                recommendationID: annotatedSubstatement.selectedCompetencyOption
+              }
+            }]
+          }
+        }
+    });
+    console.log('-> api.userActionsPost', userActionRequest)
+    this._api.userActionsPost(userActionRequest)
+      .pipe(
+        map(response => console.log('<- api.userActionsPost', response))
+      );
+
+  }
 
   private initForm() {
       this.form =
@@ -138,9 +166,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return {
       substatement: s.substatement,
       substatementID: s.substatementID,
-      AnnotatedName: '',
-      AnnotatedDescription: '',
-      selectedCompetencyOption: null,
+      annotatedName: '',
+      annotatedDescription: '',
+      selectedCompetencyOption: s.matches[0].recommendationID,
       [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompetencies(s.matches)
     };
   }
@@ -170,6 +198,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       )
     }
     return result;
+  }
+
+  private navigateTo(route:JobRoutes){
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
   }
 
 
