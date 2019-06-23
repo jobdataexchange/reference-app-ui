@@ -46,6 +46,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   get substatementsFormArray() {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
+  set substatementsFormArray(substatementsFormArray: FormGroup[]) {
+    this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
+  }
 
   form: FormGroup;
 
@@ -58,6 +61,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private _pipelineID;
 
   readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
+  readonly THRESHOLD_FIELD = 'threshold';
 
   readonly COMPETENCY = 'competency';
 
@@ -100,9 +104,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private initForm() {
       this.form =
-        this._fb.group(
-          { [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([]) }
-        );
+        this._fb.group({
+          [this.THRESHOLD_FIELD]: 0.45,
+          [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
+        });
   }
 
   private initSubscriptions() {
@@ -112,7 +117,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           switchMap(id => {
             this._pipelineID = id;
             return this._api.matchTablePost(
-              this.createMatchTableRequest(id)
+              this.createMatchTableRequest(id, this.threshold)
             );
           })
         )
@@ -123,15 +128,25 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         });
   }
 
+  get threshold() {
+    console.log('threshold', this.form.get(this.THRESHOLD_FIELD).value);
+    return parseFloat(this.form.get(this.THRESHOLD_FIELD).value);
+  }
+
+  updateThreshold() {
+    return this._api.matchTablePost(
+      this.createMatchTableRequest(this._pipelineID, this.threshold)
+    )
+    .subscribe(mt => {
+      console.log('<- _api.matchTablePost ',mt)
+      this._matchTableResponse = mt;
+      this.createAnnotatedSubstatementsArray(mt.matchTable);
+    });
+  }
+
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-    const control = this.substatementsFormArray;
-    substatements
-      .forEach(s =>
-        control.push(
-          this._fb.group( this.createAnnotatedSubstatement(s))
-        )
-      );
+    this.substatementsFormArray = substatements.map(s => this._fb.group( this.createAnnotatedSubstatement(s)));
   }
 
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement{
@@ -164,6 +179,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       {pipelineID: id}
     );
 
+    console.log(threshold);
     if(threshold){
       Object.assign(result,
         {threshold: threshold}
