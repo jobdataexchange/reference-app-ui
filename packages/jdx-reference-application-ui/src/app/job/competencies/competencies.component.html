@@ -8,6 +8,17 @@
 
 <form [formGroup]="form">
 
+  <app-form-wrapper classList="mb-2">
+    <app-input-text id="threshold"
+                    [control]="this.form.get(THRESHOLD_FIELD)"
+                    [required]="true"
+                    label="Match Threshold"
+                    [placeholder]="0.45"
+                    helpBlock="Enter a value between 0.1 and 0.75. Lower values yield more competency matches."
+    ></app-input-text>
+    <button class="btn btn-secondary" type="button" (click)="updateThreshold()">Update Threshold</button>
+  </app-form-wrapper>
+
   <div class="form-row mb-4" [formArrayName]="ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME" *ngFor="let substatementControl of substatementControls let i = index;">
 
     <div class="form-group flex-grow-1" [formGroupName]="i">
@@ -45,14 +56,6 @@
                    (change)="substatementControl.value.AnnotatedName = $event.target.value"
                    placeholder="Competency Description"
             >
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="alert alert-success d-flex justify-content-between">
-            <span>2 matches</span>
-            <a href="#" class="" data-toggle="modal" data-target="#modal">
-              View
-            </a>
           </div>
         </div>
       </div>

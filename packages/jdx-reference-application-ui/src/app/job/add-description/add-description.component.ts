@@ -4,6 +4,7 @@ import { DefaultService, RawJobDescriptionResponse } from '@jdx/jdx-reference-ap
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-description',
@@ -15,7 +16,8 @@ export class AddDescriptionComponent implements OnInit {
     private _api: DefaultService,
     private _fb: FormBuilder,
     private _pipelineIdService: PipelineIdServiceService,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService,
   ) { }
 
   form: FormGroup;
@@ -91,8 +93,8 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   private onError(e) {
-    // TODO: how are we handling errors?
     console.log('[[ Error ]] uploadJobDescriptionFilePost ', e);
+    this._toastr.error(e.message, 'Error Posting Job Description');
   }
 
 

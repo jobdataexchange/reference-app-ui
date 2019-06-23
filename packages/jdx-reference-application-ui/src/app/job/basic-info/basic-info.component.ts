@@ -3,6 +3,7 @@ import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
+import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { Subscription } from 'rxjs';
@@ -15,9 +16,10 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
     _fb: FormBuilder,
     _router: Router,
+    _toastr: ToastrService,
     private _pipelineIdService: PipelineIdServiceService
   ) {
-    super(_fb, _router);
+    super(_fb, _router, _toastr);
   }
 
   f = FormFieldsBasicInfo;
@@ -36,6 +38,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._pipleineIdSub.unsubscribe();
+    this.getJobIdentifier();
   }
 
   initForm() {
