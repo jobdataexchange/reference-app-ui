@@ -9,7 +9,7 @@ import {
   SubstatementsMatches,
   UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -49,12 +49,13 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return this.substatementsFormArray.controls;
   }
 
-  get substatementsFormArray() {
+  // FIXME typing
+  get substatementsFormArray(): FormArray {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
 
-  set substatementsFormArray(substatementsFormArray: FormGroup[]) {
-    this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
+  set substatementsFormArray(substatementsFormArray: FormArray) {
+    this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, substatementsFormArray);
   }
 
   form: FormGroup;
@@ -189,8 +190,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-    this.substatementsFormArray = substatements.map(
-      s => this._fb.group( this.createAnnotatedSubstatement(s)));
+    this.substatementsFormArray = this._fb.array(substatements.map(
+      s => this._fb.group( this.createAnnotatedSubstatement(s))));
   }
 
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
