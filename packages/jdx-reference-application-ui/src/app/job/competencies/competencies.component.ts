@@ -137,7 +137,24 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private fetchMatchTable(): Observable<MatchTableResponse> {
     return this._api.matchTablePost(
       this.createMatchTableRequest(this._pipelineID, this.threshold)
-    );
+    ).pipe(map(this.filterOutDuplicateRecommendations));
+  }
+
+  /*
+  TODO: The API just shouldn't return duplicates. Remove this.
+   */
+  private filterOutDuplicateRecommendations(response: MatchTableResponse): MatchTableResponse {
+    response.matchTable.forEach(substatements => {
+      const seen = new Set();
+      substatements.matches = substatements.matches.filter(match => {
+        const isDuplicate = seen.has(match.recommendationID);
+        if (!isDuplicate) {
+          seen.add(match.recommendationID);
+        }
+        return !isDuplicate;
+      });
+    });
+    return response;
   }
 
   private initSubscriptions() {
