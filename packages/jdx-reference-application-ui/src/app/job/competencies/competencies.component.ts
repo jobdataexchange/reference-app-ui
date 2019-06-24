@@ -14,6 +14,7 @@ import { PipelineIdServiceService } from '../../shared/pipeline-id-service.servi
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
+import { ToastrService } from 'ngx-toastr';
 
 
 export enum CompetencySelectOptions {
@@ -40,7 +41,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _api: DefaultService,
     private _fb: FormBuilder,
     private _pipeLineIdService: PipelineIdServiceService,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService,
   ) {}
 
   competencySelectOptions = CompetencySelectOptions;
@@ -123,8 +125,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       .pipe(
         map(response => console.log('<- api.userActionsPost', response))
       );
-
-
+    this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
   }
 
   private initForm() {
