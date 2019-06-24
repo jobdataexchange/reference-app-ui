@@ -88,44 +88,40 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    const userActionRequest: UserActionRequest =
-      this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
+    const userActionRequest: UserActionRequest = {
+      pipelineID: this._pipelineID,
+      matchTableSelections: this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
         .map( (annotatedSubstatement: AnnotatedSubstatement) => {
 
           if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.OTHER) {
             return {
-              pipelineID: this._pipelineID,
-              matchTableSelections: [{
-                replace: {
-                  name: annotatedSubstatement.annotatedName,
-                  description: annotatedSubstatement.annotatedDescription
-                }
-              }]
+              substatementID: annotatedSubstatement.substatementID,
+              replace: {
+                name: annotatedSubstatement.annotatedName,
+                description: annotatedSubstatement.annotatedDescription
+              }
             };
           } else if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.NONE) {
             return {
-              pipelineID: this._pipelineID,
-              matchTableSelections: [{
-                substatementID: annotatedSubstatement.substatementID
-              }]
+              substatementID: annotatedSubstatement.substatementID,
             };
           } else {
             return {
-              pipelineID: this._pipelineID,
-              matchTableSelections: [{
-                accept: {
-                  recommendationID: annotatedSubstatement.selectedCompetencyOption
-                }
-              }]
+              substatementID: annotatedSubstatement.substatementID,
+              accept: {
+                recommendationID: annotatedSubstatement.selectedCompetencyOption
+              }
             };
           }
-        });
+        })
+    };
+
     console.log('-> api.userActionsPost', userActionRequest);
     this._api.userActionsPost(userActionRequest)
-      .pipe(
-        map(response => console.log('<- api.userActionsPost', response))
-      );
-    this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
+      .subscribe(r => {
+        console.log(r);
+        this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
+      });
   }
 
   private initForm() {
