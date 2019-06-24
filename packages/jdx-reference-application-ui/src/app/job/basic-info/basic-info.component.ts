@@ -88,11 +88,11 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
 
 
-  protected back() {
+  back() {
     this.navigateTo(JobRoutes.DESCRIPTION);
   }
 
-  protected next() {
+  next() {
     // TODO: add to the context object
     console.log('Basic Information form ', this.form.value);
     this.navigateTo(JobRoutes.FRAMEWORKS);
