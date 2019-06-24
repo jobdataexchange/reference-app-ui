@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
   Accept,
   DefaultService,
@@ -21,8 +21,8 @@ export enum CompetencySelectOptions {
   OTHER = 'OTHER'
 }
 
-//AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
-export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions
+// AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
+export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions;
 
 export interface AnnotatedSubstatement extends Substatements {
   annotatedName: string;
@@ -87,9 +87,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   submit() {
     const userActionRequest: UserActionRequest =
       this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
-        .map( (annotatedSubstatement:AnnotatedSubstatement) => {
+        .map( (annotatedSubstatement: AnnotatedSubstatement) => {
 
-          if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.OTHER) {
+          if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.OTHER) {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
@@ -98,17 +98,15 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
                   description: annotatedSubstatement.annotatedDescription
                 }
               }]
-            }
-          }
-          else if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.NONE) {
+            };
+          } else if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.NONE) {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
-                substatementID:annotatedSubstatement.substatementID
+                substatementID: annotatedSubstatement.substatementID
               }]
-            }
-          }
-          else {
+            };
+          } else {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
@@ -116,14 +114,14 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
                   recommendationID: annotatedSubstatement.selectedCompetencyOption
                 }
               }]
-            }
+            };
           }
         });
-    console.log('-> api.userActionsPost', userActionRequest)
+    console.log('-> api.userActionsPost', userActionRequest);
     this._api.userActionsPost(userActionRequest)
       .pipe(
         map(response => console.log('<- api.userActionsPost', response))
-      )
+      );
 
 
   }
@@ -164,7 +162,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       this.createMatchTableRequest(this._pipelineID, this.threshold)
     )
     .subscribe(mt => {
-      console.log('<- _api.matchTablePost ',mt)
+      console.log('<- _api.matchTablePost ', mt);
       this._matchTableResponse = mt;
       this.createAnnotatedSubstatementsArray(mt.matchTable);
     });
@@ -224,8 +222,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  private navigateTo(route:JobRoutes){
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+  private navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
 
