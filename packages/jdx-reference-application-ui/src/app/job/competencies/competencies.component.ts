@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
-  Accept,
   DefaultService,
   MatchTableRequest,
   MatchTableResponse,
+  Response,
   Substatements,
   SubstatementsMatches,
   UserActionRequest
@@ -92,7 +92,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       pipelineID: this._pipelineID,
       matchTableSelections: this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
         .map( (annotatedSubstatement: AnnotatedSubstatement) => {
-
           if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.OTHER) {
             return {
               substatementID: annotatedSubstatement.substatementID,
@@ -101,11 +100,13 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
                 description: annotatedSubstatement.annotatedDescription
               }
             };
-          } else if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.NONE) {
+          }
+          else if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.NONE) {
             return {
               substatementID: annotatedSubstatement.substatementID,
             };
-          } else {
+          }
+          else {
             return {
               substatementID: annotatedSubstatement.substatementID,
               accept: {
@@ -117,11 +118,23 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     };
 
     console.log('-> api.userActionsPost', userActionRequest);
+
     this._api.userActionsPost(userActionRequest)
-      .subscribe(r => {
-        console.log(r);
-        this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
-      });
+      .toPromise()
+      .then((r: Response) => this.onSuccess(r))
+      .catch( e => this.onError(e))
+      .finally();
+  }
+
+  private onSuccess(r: Response) {
+    console.log('<- api.userActionsPost', r);
+    this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
+    // this.navigateTo(JobRoutes.BASIC_INFO);
+  }
+
+  private onError(e) {
+    console.log('[[ Error ]] api.userActionsPost', e);
+    this._toastr.error(e.message, 'Error Submitting Competency Selections ');
   }
 
   private initForm() {
