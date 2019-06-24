@@ -22,7 +22,7 @@
   <div class="form-row mb-4" [formArrayName]="ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME" *ngFor="let substatementControl of substatementControls let i = index;">
 
     <div class="form-group flex-grow-1" [formGroupName]="i">
-      <label class="font-weight-bold" [for]="'competency'+i">{{substatementControl.value.substatement}}</label>
+      <label class="font-italic" [for]="'competency'+i">{{substatementControl.value.substatement}}</label>
       <div class="form-row">
         <div class="col-md-9">
           <select class="form-control form-control-lg mb-3 mb-md-0" [id]="'competency'+i"
@@ -32,31 +32,21 @@
             <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'];"
                     [value]="competencyControl.value.competency.recommendationID"
             >{{competencyControl.value.competency.name}}</option>
-            <option [value]="competencySelectOptions.NONE">None</option> <!-- Dont send anything -->
-            <option [value]="competencySelectOptions.OTHER">Other</option><!-- Send new name & desc -->
+            <option [value]="competencySelectOptions.NONE">Does not contain competency information</option> <!-- Dont send anything -->
+            <option [value]="competencySelectOptions.OTHER">Other user-specified competency</option><!-- Send new name & desc -->
           </select>
 
           <div class="competency-other mb-3 mb-md-0"
                *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
           >
-            <label class="font-weight-bold mt-3" [for]="'competencyName'+i">Competency Name</label>
+            <label class="font-weight-bold mt-3" [for]="'competencyName'+i">Competency</label>
             <input type="text" class="form-control form-control-lg" [id]="'competencyName'+i"
-                   [value]="substatementControl.value.annotatedDescription"
-                   (change)="substatementControl.value.annotatedDescription = $event.target.value"
-                   placeholder="Competency Name"
+                   [value]="substatementControl.value.annotatedName"
+                   (change)="substatementControl.value.annotatedName = $event.target.value"
+                   placeholder="Competency"
             >
           </div>
 
-          <div class="competency-other mb-3 mb-md-0"
-               *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
-          >
-            <label class="font-weight-bold mt-3" [for]="'competencyDescription'+i">Competency Description</label>
-            <input type="text" class="form-control form-control-lg" [id]="'competencyDescription'+i"
-                   [value]="substatementControl.value.annotatedName"
-                   (change)="substatementControl.value.annotatedName = $event.target.value"
-                   placeholder="Competency Description"
-            >
-          </div>
         </div>
       </div>
     </div>

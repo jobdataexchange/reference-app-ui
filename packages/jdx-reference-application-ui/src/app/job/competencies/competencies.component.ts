@@ -96,8 +96,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
             return {
               substatementID: annotatedSubstatement.substatementID,
               replace: {
-                name: annotatedSubstatement.annotatedName,
-                description: annotatedSubstatement.annotatedDescription
+                name: annotatedSubstatement.annotatedName
               }
             };
           }
