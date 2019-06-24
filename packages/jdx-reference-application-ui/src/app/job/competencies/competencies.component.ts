@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
   Accept,
   DefaultService,
@@ -9,7 +9,7 @@ import {
   SubstatementsMatches,
   UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -21,8 +21,8 @@ export enum CompetencySelectOptions {
   OTHER = 'OTHER'
 }
 
-//AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
-export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions
+// AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
+export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions;
 
 export interface AnnotatedSubstatement extends Substatements {
   annotatedName: string;
@@ -53,9 +53,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
 
-  // set substatementsFormArray(substatementsFormArray: FormGroup[]) {
-  //   this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
-  // }
+  set substatementsFormArray(substatementsFormArray: FormGroup[]) {
+    this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
+  }
 
   form: FormGroup;
 
@@ -87,9 +87,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   submit() {
     const userActionRequest: UserActionRequest =
       this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
-        .map( (annotatedSubstatement:AnnotatedSubstatement) => {
+        .map( (annotatedSubstatement: AnnotatedSubstatement) => {
 
-          if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.OTHER) {
+          if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.OTHER) {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
@@ -98,17 +98,15 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
                   description: annotatedSubstatement.annotatedDescription
                 }
               }]
-            }
-          }
-          else if (annotatedSubstatement.selectedCompetencyOption == CompetencySelectOptions.NONE) {
+            };
+          } else if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.NONE) {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
-                substatementID:annotatedSubstatement.substatementID
+                substatementID: annotatedSubstatement.substatementID
               }]
-            }
-          }
-          else {
+            };
+          } else {
             return {
               pipelineID: this._pipelineID,
               matchTableSelections: [{
@@ -116,14 +114,14 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
                   recommendationID: annotatedSubstatement.selectedCompetencyOption
                 }
               }]
-            }
+            };
           }
         });
-    console.log('-> api.userActionsPost', userActionRequest)
+    console.log('-> api.userActionsPost', userActionRequest);
     this._api.userActionsPost(userActionRequest)
       .pipe(
         map(response => console.log('<- api.userActionsPost', response))
-      )
+      );
 
 
   }
@@ -136,15 +134,36 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         });
   }
 
+  private fetchMatchTable(): Observable<MatchTableResponse> {
+    return this._api.matchTablePost(
+      this.createMatchTableRequest(this._pipelineID, this.threshold)
+    ).pipe(map(this.filterOutDuplicateRecommendations));
+  }
+
+  /*
+  TODO: The API just shouldn't return duplicates. Remove this.
+   */
+  private filterOutDuplicateRecommendations(response: MatchTableResponse): MatchTableResponse {
+    response.matchTable.forEach(substatements => {
+      const seen = new Set();
+      substatements.matches = substatements.matches.filter(match => {
+        const isDuplicate = seen.has(match.recommendationID);
+        if (!isDuplicate) {
+          seen.add(match.recommendationID);
+        }
+        return !isDuplicate;
+      });
+    });
+    return response;
+  }
+
   private initSubscriptions() {
     this._matchTableSub =
       this._pipeLineIdService.pipelineId$
         .pipe(
           switchMap(id => {
             this._pipelineID = id;
-            return this._api.matchTablePost(
-              this.createMatchTableRequest(id, this.threshold)
-            );
+            return this.fetchMatchTable();
           })
         )
         .subscribe(mt => {
@@ -160,31 +179,19 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   updateThreshold() {
-    return this._api.matchTablePost(
-      this.createMatchTableRequest(this._pipelineID, this.threshold)
-    )
-    .subscribe(mt => {
-      console.log('<- _api.matchTablePost ',mt)
-      this._matchTableResponse = mt;
-      this.createAnnotatedSubstatementsArray(mt.matchTable);
-    });
+    return this.fetchMatchTable()
+      .subscribe(mt => {
+        console.log('<- _api.matchTablePost ', mt);
+        this._matchTableResponse = mt;
+        this.createAnnotatedSubstatementsArray(mt.matchTable);
+      });
   }
 
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-    const control = this.substatementsFormArray;
-    substatements
-      .forEach(s =>
-        control.push(
-          this._fb.group( this.createAnnotatedSubstatement(s))
-        )
-      );
+    this.substatementsFormArray = substatements.map(
+      s => this._fb.group( this.createAnnotatedSubstatement(s)));
   }
-
-  // private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-  //   this.substatementsFormArray = substatements.map(
-  //     s => this._fb.group( this.createAnnotatedSubstatement(s)));
-  // }
 
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
     return {
@@ -224,8 +231,8 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  private navigateTo(route:JobRoutes){
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route))
+  private navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
 
