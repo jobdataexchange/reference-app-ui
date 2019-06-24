@@ -128,8 +128,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private onSuccess(r: Response) {
     console.log('<- api.userActionsPost', r);
-    this._toastr.success('See console for content.', 'Competency Selections Submitted', {disableTimeOut: false});
-    // this.navigateTo(JobRoutes.BASIC_INFO);
+    this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
   }
 
   private onError(e) {

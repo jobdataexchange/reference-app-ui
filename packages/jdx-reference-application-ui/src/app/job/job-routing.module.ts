@@ -4,15 +4,17 @@ import { AddDescriptionComponent } from './add-description/add-description.compo
 import { CompetenciesComponent } from './competencies/competencies.component';
 import { FrameworksComponent } from './frameworks/frameworks.component';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
+import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
   COMPETENCIES = 'competencies',
   FRAMEWORKS = 'frameworks',
-  BASIC_INFO = 'basic-info'
+  BASIC_INFO = 'basic-info',
+  CONFIRM_COMPLETION = 'confirm-completion'
 }
 
-export function createRouteUrlByJobRoute(r:JobRoutes): string {
+export function createRouteUrlByJobRoute(r: JobRoutes): string {
   return `job/${r}`;
 }
 
@@ -41,6 +43,11 @@ const routes: Routes = [
   {
     path: JobRoutes.BASIC_INFO,
     component: BasicInfoComponent
+  },
+
+  {
+    path: JobRoutes.CONFIRM_COMPLETION,
+    component: ConfirmCompletionComponent
   }
 
 ];

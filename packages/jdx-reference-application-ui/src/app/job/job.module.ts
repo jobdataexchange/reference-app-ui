@@ -8,13 +8,15 @@ import { CompetenciesComponent } from './competencies/competencies.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { SharedModule } from '../shared/shared.module';
+import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
 
 @NgModule({
   declarations: [
     AddDescriptionComponent,
     FrameworksComponent,
     CompetenciesComponent,
-    BasicInfoComponent
+    BasicInfoComponent,
+    ConfirmCompletionComponent
   ],
   imports: [
     CommonModule,
