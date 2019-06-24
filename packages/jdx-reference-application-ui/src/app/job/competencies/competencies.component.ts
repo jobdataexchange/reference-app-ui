@@ -53,9 +53,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
 
-  // set substatementsFormArray(substatementsFormArray: FormGroup[]) {
-  //   this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
-  // }
+  set substatementsFormArray(substatementsFormArray: FormGroup[]) {
+    this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, this._fb.array(substatementsFormArray));
+  }
 
   form: FormGroup;
 
@@ -170,19 +170,9 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-    const control = this.substatementsFormArray;
-    substatements
-      .forEach(s =>
-        control.push(
-          this._fb.group( this.createAnnotatedSubstatement(s))
-        )
-      );
+    this.substatementsFormArray = substatements.map(
+      s => this._fb.group( this.createAnnotatedSubstatement(s)));
   }
-
-  // private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
-  //   this.substatementsFormArray = substatements.map(
-  //     s => this._fb.group( this.createAnnotatedSubstatement(s)));
-  // }
 
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
     return {
