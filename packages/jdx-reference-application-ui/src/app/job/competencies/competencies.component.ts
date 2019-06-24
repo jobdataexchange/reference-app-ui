@@ -9,7 +9,7 @@ import {
   SubstatementsMatches,
   UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -134,15 +134,19 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         });
   }
 
+  private fetchMatchTable(): Observable<MatchTableResponse> {
+    return this._api.matchTablePost(
+      this.createMatchTableRequest(this._pipelineID, this.threshold)
+    );
+  }
+
   private initSubscriptions() {
     this._matchTableSub =
       this._pipeLineIdService.pipelineId$
         .pipe(
           switchMap(id => {
             this._pipelineID = id;
-            return this._api.matchTablePost(
-              this.createMatchTableRequest(id, this.threshold)
-            );
+            return this.fetchMatchTable();
           })
         )
         .subscribe(mt => {
@@ -158,14 +162,12 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   updateThreshold() {
-    return this._api.matchTablePost(
-      this.createMatchTableRequest(this._pipelineID, this.threshold)
-    )
-    .subscribe(mt => {
-      console.log('<- _api.matchTablePost ', mt);
-      this._matchTableResponse = mt;
-      this.createAnnotatedSubstatementsArray(mt.matchTable);
-    });
+    return this.fetchMatchTable()
+      .subscribe(mt => {
+        console.log('<- _api.matchTablePost ', mt);
+        this._matchTableResponse = mt;
+        this.createAnnotatedSubstatementsArray(mt.matchTable);
+      });
   }
 
 
