@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.7"
+  version: "0.0.9"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -434,6 +434,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/previewParagraphs'
+        autofill:
+          type: object
+          properties:
+            soc:
+              type: string
+              example: "1235"
+            naics:
+              type: string
+              example: "5332"
 
     previewFields:
       type: object
@@ -513,7 +522,7 @@ components:
 
     substatements:
       properties:
-        substatementId:
+        substatementID:
           description: UUID referring to
           type: string
           format: uuid
@@ -527,7 +536,7 @@ components:
           items:
             type: object
             properties:
-              recommendationId:
+              recommendationID:
                 type: string
                 example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
               name:
@@ -627,60 +636,33 @@ components:
     matchTableSelection:
       type: object
       properties:
-        substatementId:
+        substatementID:
           description: UUID referring to
           type: string
           format: uuid
           example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
-        substatement:
-          description: this is the job description substatment text
-          type: string
-          example: Can perform test driven development
-        selection:
-          title: selection
+        accept:
+          title: accept
           type: object
           properties:
-            recommendationId:
+            recommendationID:
               type: string
               example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+        replace:
+          title: replace
+          type: object
+          properties:
             name:
               type: string
-              example: what is this for?
+              description: Name of the competency
+              example: Baking
             description:
               type: string
-              example: Performs TDD
-            definedTermSet:
-              type: string
-              example: Standard Occupational Classification system
-            termCode:
-              type: string
-              example: "19-1131.00"
-            value:
-              type: string
-              example: "0.9"
-
-            # userActions:
-            #   type: array
-            #   items:
-            #     $ref: '#/components/schemas/userAction'
+              description: The text for the competency
+              example: The act of cooking yeast in the oven to create bread.
 
     userActionResponse:
       $ref: '#/components/schemas/response'
-
-    userAction:
-      type: object
-      properties:
-        recommendationUUID:
-          type: string
-          format: uuid
-        action:
-          type: string
-          enum: [reject, replace, accept]
-        replaced:
-          type: boolean
-          example: true
-        replaceWith:
-          $ref: '#/components/schemas/annotatedDefinedTerm'
 
     annotatedDefinedTerm:
       type: object
@@ -706,7 +688,7 @@ components:
       description: a standard framework
       type: object
       properties:
-        frameworkId:
+        frameworkID:
           description: A JDX numerical identifier for this framework
           type: string
           format: uuid
