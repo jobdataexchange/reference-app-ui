@@ -11,24 +11,17 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-export function apiConfigFactory() {
-  const params = {
-    // set configuration parameters here.
-    basePath: 'https://jdx-api.brighthive.net',
-    // accessToken: 'Foobar'
-  };
-  return new Configuration(params);
-}
-
+import { InfoComponent } from './info/info.component';
+import { EnvironmentApiClientConfiguration } from './shared/services/api-configuration.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    InfoComponent
   ],
   imports: [
-    ApiModule.forRoot(apiConfigFactory),
+    ApiModule,
     BrowserAnimationsModule,
     BrowserModule,
     // make sure to import the HttpClientModule in the AppModule only,
@@ -44,6 +37,7 @@ export function apiConfigFactory() {
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }
+    { provide: Configuration, useClass: EnvironmentApiClientConfiguration }
   ],
   bootstrap: [AppComponent]
 })
