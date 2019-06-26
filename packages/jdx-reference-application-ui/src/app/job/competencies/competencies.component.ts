@@ -10,7 +10,7 @@ import {
   UserActionRequest
 } from '@jdx/jdx-reference-application-api-client';
 import { Observable, Subscription } from 'rxjs';
-import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { JobService, PipelineID } from '../../shared/services/job.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
@@ -22,7 +22,6 @@ export enum CompetencySelectOptions {
   OTHER = 'OTHER'
 }
 
-// AnnotatedSubstatement. selectedCompetencyOption is using string for now instead of
 export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions;
 
 export interface AnnotatedSubstatement extends Substatements {
@@ -40,7 +39,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipeLineIdService: PipelineIdServiceService,
+    private _pipeLineIdService: JobService,
     private _router: Router,
     private _toastr: ToastrService,
   ) {}
@@ -68,7 +67,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private _matchTableResponse: MatchTableResponse;
 
-  private _pipelineID;
+  private _pipelineID: PipelineID;
 
   readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
 
@@ -168,10 +167,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private initSubscriptions() {
     this._matchTableSub =
-      this._pipeLineIdService.pipelineId$
+      this._pipeLineIdService.job$
         .pipe(
-          switchMap(id => {
-            this._pipelineID = id;
+          switchMap(job => {
+            this._pipelineID = job.pipelineID;
             return this.fetchMatchTable();
           })
         )
@@ -225,7 +224,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-  createMatchTableRequest(id: string, threshold: number = null): MatchTableRequest {
+  createMatchTableRequest(id: PipelineID, threshold: number = null): MatchTableRequest {
     const result = {};
     Object.assign(result,
       {pipelineID: id}

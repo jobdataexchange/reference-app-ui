@@ -2,19 +2,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { createRouteUrlByJobRoute, JobRoutes } from './job-routing.module';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { JobSectionType, JobService } from '../shared/services/job.service';
 
 export abstract class BaseForm {
-  constructor(
+  protected constructor(
     protected _fb: FormBuilder,
+    protected _jobService: JobService,
     protected _router: Router,
-    protected _toastr: ToastrService,
-    // public readonly injector: Injector
-    // contextObject Service
+    protected _toastr: ToastrService
   ) {}
 
   form: FormGroup;
 
+  readonly abstract JOB_SECTION_TYPE: JobSectionType;
+
   protected abstract next();
+
   protected abstract back();
 
   navigateTo(route: JobRoutes) {
@@ -26,7 +29,13 @@ export abstract class BaseForm {
     this._toastr.error(e.message, title || 'Unexpected Error');
   }
 
-
+  protected updateJobSection(data: {}) {
+    try {
+      this._jobService.updateJobSection(this.JOB_SECTION_TYPE, data);
+    } catch (e) {
+      this.onError(e);
+    }
+  }
 }
 
 export enum FormFieldsBasicInfo {
@@ -41,4 +50,3 @@ export enum FormFieldsBasicInfo {
   JOB_IDENTIFIER = 'job-identifier',
   EMPLOYER_IDENTIFIER = 'employer-identifier',
 }
-
