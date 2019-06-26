@@ -11,12 +11,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InfoComponent } from './info/info.component';
 import { EnvironmentApiClientConfiguration } from './shared/services/api-configuration.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    InfoComponent
   ],
   imports: [
     ApiModule,
