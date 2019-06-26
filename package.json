@@ -1,6 +1,6 @@
 {
   "name": "@jdx/jdx-reference-application",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "monorepo for JDX Reference Application",
   "main": "index.js",
   "files": [
@@ -9,8 +9,10 @@
   "scripts": {
     "postinstall": "npm install --prefix packages/jdx-reference-application-patternlibrary/ && npm install --prefix packages/jdx-reference-application-api-client/ && npm install --prefix packages/jdx-reference-application-ui",
     "clean": "rm -rf dist",
+    "copy-ui-dist": "cp -r packages/jdx-reference-application-ui/dist/* dist/",
     "build-sub-modules": "npm run package --prefix packages/jdx-reference-application-api-client/ && npm run package --prefix packages/jdx-reference-application-ui/",
     "build": "npm run build-sub-modules",
+    "package": "npm run clean && npm run build && npm run copy-ui-dist",
     "start": "npm run start --prefix packages/jdx-reference-application-ui/ && echo 'TODO: start the server (-less) or mock here'"
   },
   "author": "alally",

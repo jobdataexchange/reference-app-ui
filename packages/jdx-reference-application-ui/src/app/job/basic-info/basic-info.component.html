@@ -30,7 +30,7 @@
     <app-input-text id="industry"
                     [control]="this.form.get(f.INDUSTRY)"
                     label="Industry Description"
-                    helpBlock="The critical economic or work activity performed by this position."
+                    helpBlock="The primary economic activity at this job location."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -40,7 +40,7 @@
                 [options]="industryCodes"
                 label="Industry Code"
                 defaultOptionText="Select"
-                helpBlock="The primary economic activity at this job location."
+                helpBlock="The code associated with the primary economic activity at this job location."
     ></app-select>
   </app-form-wrapper>
 
