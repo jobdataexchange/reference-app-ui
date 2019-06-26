@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #aaa !important;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #aaa !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #aaa !important;
+}
+
+.twitter-typeahead {
+    width: 100%;
+}
+
+.tt-menu {
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 0px;
+    padding: 8px 0;
+}
+.tt-suggestion {
+    font-size: 16px;  /* Set suggestion dropdown font size */
+    padding: 3px 20px;
+}
+.tt-suggestion:hover {
+    cursor: pointer;
+    background-color: #0097CF;
+    color: #FFFFFF;
+}
+.tt-suggestion p {
+    margin: 0;
+}
+
+input.tt-input {
+    padding-right: 40px;
+}
+
+.multiselect-native-select .btn-group {
+    display: flex;
+}
+
+.multiselect-native-select .btn-group > .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.multiselect-native-select .btn-group .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.multiselect-container>li>a>label {
+    padding-left: 20px;
+}
+
+.pipe {
+    margin: 0 8px;
+}
+
+.required {
+    color: #dc3545;
+    margin: 0 5px;
+}
+
+@media (max-width: 350px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+.vertical-align-center {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.alert.alert-success {
+    border: none;
+}
