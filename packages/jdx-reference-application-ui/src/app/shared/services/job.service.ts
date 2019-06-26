@@ -55,9 +55,6 @@ export class JobService implements OnDestroy {
 
   updateJobSection(section: JobSectionType, data: {}) {
 
-    console.log('this is the section');
-    console.log(section);
-
     if (!this._currentJobContext[section]) {
       throw new Error(`Job section '${section}' can not be found on JobContext`);
     }
