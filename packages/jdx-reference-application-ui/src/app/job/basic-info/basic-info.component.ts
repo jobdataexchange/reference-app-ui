@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { selectTypeDefault } from '../../shared/components/forms/select/select.component';
+import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
-import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { JobContext, JobSectionType, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
+import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 
 @Component({
   selector: 'app-basic-info',
@@ -14,47 +15,60 @@ import { Subscription } from 'rxjs';
 })
 export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
+    _api: DefaultService,
     _fb: FormBuilder,
+    _pipelineIdService: JobService,
     _router: Router,
     _toastr: ToastrService,
-    private _pipelineIdService: PipelineIdServiceService
   ) {
-    super(_fb, _router, _toastr);
+    super(_fb, _pipelineIdService, _router, _toastr);
   }
 
   f = FormFieldsBasicInfo;
 
-  industryCodes: selectTypeDefault[];
-  occupationCategories: selectTypeDefault[];
+  industryCodes: SelectTypeDefault[];
+
+  occupationCategories: SelectTypeDefault[];
+
   jobIdentifier = null;
-  private _pipleineIdSub: Subscription = null;
+
+  private _jobSub: Subscription = null;
+
+  readonly JOB_SECTION_TYPE = 'basicInfo';
 
   ngOnInit() {
-    this.initForm();
     this.getIndustryCodes();
     this.getOccupationCategory();
-    this.getJobIdentifier();
+    this.initSubscriptions();
   }
 
   ngOnDestroy(): void {
-    this._pipleineIdSub.unsubscribe();
-    this.getJobIdentifier();
+    this._jobSub.unsubscribe();
   }
 
-  initForm() {
+  initSubscriptions() {
+    this._jobSub = this._jobService.job$.subscribe(job => {
+      this.initForm(job);
+      // TODO: real logic to get Job Identifier
+      this.jobIdentifier = job.pipelineID;
+      this.form.patchValue({[this.f.JOB_IDENTIFIER]: this.jobIdentifier});
+    });
+  }
+
+  private initForm(j: JobContext) {
     this.form =
       this._fb.group(
         {
-          [this.f.TITLE]: ['', Validators.required],
-          [this.f.JOB_SUMMARY]: [''],
-          [this.f.INDUSTRY]: [''],
-          [this.f.INDUSTRY_CODE]: [''],
-          [this.f.OCCUPATION_CATEGORY]: [''],
-          [this.f.JOB_LOCATION]: ['', Validators.required],
-          [this.f.JOB_LOCATION_TYPE]: [''],
-          [this.f.EMPLOYMENT_UNIT]: [''],
-          [this.f.JOB_IDENTIFIER]: {value: [ this.jobIdentifier || ''], disabled: true},
-          [this.f.EMPLOYER_IDENTIFIER]: [''],
+          [this.f.TITLE]:               [j.basicInfo[this.f.TITLE], Validators.required],
+          [this.f.JOB_SUMMARY]:         [j.basicInfo[this.f.JOB_SUMMARY]],
+          [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
+          [this.f.INDUSTRY_CODE]:       [j.basicInfo[this.f.INDUSTRY_CODE]],
+          [this.f.OCCUPATION_CATEGORY]: [j.basicInfo[this.f.OCCUPATION_CATEGORY]],
+          [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.INDUSTRY], Validators.required],
+          [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
+          [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
+          [this.f.EMPLOYER_IDENTIFIER]: [j.basicInfo[this.f.EMPLOYER_IDENTIFIER]],
+          [this.f.JOB_IDENTIFIER]:      {value: [ [j.basicInfo[this.f.JOB_IDENTIFIER]] || ''], disabled: true}
         }
       );
   }
@@ -78,26 +92,14 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
     ];
   }
 
-  // TODO: real logic to get Job Identifier
-  getJobIdentifier() {
-    this._pipleineIdSub = this._pipelineIdService.pipelineId$.subscribe(pipelineId => {
-      this.jobIdentifier = pipelineId;
-      this.form.patchValue({[this.f.JOB_IDENTIFIER]: pipelineId});
-    });
-  }
-
-
-
   back() {
     this.navigateTo(JobRoutes.DESCRIPTION);
   }
 
   next() {
-    // TODO: add to the context object
-    console.log('Basic Information form ', this.form.value);
+    this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.FRAMEWORKS);
   }
-
 
 
 }

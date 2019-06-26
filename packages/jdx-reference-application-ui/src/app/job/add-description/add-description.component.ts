@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DefaultService, RawJobDescriptionResponse } from '@jdx/jdx-reference-application-api-client';
-import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { ToastrService } from 'ngx-toastr';
+import { JobService } from '../../shared/services/job.service';
 
 @Component({
   selector: 'app-add-description',
@@ -15,7 +15,7 @@ export class AddDescriptionComponent implements OnInit {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipelineIdService: PipelineIdServiceService,
+    private _jobService: JobService,
     private _router: Router,
     private _toastr: ToastrService,
   ) { }
@@ -24,7 +24,7 @@ export class AddDescriptionComponent implements OnInit {
 
   isSubmitting = false;
 
-  selectableFileTypes = '.docx, .txt';
+  selectableFileTypes = '.doc, .docx, .txt';
 
   readonly JOB_DESCRIPTION_FIELD_NAME = 'job_description';
 
@@ -63,10 +63,6 @@ export class AddDescriptionComponent implements OnInit {
       .finally(() => this.isSubmitting = false);
   }
 
-  private setPipelineId(id) {
-    this._pipelineIdService.setPipelineId(id);
-  }
-
   private get uploadFile() {
     if (this._uploadedFile) {
       return this._uploadedFile;
@@ -84,7 +80,7 @@ export class AddDescriptionComponent implements OnInit {
 
   private onSuccess(r: RawJobDescriptionResponse) {
     console.log('<- uploadJobDescriptionFilePost ', r);
-    this.setPipelineId(r.pipelineID);
+    this._jobService.newJob(r.pipelineID);
     this.navigateTo(JobRoutes.BASIC_INFO);
   }
 

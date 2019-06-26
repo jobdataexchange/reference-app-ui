@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BaseFormField } from '../base-form-field.component';
 
-export type selectTypeDefault = {name:string, value:string};
-// export type selectTypeCompetencies = Array<{name:string, value:string}>;
+export interface SelectTypeDefault {name: string; value: string; }
 
 @Component({
   selector: 'app-select',
@@ -10,9 +9,9 @@ export type selectTypeDefault = {name:string, value:string};
 })
 export class SelectComponent extends BaseFormField{
 
-  @Input() defaultOptionText? = 'Select';
+  @Input() defaultOptionText ? = 'Select';
 
-  @Input() options: selectTypeDefault[];
+  @Input() options: SelectTypeDefault[];
 
 }
 

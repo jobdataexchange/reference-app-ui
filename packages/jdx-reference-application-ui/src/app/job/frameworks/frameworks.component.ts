@@ -8,7 +8,7 @@ import {
   ScoredRecommendation
 } from '@jdx/jdx-reference-application-api-client';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PipelineIdServiceService } from '../../shared/pipeline-id-service.service';
+import { JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipelineIdService: PipelineIdServiceService,
+    private _pipelineIdService: JobService,
     private _router: Router,
     private _toastr: ToastrService,
   ) { }
@@ -62,11 +62,11 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   initSubscriptions() {
     this._pipelineIdSub =
       this._pipelineIdService
-        .pipelineId$
+        .job$
         .subscribe(
-          id => {
-            this._currentPipelineId = id;
-            this.getFrameworkRecommendation(id);
+          j => {
+            this._currentPipelineId = j.pipelineID;
+            this.getFrameworkRecommendation(j.pipelineID);
           }
         );
   }

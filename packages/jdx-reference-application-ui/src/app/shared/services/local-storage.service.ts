@@ -27,5 +27,5 @@ export class LocalStorageService {
 }
 
 export enum LocalStorageTypes {
-  PIPELINE_ID = 'pipelinId'
+  JOB = 'job'
 }

@@ -19,18 +19,18 @@ export class MockBackendInterceptor implements HttpInterceptor {
       // /match-table
       if (request.url.match(/match-table$/) && request.method === 'POST') {
         const r = {
-          pipelineID: request.body['pipelineID'],
+          pipelineID: request.body.pipelineID,
           timestamp: Date.now(),
-          matchTable: matchTable
+          matchTable
         };
-        console.log('<- HttpRequest :: matchTablePost',r);
+        console.log('<- HttpRequest :: matchTablePost', r);
         return of(new HttpResponse(
           { status: 200, body: r }
         ));
       }
 
         // pass through any requests not handled above
-        return next.handle(request);
+      return next.handle(request);
 
     }))
 
