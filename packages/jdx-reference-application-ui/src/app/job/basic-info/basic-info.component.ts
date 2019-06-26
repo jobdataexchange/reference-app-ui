@@ -98,7 +98,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   next() {
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.EMPLOYMENT_RELATIONSHIP);
   }
 
 

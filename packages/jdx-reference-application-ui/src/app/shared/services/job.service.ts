@@ -2,16 +2,17 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Response } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
-import { FormFieldsBasicInfo } from '../../job/base-form.component';
+import { FormFieldsBasicInfo, FormFieldsEmploymentRelationship } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 
 export type PipelineID = string;
 
-export type JobSectionType = 'basicInfo';
+export type JobSectionType = 'basicInfo' | 'employmentRelationship';
 
 export interface JobContext {
   pipelineID: PipelineID;
   basicInfo: {};
+  employmentRelationship: {};
 }
 
 @Injectable({
@@ -46,12 +47,17 @@ export class JobService implements OnDestroy {
   newJob(id: PipelineID = null) {
     const job = {
       pipelineID: id,
-      basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo)
+      basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
+      employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship)
     };
     this.setJob(job);
   }
 
   updateJobSection(section: JobSectionType, data: {}) {
+
+    console.log('this is the section');
+    console.log(section);
+
     if (!this._currentJobContext[section]) {
       throw new Error(`Job section '${section}' can not be found on JobContext`);
     }
