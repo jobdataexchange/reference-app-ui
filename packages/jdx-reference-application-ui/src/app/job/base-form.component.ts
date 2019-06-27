@@ -58,6 +58,10 @@ export enum FormFieldsEmploymentRelationship {
   WORK_HOURS = 'work-hours'
 }
 
+export enum FormFieldsCredentialRequirements {
+  REQUIREMENTS = 'requirements'
+}
+
 export enum FormFieldsAdditionalRequirements {
   APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
   CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
