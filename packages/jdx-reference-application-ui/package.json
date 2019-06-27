@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "package": "rm -rf dist && npm run update-local-dependencies && npm run ng -- build --prod --aot=false --build-optimizer=false"
+    "package": "rm -rf dist && npm run update-local-dependencies && npm run ng -- build --prod"
   },
   "files": [
     "dist/"
