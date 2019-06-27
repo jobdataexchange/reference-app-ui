@@ -70,3 +70,11 @@ export enum FormFieldsAdditionalRequirements {
   SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
   SPECIAL_COMMITMENT = 'special-commitment'
 }
+
+export enum FormFieldsCompensationInfo {
+  CURRENCY = 'currency',
+  MINIMUM = 'minimum',
+  MAXIMUM = 'maximum',
+  FREQUENCY = 'frequency',
+  INCENTIVE_COMPENSATION = 'incentive-compensation'
+}

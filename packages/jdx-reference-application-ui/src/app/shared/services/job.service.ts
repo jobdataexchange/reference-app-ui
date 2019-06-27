@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
   FormFieldsAdditionalRequirements,
-  FormFieldsBasicInfo,
+  FormFieldsBasicInfo, FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
   FormFieldsEmploymentRelationship
 } from '../../job/base-form.component';
@@ -12,7 +12,12 @@ import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 
 export type PipelineID = string;
 
-export type JobSectionType = 'basicInfo' | 'employmentRelationship' | 'credentialRequirements' | 'additionalRequirements';
+export type JobSectionType =
+  'basicInfo' |
+  'employmentRelationship' |
+  'credentialRequirements' |
+  'additionalRequirements' |
+  'compensationInfo';
 
 export interface JobContext {
   pipelineID: PipelineID;
@@ -20,6 +25,7 @@ export interface JobContext {
   employmentRelationship: {};
   credentialRequirements: {};
   additionalRequirements: {};
+  compensationInfo: {};
 }
 
 @Injectable({
@@ -57,7 +63,8 @@ export class JobService implements OnDestroy {
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
       employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship),
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
-      additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements)
+      additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
+      compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo)
     };
     this.setJob(job);
   }

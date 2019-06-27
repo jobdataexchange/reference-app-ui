@@ -12,6 +12,7 @@ import { ConfirmCompletionComponent } from './confirm-completion/confirm-complet
 import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
+import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CredentialRequirementsComponent } from './credential-requirements/crede
     ConfirmCompletionComponent,
     EmploymentRelationshipComponent,
     AdditionalRequirementsComponent,
-    CredentialRequirementsComponent
+    CredentialRequirementsComponent,
+    CompensationInfoComponent
   ],
   imports: [
     CommonModule,

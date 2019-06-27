@@ -1,0 +1,61 @@
+<div class="pt-4 d-flex justify-content-between">
+  <p>COMPENSATION & WORK HOURS</p>
+  <p class="flex-shrink-0">11 of 12</p>
+</div>
+
+<h1 class="pb-4">Compensation Information</h1>
+
+
+<form [formGroup]=form
+      (submit)="next()">
+
+  <app-form-wrapper classList="mb-4" matchCount="0">
+    <app-select id="currency"
+                [control]="this.form.get(f.CURRENCY)"
+                [options]="currencyOptions"
+                label="Currency"
+                helpBlock="The Currency (e.g. USD) used for the main salary information in this job posting or for this employee."></app-select>
+  </app-form-wrapper>
+
+  <fieldset class="form-group mb-4">
+    <legend class="h6 font-weight-bold">Base Salary</legend>
+
+    <app-form-wrapper matchCount="0">
+      <app-input-text id="minimum"
+                      [control]="this.form.get(f.MINIMUM)"
+                      label="Minimum"></app-input-text>
+    </app-form-wrapper>
+
+    <app-form-wrapper matchCount="0">
+      <app-input-text id="maximum"
+                      [control]="this.form.get(f.MAXIMUM)"
+                      label="Maximum"></app-input-text>
+    </app-form-wrapper>
+
+    <app-form-wrapper matchCount="0">
+      <app-select id="frequency"
+                  [control]="this.form.get(f.FREQUENCY)"
+                  [options]="frequencyOptions"
+                  label="Frequency"
+                  helpBlock="Base salary of the job or of an employee in an employee role including minimum and maximum salary and unit value (e.g. hour, day, week, month, or year)."></app-select>
+    </app-form-wrapper>
+  </fieldset>
+
+  <app-form-wrapper classList="mb-4" matchCount="0">
+    <app-input-text id="incentive-compensation"
+                    [control]="this.form.get(f.INCENTIVE_COMPENSATION)"
+                    label="Incentive Compensation"
+                    helpBlock="Description of bonus and commission compensation aspects of the job."></app-input-text>
+  </app-form-wrapper>
+
+  <div class="d-flex justify-content-between pt-5">
+    <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"
+            (click)="back()">
+      <i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>
+      Back
+    </button>
+    <button type="submit"
+            [attr.disabled]="!form.valid ? true : null "
+            class="btn btn-lg btn-primary">Next</button>
+  </div>
+</form>

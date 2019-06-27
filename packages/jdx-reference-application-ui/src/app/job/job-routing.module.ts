@@ -8,6 +8,7 @@ import { ConfirmCompletionComponent } from './confirm-completion/confirm-complet
 import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
+import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
@@ -17,6 +18,7 @@ export enum JobRoutes {
   COMPETENCIES = 'competencies',
   CREDENTIAL_REQUIREMENTS = 'credential-requirements',
   ADDITIONAL_REQUIREMENTS = 'additional-requirements',
+  COMPENSATION_INFO = 'compensation-info',
   CONFIRM_COMPLETION = 'confirm-completion'
 }
 
@@ -64,6 +66,11 @@ const routes: Routes = [
   {
     path: JobRoutes.ADDITIONAL_REQUIREMENTS,
     component: AdditionalRequirementsComponent
+  },
+
+  {
+    path: JobRoutes.COMPENSATION_INFO,
+    component: CompensationInfoComponent
   },
 
   {
