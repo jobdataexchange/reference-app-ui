@@ -67,36 +67,45 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
   getEmploymentAgreementOptions() {
     // TODO: real logic to get the Options
     this.employmentAgreementOptions = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
+      {name: 'Employee', value: 'Employee'},
+      {name: 'Employee eligible for overtime', value: 'Employee eligible for overtime'},
+      {name: 'Employee not eligible for overtime', value: 'Employee not eligible for overtime'},
+      {name: 'Collectively-bargained employee', value: 'Collectively-bargained employee'},
+      {name: 'Contract', value: 'Contract'},
+      {name: 'Contract-to-hire', value: 'Contract-to-hire'},
+      {name: 'Internship', value: 'Internship'},
+      {name: 'Externship', value: 'Externship'},
+      {name: 'Apprenticeship', value: 'Apprenticeship'},
+      {name: 'Student volunteer', value: 'Student volunteer'}
     ];
   }
 
   getJobTermOptions() {
     // TODO: real logic to get the Options
     this.jobTermOptions = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
+      {name: 'Temporary', value: 'Temporary'},
+      {name: 'Regular', value: 'Regular'},
+      {name: 'Seasonal', value: 'Seasonal'}
     ];
   }
 
   getJobScheduleOptions() {
     // TODO: real logic to get the Options
     this.jobScheduleOptions = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
+      {name: 'Full-time', value: 'Full-time'},
+      {name: 'Part-time', value: 'Part-time'},
+      {name: 'Flextime', value: 'Flextime'},
+      {name: 'Hourly', value: 'Hourly'},
+      {name: 'Shared-time', value: 'Shared-time'}
     ];
   }
 
   getWorkHoursOptions() {
     // TODO: real logic to get the Options
     this.workHoursOptions = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
+      {name: 'Normal work hours', value: 'Normal work hours'},
+      {name: 'Changing work hours', value: 'Changing work hours'},
+      {name: 'Flexible work hours (set your own schedule)', value: 'Flexible work hours (set your own schedule)'}
     ];
   }
 
