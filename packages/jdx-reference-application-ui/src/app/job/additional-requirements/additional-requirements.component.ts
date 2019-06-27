@@ -47,12 +47,12 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
     this.form =
       this._fb.group(
         {
-          [this.f.APPLICATION_LOCATION_REQUIREMENT]: [j.basicInfo[this.f.APPLICATION_LOCATION_REQUIREMENT]],
-          [this.f.CITIZENSHIP_REQUIREMENT]: [j.basicInfo[this.f.CITIZENSHIP_REQUIREMENT]],
-          [this.f.PHYSICAL_REQUIREMENT]: [j.basicInfo[this.f.PHYSICAL_REQUIREMENT]],
-          [this.f.SENSORY_REQUIREMENT]: [j.basicInfo[this.f.SENSORY_REQUIREMENT]],
-          [this.f.SECURITY_CLEARANCE_REQUIREMENT]: [j.basicInfo[this.f.SECURITY_CLEARANCE_REQUIREMENT]],
-          [this.f.SPECIAL_COMMITMENT]: [j.basicInfo[this.f.SPECIAL_COMMITMENT]],
+          [this.f.APPLICATION_LOCATION_REQUIREMENT]: [j.additionalRequirements[this.f.APPLICATION_LOCATION_REQUIREMENT]],
+          [this.f.CITIZENSHIP_REQUIREMENT]: [j.additionalRequirements[this.f.CITIZENSHIP_REQUIREMENT]],
+          [this.f.PHYSICAL_REQUIREMENT]: [j.additionalRequirements[this.f.PHYSICAL_REQUIREMENT]],
+          [this.f.SENSORY_REQUIREMENT]: [j.additionalRequirements[this.f.SENSORY_REQUIREMENT]],
+          [this.f.SECURITY_CLEARANCE_REQUIREMENT]: [j.additionalRequirements[this.f.SECURITY_CLEARANCE_REQUIREMENT]],
+          [this.f.SPECIAL_COMMITMENT]: [j.additionalRequirements[this.f.SPECIAL_COMMITMENT]],
         }
       );
   }
@@ -63,6 +63,6 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
 
   protected next() {
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
+    this.navigateTo(JobRoutes.COMPENSATION_INFO);
   }
 }

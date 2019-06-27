@@ -47,7 +47,7 @@ export class CredentialRequirementsComponent extends BaseForm implements OnInit,
     this.form =
       this._fb.group(
         {
-          [this.f.REQUIREMENTS]: [j.basicInfo[this.f.REQUIREMENTS]],
+          [this.f.REQUIREMENTS]: [j.credentialRequirements[this.f.REQUIREMENTS]],
         }
       );
   }

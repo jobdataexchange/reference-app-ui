@@ -10,9 +10,7 @@
 >
 
   <option  disabled="" hidden="" selected="" value=''>{{defaultOptionText}}</option>
-  <option *ngFor="let option of options" [value]="option.value">
-    {{option.name}}
-  </option>
+  <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
 
 </select>
 
