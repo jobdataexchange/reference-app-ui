@@ -8,6 +8,6 @@ export class FormWrapperComponent{
 
  @Input() classList;
 
-  @Input() matchCount;
+  @Input() matchCount: number;
 
 }
