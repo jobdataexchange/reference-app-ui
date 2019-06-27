@@ -2,16 +2,17 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Response } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
-import { FormFieldsBasicInfo, FormFieldsEmploymentRelationship } from '../../job/base-form.component';
+import { FormFieldsAdditionalRequirements, FormFieldsBasicInfo, FormFieldsEmploymentRelationship } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 
 export type PipelineID = string;
 
-export type JobSectionType = 'basicInfo' | 'employmentRelationship';
+export type JobSectionType = 'basicInfo' | 'additionalRequirements' | 'employmentRelationship';
 
 export interface JobContext {
   pipelineID: PipelineID;
   basicInfo: {};
+  additionalRequirements: {};
   employmentRelationship: {};
 }
 
@@ -48,6 +49,7 @@ export class JobService implements OnDestroy {
     const job = {
       pipelineID: id,
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
+      additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
       employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship)
     };
     this.setJob(job);

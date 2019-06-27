@@ -57,3 +57,12 @@ export enum FormFieldsEmploymentRelationship {
   JOB_SCHEDULE = 'job-schedule',
   WORK_HOURS = 'work-hours'
 }
+
+export enum FormFieldsAdditionalRequirements {
+  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
+  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
+  PHYSICAL_REQUIREMENT = 'physical-requirement',
+  SENSORY_REQUIREMENT = 'sensory-requirement',
+  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
+  SPECIAL_COMMITMENT = 'special-commitment'
+}

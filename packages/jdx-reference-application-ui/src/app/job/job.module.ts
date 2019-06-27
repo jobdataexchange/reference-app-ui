@@ -10,6 +10,7 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
 import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
+import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EmploymentRelationshipComponent } from './employment-relationship/emplo
     CompetenciesComponent,
     BasicInfoComponent,
     ConfirmCompletionComponent,
-    EmploymentRelationshipComponent
+    EmploymentRelationshipComponent,
+    AdditionalRequirementsComponent
   ],
   imports: [
     CommonModule,
