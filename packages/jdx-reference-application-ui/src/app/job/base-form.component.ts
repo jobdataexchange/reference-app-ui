@@ -39,7 +39,7 @@ export abstract class BaseForm {
 }
 
 export enum FormFieldsBasicInfo {
-  TITLE = 'title',
+  TITLE = 'competency', // just for preview testing 'title',
   JOB_SUMMARY = 'job-summary',
   INDUSTRY = 'industry',
   INDUSTRY_CODE = 'industry-code',

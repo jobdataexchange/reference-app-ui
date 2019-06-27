@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,11 @@ import { ConfirmCompletionComponent } from './confirm-completion/confirm-complet
     FrameworksComponent,
     CompetenciesComponent,
     BasicInfoComponent,
-    ConfirmCompletionComponent
+    ConfirmCompletionComponent,
+    ModalComponent
+  ],
+  exports: [
+    ModalComponent
   ],
   imports: [
     CommonModule,

@@ -3,7 +3,9 @@
   <span>
     {{matches }} {{matches !==1 ? 'matches' : 'match'}}
   </span>
-  <a href="javascript:void(0)">
+  <a href="javascript:void(0)"
+     (click)="openModal()"
+  >
     View
   </a>
 </div>

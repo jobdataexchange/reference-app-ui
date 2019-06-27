@@ -1,17 +1,24 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Response } from '@jdx/jdx-reference-application-api-client';
+import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import { FormFieldsBasicInfo } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
+import { isNullOrUndefined } from 'util';
 
 export type PipelineID = string;
 
 export type JobSectionType = 'basicInfo';
 
+export interface AnnotatedPreview {
+  rawPreview: PreviewResponse | null;
+  previewMap: {} | null;
+}
+
 export interface JobContext {
   pipelineID: PipelineID;
   basicInfo: {};
+  annotatedPreview: AnnotatedPreview | null;
 }
 
 @Injectable({
@@ -19,6 +26,7 @@ export interface JobContext {
 })
 export class JobService implements OnDestroy {
   constructor(
+    private _api: DefaultService,
     private _localStorage: LocalStorageService,
   ) {
     if (this._localStorage.has(LocalStorageTypes.JOB)) {
@@ -35,18 +43,17 @@ export class JobService implements OnDestroy {
 
   private _currentJobContext: JobContext;
 
-  private _currentPipelineId: PipelineID;
-
   private _JobSub = new BehaviorSubject<JobContext>(null);
 
   ngOnDestroy() {
     this._JobSub.unsubscribe();
   }
 
-  newJob(id: PipelineID = null) {
+  async newJob(id: PipelineID = null) {
     const job = {
       pipelineID: id,
-      basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo)
+      basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
+      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id))
     };
     this.setJob(job);
   }
@@ -59,8 +66,24 @@ export class JobService implements OnDestroy {
     this.setJob(this._currentJobContext);
   }
 
-  isResponsePipelineIdCurrent(r: Response) {
-    return r.pipelineID === this._currentPipelineId;
+  updateJobPreview(id: PipelineID): Promise<any> {
+    return this._api
+      .previewPost(this.createRequestObject(id))
+      .toPromise()
+      .then(p => {
+        return {
+          rawPreview: p,
+          previewMap: this.createPreviewMap(p)
+        };
+      });
+  }
+
+  isResponsePipelineIdCurrent(r: Request) {
+    return r.pipelineID === this._currentJobContext.pipelineID;
+  }
+
+  createRequestObject(id: PipelineID): Request {
+    return { pipelineID: id};
   }
 
   private setJob(job: JobContext) {
@@ -72,9 +95,17 @@ export class JobService implements OnDestroy {
   }
 
   private announceCurrentJob(job: JobContext) {
-    this._currentJobContext = job;
     this._JobSub.next(job);
-    this._currentPipelineId = job.pipelineID || null;
+    this._currentJobContext = job;
+  }
+
+  private createPreviewMap(p: PreviewResponse) {
+    const ap = {};
+    p['preview'].fields.forEach( f =>  {
+      const tempFieldName = f.field.split('.')[1].toLowerCase();
+      (ap[tempFieldName]) ? ap[tempFieldName].push(f.paragraph_number) : ap[tempFieldName] = [];
+    });
+    return ap;
   }
 
 }

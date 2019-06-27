@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
-import { JobContext, JobSectionType, JobService } from '../../shared/services/job.service';
+import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
-import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 
 @Component({
   selector: 'app-basic-info',
@@ -15,22 +14,21 @@ import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 })
 export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
-    _api: DefaultService,
     _fb: FormBuilder,
-    _pipelineIdService: JobService,
+    _jobService: JobService,
     _router: Router,
-    _toastr: ToastrService,
+    _toastr: ToastrService
   ) {
-    super(_fb, _pipelineIdService, _router, _toastr);
+    super(_fb, _jobService, _router, _toastr);
   }
 
   f = FormFieldsBasicInfo;
 
   industryCodes: SelectTypeDefault[];
 
-  occupationCategories: SelectTypeDefault[];
-
   jobIdentifier = null;
+
+  occupationCategories: SelectTypeDefault[];
 
   private _jobSub: Subscription = null;
 
@@ -49,8 +47,6 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   initSubscriptions() {
     this._jobSub = this._jobService.job$.subscribe(job => {
       this.initForm(job);
-      // TODO: real logic to get Job Identifier
-      this.jobIdentifier = job.pipelineID;
       this.form.patchValue({[this.f.JOB_IDENTIFIER]: this.jobIdentifier});
     });
   }
