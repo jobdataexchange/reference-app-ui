@@ -50,3 +50,12 @@ export enum FormFieldsBasicInfo {
   JOB_IDENTIFIER = 'job-identifier',
   EMPLOYER_IDENTIFIER = 'employer-identifier',
 }
+
+export enum FormFieldsAdditionalRequirements {
+  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
+  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
+  PHYSICAL_REQUIREMENT = 'physical-requirement',
+  SENSORY_REQUIREMENT = 'sensory-requirement',
+  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
+  SPECIAL_COMMITMENT = 'special-commitment'
+}

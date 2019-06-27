@@ -5,12 +5,14 @@ import { CompetenciesComponent } from './competencies/competencies.component';
 import { FrameworksComponent } from './frameworks/frameworks.component';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
+import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
   COMPETENCIES = 'competencies',
   FRAMEWORKS = 'frameworks',
   BASIC_INFO = 'basic-info',
+  ADDITIONAL_REQUIREMENTS = 'additional-requirements',
   CONFIRM_COMPLETION = 'confirm-completion'
 }
 
@@ -43,6 +45,11 @@ const routes: Routes = [
   {
     path: JobRoutes.BASIC_INFO,
     component: BasicInfoComponent
+  },
+
+  {
+    path: JobRoutes.ADDITIONAL_REQUIREMENTS,
+    component: AdditionalRequirementsComponent
   },
 
   {
