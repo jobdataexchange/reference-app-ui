@@ -44,6 +44,7 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
   }
 
   ngOnDestroy(): void {
+    this._jobSub.unsubscribe();
   }
 
   initSubscriptions() {
