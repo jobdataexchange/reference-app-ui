@@ -7,15 +7,17 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
 import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
+import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
-  COMPETENCIES = 'competencies',
-  FRAMEWORKS = 'frameworks',
   BASIC_INFO = 'basic-info',
-  CONFIRM_COMPLETION = 'confirm-completion',
   EMPLOYMENT_RELATIONSHIP = 'employment-relationship',
-  ADDITIONAL_REQUIREMENTS = 'additional-requirements'
+  FRAMEWORKS = 'frameworks',
+  COMPETENCIES = 'competencies',
+  CREDENTIAL_REQUIREMENTS = 'credential-requirements',
+  ADDITIONAL_REQUIREMENTS = 'additional-requirements',
+  CONFIRM_COMPLETION = 'confirm-completion'
 }
 
 export function createRouteUrlByJobRoute(r: JobRoutes): string {
@@ -35,8 +37,13 @@ const routes: Routes = [
   },
 
   {
-    path: JobRoutes.COMPETENCIES,
-    component: CompetenciesComponent
+    path: JobRoutes.BASIC_INFO,
+    component: BasicInfoComponent
+  },
+
+  {
+    path: JobRoutes.EMPLOYMENT_RELATIONSHIP,
+    component: EmploymentRelationshipComponent
   },
 
   {
@@ -45,13 +52,13 @@ const routes: Routes = [
   },
 
   {
-    path: JobRoutes.BASIC_INFO,
-    component: BasicInfoComponent
+    path: JobRoutes.COMPETENCIES,
+    component: CompetenciesComponent
   },
 
   {
-    path: JobRoutes.EMPLOYMENT_RELATIONSHIP,
-    component: EmploymentRelationshipComponent
+    path: JobRoutes.CREDENTIAL_REQUIREMENTS,
+    component: CredentialRequirementsComponent
   },
 
   {

@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
 import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
+import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AdditionalRequirementsComponent } from './additional-requirements/addit
     BasicInfoComponent,
     ConfirmCompletionComponent,
     EmploymentRelationshipComponent,
-    AdditionalRequirementsComponent
+    AdditionalRequirementsComponent,
+    CredentialRequirementsComponent
   ],
   imports: [
     CommonModule,
