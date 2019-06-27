@@ -50,3 +50,10 @@ export enum FormFieldsBasicInfo {
   JOB_IDENTIFIER = 'job-identifier',
   EMPLOYER_IDENTIFIER = 'employer-identifier',
 }
+
+export enum FormFieldsEmploymentRelationship {
+  EMPLOYMENT_AGREEMENT = 'employment-agreement',
+  JOB_TERM = 'job-term',
+  JOB_SCHEDULE = 'job-schedule',
+  WORK_HOURS = 'work-hours'
+}
