@@ -1,15 +1,17 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
   FormFieldsAdditionalRequirements,
-  FormFieldsBasicInfo, FormFieldsCompensationInfo,
+  FormFieldsBasicInfo,
+  FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
   FormFieldsEmploymentRelationship
 } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 import { isNullOrUndefined } from 'util';
+import { EnvironmentConfigService } from './environment-config-service';
 
 export type PipelineID = string;
 
@@ -27,6 +29,7 @@ export interface AnnotatedPreview {
 
 export interface JobContext {
   pipelineID: PipelineID;
+  version: string;
   basicInfo: {};
   annotatedPreview: AnnotatedPreview | null;
   employmentRelationship: {};
@@ -41,9 +44,12 @@ export interface JobContext {
 export class JobService {
   constructor(
     private _api: DefaultService,
+    private _envConfig: EnvironmentConfigService,
     private _localStorage: LocalStorageService,
   ) {
-    if (this._localStorage.has(LocalStorageTypes.JOB)) {
+    if ( this._localStorage.has(LocalStorageTypes.JOB) &&
+         this._localStorage.get(LocalStorageTypes.JOB).version === this._envConfig.environmentConfig.version
+    ) {
       this.announceCurrentJob(this._localStorage.get(LocalStorageTypes.JOB));
     }
     else {
@@ -60,12 +66,13 @@ export class JobService {
   async newJob(id: PipelineID = null) {
     const job = {
       pipelineID: id,
+      version: this._envConfig.environmentConfig.version,
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
-      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
       employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship),
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
-      compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo)
+      compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo),
+      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
     };
     this.setJob(job);
   }
