@@ -2,13 +2,23 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
-import { FormFieldsBasicInfo } from '../../job/base-form.component';
+import {
+  FormFieldsAdditionalRequirements,
+  FormFieldsBasicInfo, FormFieldsCompensationInfo,
+  FormFieldsCredentialRequirements,
+  FormFieldsEmploymentRelationship
+} from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 import { isNullOrUndefined } from 'util';
 
 export type PipelineID = string;
 
-export type JobSectionType = 'basicInfo';
+export type JobSectionType =
+  'basicInfo'              |
+  'employmentRelationship' |
+  'credentialRequirements' |
+  'additionalRequirements' |
+  'compensationInfo';
 
 export interface AnnotatedPreview {
   rawPreview: PreviewResponse | null;
@@ -19,12 +29,16 @@ export interface JobContext {
   pipelineID: PipelineID;
   basicInfo: {};
   annotatedPreview: AnnotatedPreview | null;
+  employmentRelationship: {};
+  credentialRequirements: {};
+  additionalRequirements: {};
+  compensationInfo: {};
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class JobService implements OnDestroy {
+export class JobService {
   constructor(
     private _api: DefaultService,
     private _localStorage: LocalStorageService,
@@ -37,23 +51,21 @@ export class JobService implements OnDestroy {
     }
   }
 
-  get job$() {
-    return this._JobSub.asObservable();
-  }
-
   private _currentJobContext: JobContext;
 
-  private _JobSub = new BehaviorSubject<JobContext>(null);
+  private _jobSub = new BehaviorSubject<JobContext>(null);
 
-  ngOnDestroy() {
-    this._JobSub.unsubscribe();
-  }
+  job$ = this._jobSub.asObservable();
 
   async newJob(id: PipelineID = null) {
     const job = {
       pipelineID: id,
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
-      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id))
+      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
+      employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship),
+      credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
+      additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
+      compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo)
     };
     this.setJob(job);
   }
@@ -95,14 +107,14 @@ export class JobService implements OnDestroy {
   }
 
   private announceCurrentJob(job: JobContext) {
-    this._JobSub.next(job);
+    this._jobSub.next(job);
     this._currentJobContext = job;
   }
 
   private createPreviewMap(p: PreviewResponse) {
     const ap = {};
     p['preview'].fields.forEach( f =>  {
-      const tempFieldName = f.field.split('.')[1].toLowerCase();
+      const tempFieldName = f.field;
       (ap[tempFieldName]) ? ap[tempFieldName].push(f.paragraph_number) : ap[tempFieldName] = [];
     });
     return ap;

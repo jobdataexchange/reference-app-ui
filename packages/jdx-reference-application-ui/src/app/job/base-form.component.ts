@@ -16,9 +16,9 @@ export abstract class BaseForm {
 
   readonly abstract JOB_SECTION_TYPE: JobSectionType;
 
-  protected abstract next();
-
   protected abstract back();
+
+  protected abstract next();
 
   navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
@@ -49,4 +49,32 @@ export enum FormFieldsBasicInfo {
   EMPLOYMENT_UNIT = 'employment-unit',
   JOB_IDENTIFIER = 'job-identifier',
   EMPLOYER_IDENTIFIER = 'employer-identifier',
+}
+
+export enum FormFieldsEmploymentRelationship {
+  EMPLOYMENT_AGREEMENT = 'employment-agreement',
+  JOB_TERM = 'job-term',
+  JOB_SCHEDULE = 'job-schedule',
+  WORK_HOURS = 'work-hours'
+}
+
+export enum FormFieldsCredentialRequirements {
+  REQUIREMENTS = 'requirements'
+}
+
+export enum FormFieldsAdditionalRequirements {
+  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
+  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
+  PHYSICAL_REQUIREMENT = 'physical-requirement',
+  SENSORY_REQUIREMENT = 'sensory-requirement',
+  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
+  SPECIAL_COMMITMENT = 'special-commitment'
+}
+
+export enum FormFieldsCompensationInfo {
+  CURRENCY = 'currency',
+  MINIMUM = 'minimum',
+  MAXIMUM = 'maximum',
+  FREQUENCY = 'frequency',
+  INCENTIVE_COMPENSATION = 'incentive-compensation'
 }

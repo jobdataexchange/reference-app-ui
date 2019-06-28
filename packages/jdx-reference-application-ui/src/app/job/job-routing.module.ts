@@ -5,12 +5,20 @@ import { CompetenciesComponent } from './competencies/competencies.component';
 import { FrameworksComponent } from './frameworks/frameworks.component';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
+import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
+import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
+import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
+import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 
 export enum JobRoutes {
   DESCRIPTION = 'add-description',
-  COMPETENCIES = 'competencies',
-  FRAMEWORKS = 'frameworks',
   BASIC_INFO = 'basic-info',
+  EMPLOYMENT_RELATIONSHIP = 'employment-relationship',
+  FRAMEWORKS = 'frameworks',
+  COMPETENCIES = 'competencies',
+  CREDENTIAL_REQUIREMENTS = 'credential-requirements',
+  ADDITIONAL_REQUIREMENTS = 'additional-requirements',
+  COMPENSATION_INFO = 'compensation-info',
   CONFIRM_COMPLETION = 'confirm-completion'
 }
 
@@ -31,8 +39,13 @@ const routes: Routes = [
   },
 
   {
-    path: JobRoutes.COMPETENCIES,
-    component: CompetenciesComponent
+    path: JobRoutes.BASIC_INFO,
+    component: BasicInfoComponent
+  },
+
+  {
+    path: JobRoutes.EMPLOYMENT_RELATIONSHIP,
+    component: EmploymentRelationshipComponent
   },
 
   {
@@ -41,8 +54,23 @@ const routes: Routes = [
   },
 
   {
-    path: JobRoutes.BASIC_INFO,
-    component: BasicInfoComponent
+    path: JobRoutes.COMPETENCIES,
+    component: CompetenciesComponent
+  },
+
+  {
+    path: JobRoutes.CREDENTIAL_REQUIREMENTS,
+    component: CredentialRequirementsComponent
+  },
+
+  {
+    path: JobRoutes.ADDITIONAL_REQUIREMENTS,
+    component: AdditionalRequirementsComponent
+  },
+
+  {
+    path: JobRoutes.COMPENSATION_INFO,
+    component: CompensationInfoComponent
   },
 
   {

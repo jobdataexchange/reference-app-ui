@@ -9,7 +9,7 @@
 <form [formGroup]=form
       (submit)="next()"
 >
-  <app-form-wrapper classList="mb-2" matchCount="1" [wrappedField]="f.TITLE">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.TITLE">
     <app-input-text id="title"
                     [control]="this.form.get(f.TITLE)"
                     [required]="true"

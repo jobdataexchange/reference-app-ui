@@ -9,6 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmCompletionComponent } from './confirm-completion/confirm-completion.component';
+import { EmploymentRelationshipComponent } from './employment-relationship/employment-relationship.component';
+import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
+import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
+import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
@@ -18,6 +22,10 @@ import { ModalComponent } from './modal/modal.component';
     CompetenciesComponent,
     BasicInfoComponent,
     ConfirmCompletionComponent,
+    EmploymentRelationshipComponent,
+    AdditionalRequirementsComponent,
+    CredentialRequirementsComponent,
+    CompensationInfoComponent,
     ModalComponent
   ],
   exports: [

@@ -126,7 +126,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private onSuccess(r: Response) {
     console.log('<- api.userActionsPost', r);
-    this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
+    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
   }
 
   private onError(e) {

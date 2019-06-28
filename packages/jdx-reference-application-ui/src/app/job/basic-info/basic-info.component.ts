@@ -60,7 +60,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
           [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
           [this.f.INDUSTRY_CODE]:       [j.basicInfo[this.f.INDUSTRY_CODE]],
           [this.f.OCCUPATION_CATEGORY]: [j.basicInfo[this.f.OCCUPATION_CATEGORY]],
-          [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.INDUSTRY], Validators.required],
+          [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.JOB_LOCATION], Validators.required],
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
           [this.f.EMPLOYER_IDENTIFIER]: [j.basicInfo[this.f.EMPLOYER_IDENTIFIER]],
@@ -94,7 +94,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   next() {
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.EMPLOYMENT_RELATIONSHIP);
   }
 
 

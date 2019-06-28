@@ -4,8 +4,7 @@ import { AnnotatedPreview } from '../../shared/services/job.service';
 
 @Component({
   selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  templateUrl: './modal.component.html'
 })
 export class ModalComponent implements OnInit {
   constructor(
@@ -13,21 +12,21 @@ export class ModalComponent implements OnInit {
   ) {}
 
   get description(): string[] {
-    return this.preview.rawPreview['preview'].paragraphs;
+    return this.annotatedPreview.rawPreview['preview'].paragraphs;
   }
 
   get matchedFields() {
-    return this.preview.previewMap[this.currentField];
+    return this.annotatedPreview.previewMap[this.currentField];
   }
 
-  preview: AnnotatedPreview;
+  annotatedPreview: AnnotatedPreview;
+
   currentField: string;
 
   ngOnInit() {}
 
   isMatch(index) {
     return this.matchedFields.some( i => i === index );
-
   }
 
 }

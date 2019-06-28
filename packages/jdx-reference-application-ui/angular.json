@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "jdx-reference-application": {
+    "jdx-reference-application-ui": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -34,7 +34,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "showCircularDependencies": false,
-            "outputPath": "dist/jdx-reference-application",
+            "outputPath": "dist/jdx-reference-application-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -44,7 +44,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "../jdx-reference-application-patternlibrary/public/css/fontawesome.min.css",
               "../jdx-reference-application-patternlibrary/public/css/bootstrap.css",
               "node_modules/ngx-toastr/toastr.css",
@@ -83,18 +82,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "jdx-reference-application:build"
+            "browserTarget": "jdx-reference-application-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "jdx-reference-application:build:production"
+              "browserTarget": "jdx-reference-application-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jdx-reference-application:build"
+            "browserTarget": "jdx-reference-application-ui:build"
           }
         },
         "test": {
@@ -138,11 +137,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "jdx-reference-application:serve"
+            "devServerTarget": "jdx-reference-application-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "jdx-reference-application:serve:production"
+              "devServerTarget": "jdx-reference-application-ui:serve:production"
             }
           }
         },
@@ -158,5 +157,5 @@
       }
     }
   },
-  "defaultProject": "jdx-reference-application"
+  "defaultProject": "jdx-reference-application-ui"
 }

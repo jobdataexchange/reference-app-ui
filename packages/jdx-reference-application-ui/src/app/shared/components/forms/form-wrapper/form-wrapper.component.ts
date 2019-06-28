@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AnnotatedPreview, JobContext, JobService } from '../../../services/job.service';
+import { AnnotatedPreview, JobService } from '../../../services/job.service';
 import { Subscription } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 
@@ -16,13 +16,13 @@ export class FormWrapperComponent implements OnInit, OnDestroy {
 
   @Input() wrappedField: string;
 
-  @Input() matchCount; // TODO: remove matchcount
-
-  private preview: AnnotatedPreview;
+  @Input() matchCount: number; // TODO: remove matchcount
 
   private _jobSub: Subscription = null;
 
-  count = 0;
+  annotatedPreview: AnnotatedPreview;
+
+  matches = 0;
 
   ngOnInit() {
     this.initSubscriptions();
@@ -33,13 +33,14 @@ export class FormWrapperComponent implements OnInit, OnDestroy {
   }
 
   initSubscriptions() {
-    this._jobSub = this._jobService.job$.subscribe(j => {
-      this.count = isNullOrUndefined(j.annotatedPreview.previewMap[this.wrappedField])
-                   ? 0
-                   : j.annotatedPreview.previewMap[this.wrappedField].length;
+    this._jobSub = this._jobService
+      .job$.subscribe(j => {
+        this.matches = isNullOrUndefined(j.annotatedPreview.previewMap[this.wrappedField])
+                     ? 0
+                     : j.annotatedPreview.previewMap[this.wrappedField].length;
 
-      this.preview = j.annotatedPreview;
-    });
+        this.annotatedPreview = j.annotatedPreview;
+      });
   }
 
 }
