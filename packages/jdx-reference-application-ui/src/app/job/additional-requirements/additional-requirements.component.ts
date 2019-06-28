@@ -57,11 +57,11 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
       );
   }
 
-  protected back() {
+  back() {
     this.navigateTo(JobRoutes.COMPETENCIES);
   }
 
-  protected next() {
+  next() {
     this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.COMPENSATION_INFO);
   }

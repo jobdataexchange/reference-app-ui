@@ -81,11 +81,11 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     ];
   }
 
-  protected back() {
+  back() {
     this.navigateTo(JobRoutes.ADDITIONAL_REQUIREMENTS);
   }
 
-  protected next() {
+  next() {
     this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
   }
