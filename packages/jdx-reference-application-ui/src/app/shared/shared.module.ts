@@ -6,6 +6,7 @@ import { InputTextComponent } from './components/forms/input-text/input-text.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextareaComponent } from './components/forms/textarea/textarea.component';
 import { SelectComponent } from './components/forms/select/select.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -13,14 +14,16 @@ import { SelectComponent } from './components/forms/select/select.component';
     PreviewAlertComponent,
     InputTextComponent,
     TextareaComponent,
-    SelectComponent
+    SelectComponent,
+    ModalComponent,
   ],
   exports: [
     FormWrapperComponent,
     PreviewAlertComponent,
     InputTextComponent,
     TextareaComponent,
-    SelectComponent
+    SelectComponent,
+    ModalComponent,
   ],
   imports: [
     CommonModule,

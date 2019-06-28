@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import { AnnotatedPreview } from '../../shared/services/job.service';
+import { AnnotatedPreview } from '../../services/job.service';
 
 @Component({
   selector: 'app-modal',
