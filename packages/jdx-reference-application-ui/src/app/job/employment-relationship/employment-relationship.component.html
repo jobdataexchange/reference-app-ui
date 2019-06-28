@@ -9,7 +9,7 @@
       (submit)="next()">
 
   <app-form-wrapper classList="mb-2" matchCount="0">
-    <app-select [id]="employment-agreement"
+    <app-select id="employment-agreement"
                 [control]="this.form.get(f.EMPLOYMENT_AGREEMENT)"
                 [options]="employmentAgreementOptions"
                 [label]="'Employment Agreement'"
@@ -17,7 +17,7 @@
   </app-form-wrapper>
 
   <app-form-wrapper classList="mb-2" matchCount="0">
-    <app-select [id]="job-term"
+    <app-select id="job-term"
                 [control]="this.form.get(f.JOB_TERM)"
                 [options]="jobTermOptions"
                 [label]="'Job Term'"
@@ -25,7 +25,7 @@
   </app-form-wrapper>
 
   <app-form-wrapper classList="mb-2" matchCount="0">
-    <app-select [id]="job-schedule"
+    <app-select id="job-schedule"
                 [control]="this.form.get(f.JOB_SCHEDULE)"
                 [options]="jobScheduleOptions"
                 [label]="'Job Schedule'"
@@ -33,7 +33,7 @@
   </app-form-wrapper>
 
   <app-form-wrapper classList="mb-2" matchCount="0">
-    <app-select [id]="work-hours"
+    <app-select id="work-hours"
                 [control]="this.form.get(f.WORK_HOURS)"
                 [options]="workHoursOptions"
                 [label]="'Work Hours'"

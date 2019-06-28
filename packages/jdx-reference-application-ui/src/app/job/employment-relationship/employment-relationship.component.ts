@@ -110,11 +110,11 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
     ];
   }
 
-  protected back() {
+  back() {
     this.navigateTo(JobRoutes.BASIC_INFO);
   }
 
-  protected next() {
+  next() {
     this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.FRAMEWORKS);
   }
