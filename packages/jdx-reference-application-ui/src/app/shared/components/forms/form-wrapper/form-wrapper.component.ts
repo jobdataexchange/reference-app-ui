@@ -16,8 +16,6 @@ export class FormWrapperComponent implements OnInit, OnDestroy {
 
   @Input() wrappedField: string;
 
-  @Input() matchCount: number; // TODO: remove matchcount
-
   private _jobSub: Subscription = null;
 
   annotatedPreview: AnnotatedPreview;
