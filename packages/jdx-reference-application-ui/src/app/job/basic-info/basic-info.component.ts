@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
-import { JobContext, JobSectionType, JobService } from '../../shared/services/job.service';
+import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
-import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 
 @Component({
   selector: 'app-basic-info',
@@ -15,22 +14,21 @@ import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 })
 export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
-    _api: DefaultService,
     _fb: FormBuilder,
-    _pipelineIdService: JobService,
+    _jobService: JobService,
     _router: Router,
-    _toastr: ToastrService,
+    _toastr: ToastrService
   ) {
-    super(_fb, _pipelineIdService, _router, _toastr);
+    super(_fb, _jobService, _router, _toastr);
   }
 
   f = FormFieldsBasicInfo;
 
   industryCodes: SelectTypeDefault[];
 
-  occupationCategories: SelectTypeDefault[];
-
   jobIdentifier = null;
+
+  occupationCategories: SelectTypeDefault[];
 
   private _jobSub: Subscription = null;
 
@@ -49,8 +47,6 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   initSubscriptions() {
     this._jobSub = this._jobService.job$.subscribe(job => {
       this.initForm(job);
-      // TODO: real logic to get Job Identifier
-      this.jobIdentifier = job.pipelineID;
       this.form.patchValue({[this.f.JOB_IDENTIFIER]: this.jobIdentifier});
     });
   }
@@ -64,7 +60,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
           [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
           [this.f.INDUSTRY_CODE]:       [j.basicInfo[this.f.INDUSTRY_CODE]],
           [this.f.OCCUPATION_CATEGORY]: [j.basicInfo[this.f.OCCUPATION_CATEGORY]],
-          [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.INDUSTRY], Validators.required],
+          [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.JOB_LOCATION], Validators.required],
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
           [this.f.EMPLOYER_IDENTIFIER]: [j.basicInfo[this.f.EMPLOYER_IDENTIFIER]],

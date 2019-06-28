@@ -1,0 +1,21 @@
+<div class="modal-header" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+<!--        pull-left-->
+        <h5 class="modal-title" id="modalLabel">Job Description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                (click)="bsModalRef.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success mb-3">{{matchedFields.length}} matches for "Job Title" </div>
+
+        <p *ngFor="let p of description; let i = index"
+        [ngClass]="{'alert-success': isMatch(i) }">{{p}}</p>
+      </div>
+    </div>
+  </div>
+</div>

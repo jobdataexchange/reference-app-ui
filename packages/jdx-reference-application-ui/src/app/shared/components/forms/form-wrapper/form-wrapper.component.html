@@ -4,8 +4,11 @@
     <ng-content></ng-content>
   </div>
 
-  <div class="col-md-3" *ngIf="matchCount > 0">
-    <app-preview-alert [matches]="matchCount"></app-preview-alert>
+  <div class="col-md-3" *ngIf="matches > 0">
+    <app-preview-alert [matches]="matches"
+                       [annotatedPreview]="annotatedPreview"
+                       [currentField]="wrappedField"
+    ></app-preview-alert>
   </div>
 
 </div>

@@ -16,9 +16,9 @@ export abstract class BaseForm {
 
   readonly abstract JOB_SECTION_TYPE: JobSectionType;
 
-  protected abstract next();
-
   protected abstract back();
+
+  protected abstract next();
 
   navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
@@ -39,7 +39,7 @@ export abstract class BaseForm {
 }
 
 export enum FormFieldsBasicInfo {
-  TITLE = 'title',
+  TITLE = 'competency', // just for preview testing 'title',
   JOB_SUMMARY = 'job-summary',
   INDUSTRY = 'industry',
   INDUSTRY_CODE = 'industry-code',

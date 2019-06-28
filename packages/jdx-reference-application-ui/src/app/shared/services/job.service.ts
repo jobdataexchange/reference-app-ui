@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Response } from '@jdx/jdx-reference-application-api-client';
+import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
@@ -9,19 +9,26 @@ import {
   FormFieldsEmploymentRelationship
 } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
+import { isNullOrUndefined } from 'util';
 
 export type PipelineID = string;
 
 export type JobSectionType =
-  'basicInfo' |
+  'basicInfo'              |
   'employmentRelationship' |
   'credentialRequirements' |
   'additionalRequirements' |
   'compensationInfo';
 
+export interface AnnotatedPreview {
+  rawPreview: PreviewResponse | null;
+  previewMap: {} | null;
+}
+
 export interface JobContext {
   pipelineID: PipelineID;
   basicInfo: {};
+  annotatedPreview: AnnotatedPreview | null;
   employmentRelationship: {};
   credentialRequirements: {};
   additionalRequirements: {};
@@ -31,8 +38,9 @@ export interface JobContext {
 @Injectable({
   providedIn: 'root'
 })
-export class JobService implements OnDestroy {
+export class JobService {
   constructor(
+    private _api: DefaultService,
     private _localStorage: LocalStorageService,
   ) {
     if (this._localStorage.has(LocalStorageTypes.JOB)) {
@@ -43,24 +51,17 @@ export class JobService implements OnDestroy {
     }
   }
 
-  get job$() {
-    return this._JobSub.asObservable();
-  }
-
   private _currentJobContext: JobContext;
 
-  private _currentPipelineId: PipelineID;
+  private _jobSub = new BehaviorSubject<JobContext>(null);
 
-  private _JobSub = new BehaviorSubject<JobContext>(null);
+  job$ = this._jobSub.asObservable();
 
-  ngOnDestroy() {
-    this._JobSub.unsubscribe();
-  }
-
-  newJob(id: PipelineID = null) {
+  async newJob(id: PipelineID = null) {
     const job = {
       pipelineID: id,
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
+      annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
       employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship),
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
@@ -70,7 +71,6 @@ export class JobService implements OnDestroy {
   }
 
   updateJobSection(section: JobSectionType, data: {}) {
-
     if (!this._currentJobContext[section]) {
       throw new Error(`Job section '${section}' can not be found on JobContext`);
     }
@@ -78,8 +78,24 @@ export class JobService implements OnDestroy {
     this.setJob(this._currentJobContext);
   }
 
-  isResponsePipelineIdCurrent(r: Response) {
-    return r.pipelineID === this._currentPipelineId;
+  updateJobPreview(id: PipelineID): Promise<any> {
+    return this._api
+      .previewPost(this.createRequestObject(id))
+      .toPromise()
+      .then(p => {
+        return {
+          rawPreview: p,
+          previewMap: this.createPreviewMap(p)
+        };
+      });
+  }
+
+  isResponsePipelineIdCurrent(r: Request) {
+    return r.pipelineID === this._currentJobContext.pipelineID;
+  }
+
+  createRequestObject(id: PipelineID): Request {
+    return { pipelineID: id};
   }
 
   private setJob(job: JobContext) {
@@ -91,9 +107,17 @@ export class JobService implements OnDestroy {
   }
 
   private announceCurrentJob(job: JobContext) {
+    this._jobSub.next(job);
     this._currentJobContext = job;
-    this._JobSub.next(job);
-    this._currentPipelineId = job.pipelineID || null;
+  }
+
+  private createPreviewMap(p: PreviewResponse) {
+    const ap = {};
+    p['preview'].fields.forEach( f =>  {
+      const tempFieldName = f.field;
+      (ap[tempFieldName]) ? ap[tempFieldName].push(f.paragraph_number) : ap[tempFieldName] = [];
+    });
+    return ap;
   }
 
 }

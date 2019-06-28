@@ -13,6 +13,9 @@ import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfoComponent } from './info/info.component';
 import { EnvironmentApiClientConfiguration } from './shared/services/api-configuration.service';
+import { JobModule } from './job/job.module';
+import { ModalModule } from 'ngx-bootstrap';
+import { ModalComponent } from './job/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,12 @@ import { EnvironmentApiClientConfiguration } from './shared/services/api-configu
       closeButton: true,
       disableTimeOut: true,
       tapToDismiss: false
-    })
+    }),
+    JobModule,
+    ModalModule.forRoot()
+  ],
+  entryComponents: [
+    ModalComponent
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: MockBackendInterceptor, multi: true }

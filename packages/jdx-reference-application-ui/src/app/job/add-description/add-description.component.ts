@@ -69,6 +69,7 @@ export class AddDescriptionComponent implements OnInit {
     }
 
     const userEnteredText = this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value;
+
     if (userEnteredText) {
       return new File(
         [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
@@ -79,7 +80,6 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   private onSuccess(r: RawJobDescriptionResponse) {
-    console.log('<- uploadJobDescriptionFilePost ', r);
     this._jobService.newJob(r.pipelineID);
     this.navigateTo(JobRoutes.BASIC_INFO);
   }
