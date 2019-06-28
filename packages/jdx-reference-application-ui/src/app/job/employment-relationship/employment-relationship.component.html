@@ -8,7 +8,7 @@
 <form [formGroup]="form"
       (submit)="next()">
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.EMPLOYMENT_AGREEMENT">
     <app-select id="employment-agreement"
                 [control]="this.form.get(f.EMPLOYMENT_AGREEMENT)"
                 [options]="employmentAgreementOptions"
@@ -16,7 +16,7 @@
                 [defaultOptionText]="'Select'"></app-select>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.JOB_TERM">
     <app-select id="job-term"
                 [control]="this.form.get(f.JOB_TERM)"
                 [options]="jobTermOptions"
@@ -24,7 +24,7 @@
                 [defaultOptionText]="'Select'"></app-select>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.JOB_SCHEDULE">
     <app-select id="job-schedule"
                 [control]="this.form.get(f.JOB_SCHEDULE)"
                 [options]="jobScheduleOptions"
@@ -32,7 +32,7 @@
                 [defaultOptionText]="'Select'"></app-select>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.WORK_HOURS">
     <app-select id="work-hours"
                 [control]="this.form.get(f.WORK_HOURS)"
                 [options]="workHoursOptions"

@@ -7,42 +7,42 @@
 
 <form [formGroup]="form" (submit)="next()">
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.APPLICATION_LOCATION_REQUIREMENT">
     <app-input-text id="application-location-requirement"
                     [control]="this.form.get(f.APPLICATION_LOCATION_REQUIREMENT)"
                     label="Applicant Location Requirement"
                     helpBlock="Location(s) applicants can apply from."></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.CITIZENSHIP_REQUIREMENT">
     <app-input-text id="citizenship-requirement"
                     [control]="this.form.get(f.CITIZENSHIP_REQUIREMENT)"
                     label="Citizenship Requirement"
                     helpBlock="Country of the applicant's citizenship."></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.PHYSICAL_REQUIREMENT">
     <app-input-text id="physical-requirement"
                     [control]="this.form.get(f.PHYSICAL_REQUIREMENT)"
                     label="Physical Requirement"
                     helpBlock="Resource identifying types of physical activity associated with a job."></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.SENSORY_REQUIREMENT">
     <app-input-text id="sensory-requirement"
                     [control]="this.form.get(f.SENSORY_REQUIREMENT)"
                     label="Sensory Requirement"
                     helpBlock="Resource identifying sensory requirements and levels necessary to function on the job including hearing and vision."></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.SECURITY_CLEARANCE_REQUIREMENT">
     <app-input-text id="security-clearance-requirement"
                     [control]="this.form.get(f.SECURITY_CLEARANCE_REQUIREMENT)"
                     label="Security Clearance Requirement"
                     helpBlock="Description of any security clearance requirements for the job."></app-input-text>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" matchCount="0">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.SPECIAL_COMMITMENT">
     <app-input-text id="special-commitment"
                     [control]="this.form.get(f.SPECIAL_COMMITMENT)"
                     label="Special Commitment"

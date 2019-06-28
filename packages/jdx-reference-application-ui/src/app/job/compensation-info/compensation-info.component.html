@@ -9,7 +9,7 @@
 <form [formGroup]=form
       (submit)="next()">
 
-  <app-form-wrapper classList="mb-4" matchCount="0">
+  <app-form-wrapper classList="mb-4" [wrappedField]="f.CURRENCY">
     <app-select id="currency"
                 [control]="this.form.get(f.CURRENCY)"
                 [options]="currencyOptions"
@@ -20,19 +20,19 @@
   <fieldset class="form-group mb-4">
     <legend class="h6 font-weight-bold">Base Salary</legend>
 
-    <app-form-wrapper matchCount="0">
+    <app-form-wrapper [wrappedField]="f.MINIMUM">
       <app-input-text id="minimum"
                       [control]="this.form.get(f.MINIMUM)"
                       label="Minimum"></app-input-text>
     </app-form-wrapper>
 
-    <app-form-wrapper matchCount="0">
+    <app-form-wrapper [wrappedField]="f.MAXIMUM">
       <app-input-text id="maximum"
                       [control]="this.form.get(f.MAXIMUM)"
                       label="Maximum"></app-input-text>
     </app-form-wrapper>
 
-    <app-form-wrapper matchCount="0">
+    <app-form-wrapper [wrappedField]="f.FREQUENCY">
       <app-select id="frequency"
                   [control]="this.form.get(f.FREQUENCY)"
                   [options]="frequencyOptions"
@@ -41,7 +41,7 @@
     </app-form-wrapper>
   </fieldset>
 
-  <app-form-wrapper classList="mb-4" matchCount="0">
+  <app-form-wrapper classList="mb-4" [wrappedField]="f.INCENTIVE_COMPENSATION">
     <app-input-text id="incentive-compensation"
                     [control]="this.form.get(f.INCENTIVE_COMPENSATION)"
                     label="Incentive Compensation"
