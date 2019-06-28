@@ -13,7 +13,6 @@ import { MockBackendInterceptor } from './shared/mock/mock-backend-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfoComponent } from './info/info.component';
 import { EnvironmentApiClientConfiguration } from './shared/services/api-configuration.service';
-import { JobModule } from './job/job.module';
 import { ModalModule } from 'ngx-bootstrap';
 import { ModalComponent } from './shared/components/modal/modal.component';
 
@@ -37,7 +36,6 @@ import { ModalComponent } from './shared/components/modal/modal.component';
       disableTimeOut: true,
       tapToDismiss: false
     }),
-    JobModule,
     ModalModule.forRoot()
   ],
   entryComponents: [
