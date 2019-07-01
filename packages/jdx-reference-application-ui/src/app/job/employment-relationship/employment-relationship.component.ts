@@ -15,6 +15,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./employment-relationship.component.css']
 })
 export class EmploymentRelationshipComponent extends BaseForm implements OnInit, OnDestroy {
+  constructor(
+    _api: DefaultService,
+    _fb: FormBuilder,
+    _jobService: JobService,
+    _router: Router,
+    _toastr: ToastrService
+  ) {
+    super(_fb, _jobService, _router, _toastr);
+  }
 
   readonly JOB_SECTION_TYPE = 'employmentRelationship';
 
@@ -26,14 +35,6 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
   workHoursOptions: SelectTypeDefault[];
 
   private _jobSub: Subscription = null;
-
-  constructor(_api: DefaultService,
-              _fb: FormBuilder,
-              _pipelineIdService: JobService,
-              _router: Router,
-              _toastr: ToastrService ) {
-    super(_fb, _pipelineIdService, _router, _toastr);
-  }
 
   ngOnInit() {
     this.getEmploymentAgreementOptions();

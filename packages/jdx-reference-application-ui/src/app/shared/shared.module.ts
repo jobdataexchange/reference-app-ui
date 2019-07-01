@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TextareaComponent } from './components/forms/textarea/textarea.component';
 import { SelectComponent } from './components/forms/select/select.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { DateComponent } from './components/forms/date/date.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ModalComponent } from './components/modal/modal.component';
     TextareaComponent,
     SelectComponent,
     ModalComponent,
+    DateComponent,
   ],
   exports: [
     FormWrapperComponent,
@@ -24,6 +26,7 @@ import { ModalComponent } from './components/modal/modal.component';
     TextareaComponent,
     SelectComponent,
     ModalComponent,
+    DateComponent,
   ],
   imports: [
     CommonModule,

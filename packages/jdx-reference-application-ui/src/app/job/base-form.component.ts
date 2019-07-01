@@ -51,6 +51,18 @@ export enum FormFieldsBasicInfo {
   EMPLOYER_IDENTIFIER = 'employer-identifier',
 }
 
+export enum FormFieldsCredentialRequirements {
+  REQUIREMENTS = 'requirements'
+}
+
+export enum FormFieldsCompensationInfo {
+  CURRENCY = 'currency',
+  MINIMUM = 'minimum',
+  MAXIMUM = 'maximum',
+  FREQUENCY = 'frequency',
+  INCENTIVE_COMPENSATION = 'incentive-compensation'
+}
+
 export enum FormFieldsEmploymentRelationship {
   EMPLOYMENT_AGREEMENT = 'employment-agreement',
   JOB_TERM = 'job-term',
@@ -58,8 +70,10 @@ export enum FormFieldsEmploymentRelationship {
   WORK_HOURS = 'work-hours'
 }
 
-export enum FormFieldsCredentialRequirements {
-  REQUIREMENTS = 'requirements'
+export enum FormFieldsPostingInfo {
+  DATE_POSTED = 'date-posted',
+  VALID_THROUGH = 'valid-through',
+  JOB_OPENINGS = 'job-openings',
 }
 
 export enum FormFieldsAdditionalRequirements {
@@ -71,10 +85,3 @@ export enum FormFieldsAdditionalRequirements {
   SPECIAL_COMMITMENT = 'special-commitment'
 }
 
-export enum FormFieldsCompensationInfo {
-  CURRENCY = 'currency',
-  MINIMUM = 'minimum',
-  MAXIMUM = 'maximum',
-  FREQUENCY = 'frequency',
-  INCENTIVE_COMPENSATION = 'incentive-compensation'
-}

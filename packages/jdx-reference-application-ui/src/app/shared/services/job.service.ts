@@ -7,7 +7,8 @@ import {
   FormFieldsBasicInfo,
   FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
-  FormFieldsEmploymentRelationship
+  FormFieldsEmploymentRelationship,
+  FormFieldsPostingInfo
 } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
 import { isNullOrUndefined } from 'util';
@@ -16,26 +17,28 @@ import { EnvironmentConfigService } from './environment-config-service';
 export type PipelineID = string;
 
 export type JobSectionType =
-  'basicInfo'              |
-  'employmentRelationship' |
-  'credentialRequirements' |
   'additionalRequirements' |
-  'compensationInfo';
+  'basicInfo'              |
+  'credentialRequirements' |
+  'compensationInfo'       |
+  'employmentRelationship' |
+  'postingInfo'            ;
 
 export interface AnnotatedPreview {
-  rawPreview: PreviewResponse | null;
   previewMap: {} | null;
+  rawPreview: PreviewResponse | null;
 }
 
 export interface JobContext {
+  additionalRequirements: {};
+  annotatedPreview: AnnotatedPreview | null;
+  basicInfo: {};
+  compensationInfo: {};
+  credentialRequirements: {};
+  employmentRelationship: {};
+  postingInfo: {};
   pipelineID: PipelineID;
   version: string;
-  basicInfo: {};
-  annotatedPreview: AnnotatedPreview | null;
-  employmentRelationship: {};
-  credentialRequirements: {};
-  additionalRequirements: {};
-  compensationInfo: {};
 }
 
 @Injectable({
@@ -72,6 +75,7 @@ export class JobService {
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
       compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo),
+      postingInfo: createEmptyObjectFromEnum(FormFieldsPostingInfo),
       annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
     };
     this.setJob(job);

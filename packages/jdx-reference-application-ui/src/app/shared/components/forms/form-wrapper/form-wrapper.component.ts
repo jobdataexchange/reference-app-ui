@@ -33,7 +33,7 @@ export class FormWrapperComponent implements OnInit, OnDestroy {
   initSubscriptions() {
     this._jobSub = this._jobService
       .job$.subscribe(j => {
-        this.matches = isNullOrUndefined(j.annotatedPreview.previewMap[this.wrappedField])
+        this.matches = isNullOrUndefined(j.annotatedPreview) || isNullOrUndefined(j.annotatedPreview.previewMap[this.wrappedField])
                      ? 0
                      : j.annotatedPreview.previewMap[this.wrappedField].length;
 

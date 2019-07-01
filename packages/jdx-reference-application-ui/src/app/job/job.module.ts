@@ -13,6 +13,7 @@ import { EmploymentRelationshipComponent } from './employment-relationship/emplo
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
+import { PostingInfoComponent } from './posting-info/posting-info.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CompensationInfoComponent } from './compensation-info/compensation-info
     AdditionalRequirementsComponent,
     CredentialRequirementsComponent,
     CompensationInfoComponent,
+    PostingInfoComponent,
   ],
   imports: [
     CommonModule,

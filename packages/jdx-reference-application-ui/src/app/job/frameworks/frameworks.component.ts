@@ -24,7 +24,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   constructor(
     private _api: DefaultService,
     private _fb: FormBuilder,
-    private _pipelineIdService: JobService,
+    private _jobService: JobService,
     private _router: Router,
     private _toastr: ToastrService,
   ) { }
@@ -61,7 +61,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   initSubscriptions() {
     this._pipelineIdSub =
-      this._pipelineIdService
+      this._jobService
         .job$
         .subscribe(
           j => {
@@ -115,7 +115,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   private onSuccess(r: Response) {
     console.log('<- uploadJobDescriptionFilePost ', r);
-    if (this._pipelineIdService.isResponsePipelineIdCurrent(r)) {
+    if (this._jobService.isResponsePipelineIdCurrent(r)) {
       this.navigateTo(JobRoutes.COMPETENCIES);
     } else {
       // TODO: handle this case.

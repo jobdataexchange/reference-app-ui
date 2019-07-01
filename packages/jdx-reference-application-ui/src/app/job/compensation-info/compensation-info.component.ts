@@ -15,10 +15,20 @@ import { SelectTypeDefault } from '../../shared/components/forms/select/select.c
   styleUrls: ['./compensation-info.component.css']
 })
 export class CompensationInfoComponent extends BaseForm implements OnInit, OnDestroy {
+  constructor(
+    _api: DefaultService,
+    _fb: FormBuilder,
+    _jobService: JobService,
+    _router: Router,
+    _toastr: ToastrService
+  ) {
+    super(_fb, _jobService, _router, _toastr);
+  }
 
   readonly JOB_SECTION_TYPE = 'compensationInfo';
 
   DEFAULT_CURRENCY_OPTION = 'USD';
+
   DEFAULT_FREQUENCY_OPTION = 'Year';
 
   f = FormFieldsCompensationInfo;
@@ -28,14 +38,6 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
   currencyOptions: SelectTypeDefault[];
 
   frequencyOptions: SelectTypeDefault[];
-
-  constructor(_api: DefaultService,
-              _fb: FormBuilder,
-              _pipelineIdService: JobService,
-              _router: Router,
-              _toastr: ToastrService,) {
-    super(_fb, _pipelineIdService, _router, _toastr);
-  }
 
   ngOnInit() {
     this.getCurrencyOptions();
