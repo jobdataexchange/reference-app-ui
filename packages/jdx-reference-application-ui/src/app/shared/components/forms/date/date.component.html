@@ -1,0 +1,14 @@
+<label class="font-weight-bold" [for]="id">
+  {{label}} <span class="sr-only" *ngIf="required">,required field</span>
+</label>
+<span class="required" *ngIf="required">*</span>
+<input
+  type="date"
+  [formControl]="control"
+  class="form-control form-control-lg"
+  [id]="id"
+  [placeholder]="placeholder"
+  [attr.aria-describedby]="id+'HelpBlock'"
+  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+>
+<small [id]="id+'HelpBlock'" class="form-text text-muted">{{helpBlock}}</small>

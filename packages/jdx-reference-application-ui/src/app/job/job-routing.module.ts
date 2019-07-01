@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AddDescriptionComponent } from './add-description/add-description.component';
 import { CompetenciesComponent } from './competencies/competencies.component';
 import { FrameworksComponent } from './frameworks/frameworks.component';
@@ -9,17 +9,19 @@ import { EmploymentRelationshipComponent } from './employment-relationship/emplo
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
+import { PostingInfoComponent } from './posting-info/posting-info.component';
 
 export enum JobRoutes {
-  DESCRIPTION = 'add-description',
+  ADDITIONAL_REQUIREMENTS = 'additional-requirements',
   BASIC_INFO = 'basic-info',
+  COMPETENCIES = 'competencies',
+  COMPENSATION_INFO = 'compensation-info',
+  CONFIRM_COMPLETION = 'confirm-completion',
+  CREDENTIAL_REQUIREMENTS = 'credential-requirements',
+  DESCRIPTION = 'add-description',
   EMPLOYMENT_RELATIONSHIP = 'employment-relationship',
   FRAMEWORKS = 'frameworks',
-  COMPETENCIES = 'competencies',
-  CREDENTIAL_REQUIREMENTS = 'credential-requirements',
-  ADDITIONAL_REQUIREMENTS = 'additional-requirements',
-  COMPENSATION_INFO = 'compensation-info',
-  CONFIRM_COMPLETION = 'confirm-completion'
+  POSTING_INFO = 'posting-info'
 }
 
 export function createRouteUrlByJobRoute(r: JobRoutes): string {
@@ -71,6 +73,11 @@ const routes: Routes = [
   {
     path: JobRoutes.COMPENSATION_INFO,
     component: CompensationInfoComponent
+  },
+
+  {
+    path: JobRoutes.POSTING_INFO,
+    component: PostingInfoComponent
   },
 
   {

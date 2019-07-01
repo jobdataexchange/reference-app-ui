@@ -46,6 +46,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   initSubscriptions() {
     this._jobSub = this._jobService.job$.subscribe(job => {
+      this.jobIdentifier = job.pipelineID;
       this.initForm(job);
       this.form.patchValue({[this.f.JOB_IDENTIFIER]: this.jobIdentifier});
     });
@@ -64,7 +65,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
           [this.f.EMPLOYER_IDENTIFIER]: [j.basicInfo[this.f.EMPLOYER_IDENTIFIER]],
-          [this.f.JOB_IDENTIFIER]:      {value: [ [j.basicInfo[this.f.JOB_IDENTIFIER]] || ''], disabled: true}
+          [this.f.JOB_IDENTIFIER]:      {value: [ [j.basicInfo[this.f.JOB_IDENTIFIER]] || this.jobIdentifier], disabled: true}
         }
       );
   }

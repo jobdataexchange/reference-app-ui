@@ -14,20 +14,21 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./additional-requirements.component.css']
 })
 export class AdditionalRequirementsComponent extends BaseForm implements OnInit, OnDestroy {
+  constructor(
+    _api: DefaultService,
+    _fb: FormBuilder,
+    _jobService: JobService,
+    _router: Router,
+    _toastr: ToastrService
+  ) {
+    super(_fb, _jobService, _router, _toastr);
+  }
+
+  private _jobSub: Subscription = null;
 
   readonly JOB_SECTION_TYPE = 'additionalRequirements';
 
   f = FormFieldsAdditionalRequirements;
-
-  private _jobSub: Subscription = null;
-
-  constructor(_api: DefaultService,
-              _fb: FormBuilder,
-              _pipelineIdService: JobService,
-              _router: Router,
-              _toastr: ToastrService ) {
-    super(_fb, _pipelineIdService, _router, _toastr);
-  }
 
   ngOnInit() {
     this.initSubscriptions();
