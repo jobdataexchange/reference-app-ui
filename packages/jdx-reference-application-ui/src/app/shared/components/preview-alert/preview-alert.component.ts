@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { ModalComponent } from '../../../job/modal/modal.component';
+import { ModalComponent } from '../modal/modal.component';
 import { AnnotatedPreview } from '../../services/job.service';
 
 @Component({

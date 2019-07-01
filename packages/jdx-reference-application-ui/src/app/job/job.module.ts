@@ -13,7 +13,6 @@ import { EmploymentRelationshipComponent } from './employment-relationship/emplo
 import { AdditionalRequirementsComponent } from './additional-requirements/additional-requirements.component';
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
-import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +25,6 @@ import { ModalComponent } from './modal/modal.component';
     AdditionalRequirementsComponent,
     CredentialRequirementsComponent,
     CompensationInfoComponent,
-    ModalComponent
-  ],
-  exports: [
-    ModalComponent
   ],
   imports: [
     CommonModule,

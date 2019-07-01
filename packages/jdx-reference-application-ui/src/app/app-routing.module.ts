@@ -16,8 +16,7 @@ const routes: Routes = [
 
   {
     path: 'job',
-    loadChildren: () => import('./job/job.module').then(mod => mod.JobModule) // works in dev
-    // loadChildren: './job/job.module#JobModule' // works in prod
+    loadChildren: './job/job.module#JobModule'
   }
 ];
 
