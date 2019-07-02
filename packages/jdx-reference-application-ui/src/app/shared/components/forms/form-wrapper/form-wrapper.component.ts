@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AnnotatedPreview, JobService } from '../../../services/job.service';
 import { Subscription } from 'rxjs';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-form-wrapper',
@@ -33,10 +32,7 @@ export class FormWrapperComponent implements OnInit, OnDestroy {
   initSubscriptions() {
     this._jobSub = this._jobService
       .job$.subscribe(j => {
-        this.matches = isNullOrUndefined(j.annotatedPreview) || isNullOrUndefined(j.annotatedPreview.previewMap[this.wrappedField])
-                     ? 0
-                     : j.annotatedPreview.previewMap[this.wrappedField].length;
-
+        this.matches = this._jobService.previewMatchCountByPropertyName(this.wrappedField);
         this.annotatedPreview = j.annotatedPreview;
       });
   }

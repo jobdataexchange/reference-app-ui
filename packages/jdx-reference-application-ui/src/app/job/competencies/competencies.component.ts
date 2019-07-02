@@ -50,7 +50,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return this.substatementsFormArray.controls;
   }
 
-  // FIXME typing
   get substatementsFormArray(): FormArray {
     return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
   }
@@ -115,6 +114,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         })
     };
 
+    console.log('-> compentencies form value', this.form.value);
     console.log('-> api.userActionsPost', userActionRequest);
 
     this._api.userActionsPost(userActionRequest)
@@ -194,7 +194,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         this.createAnnotatedSubstatementsArray(mt.matchTable);
       });
   }
-
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
     this.substatementsFormArray = this._fb.array(substatements.map(

@@ -60,7 +60,8 @@ export enum FormFieldsCompensationInfo {
   MINIMUM = 'minimum',
   MAXIMUM = 'maximum',
   FREQUENCY = 'frequency',
-  INCENTIVE_COMPENSATION = 'incentive-compensation'
+  INCENTIVE_COMPENSATION = 'incentive-compensation',
+  JOB_BENEFITS = 'job-Benefits'
 }
 
 export enum FormFieldsEmploymentRelationship {

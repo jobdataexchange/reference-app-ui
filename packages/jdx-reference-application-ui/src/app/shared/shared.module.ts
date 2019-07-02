@@ -17,7 +17,7 @@ import { DateComponent } from './components/forms/date/date.component';
     TextareaComponent,
     SelectComponent,
     ModalComponent,
-    DateComponent,
+    DateComponent
   ],
   exports: [
     FormWrapperComponent,

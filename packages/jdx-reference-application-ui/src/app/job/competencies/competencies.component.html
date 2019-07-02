@@ -19,8 +19,10 @@
     <button class="btn btn-secondary" type="button" (click)="updateThreshold()">Update Threshold</button>
   </app-form-wrapper>
 
-  <div class="form-row mb-4" [formArrayName]="ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME" *ngFor="let substatementControl of substatementControls let i = index;">
-
+  <div class="form-row mb-4"
+       [formArrayName]="ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME"
+       *ngFor="let substatementControl of substatementControls let i = index;"
+  >
     <div class="form-group flex-grow-1" [formGroupName]="i">
       <label class="font-italic" [for]="'competency'+i">{{substatementControl.value.substatement}}</label>
       <div class="form-row">
