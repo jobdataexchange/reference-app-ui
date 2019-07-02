@@ -15,14 +15,18 @@ import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { ToastrService } from 'ngx-toastr';
-
+import { isNullOrUndefined } from 'util';
 
 export enum CompetencySelectOptions {
   NONE = 'NONE',
   OTHER = 'OTHER'
 }
 
-export type  CompetencySelectOption  = keyof typeof CompetencySelectOptions;
+export enum StateEnum {
+  LOADED = 'loaded',
+  LOADING = 'loading',
+  EMPTY =  'empty'
+}
 
 export interface AnnotatedSubstatement extends Substatements {
   annotatedName: string;
@@ -44,8 +48,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
   ) {}
 
-  competencySelectOptions = CompetencySelectOptions;
-
   get substatementControls() {
     return this.substatementsFormArray.controls;
   }
@@ -58,9 +60,24 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, substatementsFormArray);
   }
 
+  stateEnum = StateEnum;
+
+  competencySelectOptions = CompetencySelectOptions;
+
   form: FormGroup;
 
-  substatementsArray: Substatements[];
+  get state(): StateEnum {
+    if  (this._isLoading) {
+      return StateEnum.LOADING;
+    }
+    else {
+      return StateEnum.LOADED && this.substatementsFormArray.length
+             ? StateEnum.LOADED
+             : StateEnum.EMPTY;
+    }
+  }
+
+  private _isLoading: boolean;
 
   private _matchTableSub: Subscription;
 
@@ -85,7 +102,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
   }
 
-  submit() {
+  submitForm() {
     const userActionRequest: UserActionRequest = {
       pipelineID: this._pipelineID,
       matchTableSelections: this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
@@ -126,7 +143,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private onSuccess(r: Response) {
     console.log('<- api.userActionsPost', r);
-    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
+    this.next();
   }
 
   private onError(e) {
@@ -141,11 +158,18 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
         });
   }
+  private fetchMatchTable(): Observable<MatchTableResponse> | null {
 
-  private fetchMatchTable(): Observable<MatchTableResponse> {
+    if (isNullOrUndefined(this._pipelineID)) {
+      this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
+      this.navigateTo(JobRoutes.DESCRIPTION);
+      return null;
+    }
+
     return this._api.matchTablePost(
       this.createMatchTableRequest(this._pipelineID, this.threshold)
-    ).pipe(map(this.filterOutDuplicateRecommendations));
+    )
+      .pipe(map(this.filterOutDuplicateRecommendations));
   }
 
   /*
@@ -166,6 +190,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions() {
+    this._isLoading = true;
     this._matchTableSub =
       this._pipeLineIdService.job$
         .pipe(
@@ -178,6 +203,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
           console.log('<- _api.matchTablePost ', mt);
           this._matchTableResponse = mt;
           this.createAnnotatedSubstatementsArray(mt.matchTable);
+          this._isLoading = false;
         });
   }
 
@@ -187,17 +213,20 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   updateThreshold() {
+    this._isLoading = true;
     return this.fetchMatchTable()
       .subscribe(mt => {
         console.log('<- _api.matchTablePost ', mt);
         this._matchTableResponse = mt;
         this.createAnnotatedSubstatementsArray(mt.matchTable);
+        this._isLoading = false;
       });
   }
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
     this.substatementsFormArray = this._fb.array(substatements.map(
       s => this._fb.group( this.createAnnotatedSubstatement(s))));
+
   }
 
   private createAnnotatedSubstatement(s: Substatements): AnnotatedSubstatement {
@@ -238,12 +267,16 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  private navigateTo(route: JobRoutes) {
-    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
+  next() {
+    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
   }
-
 
   back() {
     this.navigateTo(JobRoutes.FRAMEWORKS);
   }
+
+  private navigateTo(route: JobRoutes) {
+    this._router.navigateByUrl(createRouteUrlByJobRoute(route));
+  }
+
 }

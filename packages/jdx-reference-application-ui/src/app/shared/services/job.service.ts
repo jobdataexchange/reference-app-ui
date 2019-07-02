@@ -3,7 +3,7 @@ import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-app
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
-  FormFieldsAdditionalRequirements,
+  FormFieldsAdditionalRequirements, FormFieldsAssessmentInfo,
   FormFieldsBasicInfo,
   FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
@@ -18,6 +18,7 @@ export type PipelineID = string;
 
 export type JobSectionType =
   'additionalRequirements' |
+  'assessmentInfo'         |
   'basicInfo'              |
   'credentialRequirements' |
   'compensationInfo'       |
@@ -31,6 +32,7 @@ export interface AnnotatedPreview {
 
 export interface JobContext {
   additionalRequirements: {};
+  assessmentInfo: {};
   annotatedPreview: AnnotatedPreview | null;
   basicInfo: {};
   compensationInfo: {};
@@ -71,6 +73,7 @@ export class JobService {
       pipelineID: id,
       version: this._envConfig.environmentConfig.version,
       basicInfo: createEmptyObjectFromEnum(FormFieldsBasicInfo),
+      assessmentInfo: createEmptyObjectFromEnum(FormFieldsAssessmentInfo),
       employmentRelationship: createEmptyObjectFromEnum(FormFieldsEmploymentRelationship),
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),

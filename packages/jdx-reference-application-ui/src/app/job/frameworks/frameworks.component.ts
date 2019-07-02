@@ -49,8 +49,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._pipelineIdSub) {this._pipelineIdSub.unsubscribe();}
-    if (this._frameworkRecommendationSub) {this._frameworkRecommendationSub.unsubscribe();}
+    if (this._pipelineIdSub) {this._pipelineIdSub.unsubscribe(); }
+    if (this._frameworkRecommendationSub) {this._frameworkRecommendationSub.unsubscribe(); }
   }
 
   initForm() {
@@ -116,7 +116,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private onSuccess(r: Response) {
     console.log('<- uploadJobDescriptionFilePost ', r);
     if (this._jobService.isResponsePipelineIdCurrent(r)) {
-      this.navigateTo(JobRoutes.COMPETENCIES);
+      this.navigateTo(JobRoutes.ASSESSMENT_INFO);
     } else {
       // TODO: handle this case.
       console.log('[ERROR] Response PipelineId does not match current id');

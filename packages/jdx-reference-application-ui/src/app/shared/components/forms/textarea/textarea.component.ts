@@ -6,5 +6,5 @@ import { BaseFormField } from '../base-form-field.component';
   templateUrl: './textarea.component.html'
 })
 export class TextareaComponent extends BaseFormField {
-  @Input() rows? = 1
+  @Input() rows ? = 1;
 }
