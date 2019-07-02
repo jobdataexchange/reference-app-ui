@@ -48,14 +48,55 @@
                     helpBlock="Description of bonus and commission compensation aspects of the job."></app-input-text>
   </app-form-wrapper>
 
+  <div class="form-row mb-4">
+    <div class="form-group col-md-9">
+      <fieldset class="benefits form-group mb-3" aria-describedby="benefitsHelpBlock">
+        <legend class=" h6 font-weight-bold">Job Benefit</legend>
+        <div class="benefit-field d-flex mb-2"
+             [formArrayName]="this.f.JOB_BENEFITS"
+             *ngFor="let JobBenefit of jobBenefitsControls; let i=index"
+        >
+          <input type="text"
+                 [formControl]="JobBenefit"
+                 class="form-control
+                 form-control-lg"
+                 placeholder="Benefit"
+                 aria-label="benefit"
+          >
+          <button class="close ml-3"
+                  (click)="removeBenefit(i)"
+                  type="button"
+                  aria-label="Close"
+                  style="font-size: 3rem;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </fieldset>
+      <button type="button"
+              class="add-benefit btn btn-outline-primary btn-lg"
+              (click)="addBenefit()"
+      >+ Add Benefit</button>
+    </div>
+    <div class="col-md-3" *ngIf="matches > 0">
+      <app-preview-alert [matches]="matches"
+                         [annotatedPreview]="annotatedPreview"
+                         [currentField]="f.JOB_BENEFITS"
+      ></app-preview-alert>
+    </div>
+  </div>
+
+
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"
-            (click)="back()">
+            (click)="back()"
+    >
       <i class="fas fa-angle-left text-primary mr-3" style="font-size: 24px;"></i>
       Back
     </button>
     <button type="submit"
             [attr.disabled]="!form.valid ? true : null "
-            class="btn btn-lg btn-primary">Next</button>
+            class="btn btn-lg btn-primary"
+    >Next</button>
   </div>
 </form>
+

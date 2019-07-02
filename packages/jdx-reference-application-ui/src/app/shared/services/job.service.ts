@@ -109,6 +109,13 @@ export class JobService {
     return { pipelineID: id};
   }
 
+  previewMatchCountByPropertyName(p) {
+    return isNullOrUndefined(this._currentJobContext.annotatedPreview) ||
+           isNullOrUndefined(this._currentJobContext.annotatedPreview.previewMap[p])
+           ? 0
+           : this._currentJobContext.annotatedPreview.previewMap[p].length;
+  }
+
   private setJob(job: JobContext) {
     this.announceCurrentJob(job);
     this._localStorage.set(
