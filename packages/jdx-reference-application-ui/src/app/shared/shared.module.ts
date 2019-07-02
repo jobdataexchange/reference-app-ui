@@ -8,6 +8,7 @@ import { TextareaComponent } from './components/forms/textarea/textarea.componen
 import { SelectComponent } from './components/forms/select/select.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { DateComponent } from './components/forms/date/date.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DateComponent } from './components/forms/date/date.component';
     TextareaComponent,
     SelectComponent,
     ModalComponent,
-    DateComponent
+    DateComponent,
+    LoadingComponent
   ],
   exports: [
     FormWrapperComponent,
@@ -27,6 +29,7 @@ import { DateComponent } from './components/forms/date/date.component';
     SelectComponent,
     ModalComponent,
     DateComponent,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,

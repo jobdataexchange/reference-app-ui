@@ -10,9 +10,11 @@ import { AdditionalRequirementsComponent } from './additional-requirements/addit
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 import { PostingInfoComponent } from './posting-info/posting-info.component';
+import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
 
 export enum JobRoutes {
   ADDITIONAL_REQUIREMENTS = 'additional-requirements',
+  ASSESSMENT_INFO = 'assessment-info',
   BASIC_INFO = 'basic-info',
   COMPETENCIES = 'competencies',
   COMPENSATION_INFO = 'compensation-info',
@@ -83,6 +85,11 @@ const routes: Routes = [
   {
     path: JobRoutes.CONFIRM_COMPLETION,
     component: ConfirmCompletionComponent
+  },
+
+  {
+    path: JobRoutes.ASSESSMENT_INFO,
+    component: AssessmentInfoComponent
   }
 
 ];

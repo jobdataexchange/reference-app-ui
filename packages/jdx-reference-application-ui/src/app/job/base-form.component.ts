@@ -38,6 +38,19 @@ export abstract class BaseForm {
   }
 }
 
+export enum FormFieldsAssessmentInfo {
+  ASSESSMENT= 'assessment'
+}
+
+export enum FormFieldsAdditionalRequirements {
+  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
+  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
+  PHYSICAL_REQUIREMENT = 'physical-requirement',
+  SENSORY_REQUIREMENT = 'sensory-requirement',
+  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
+  SPECIAL_COMMITMENT = 'special-commitment'
+}
+
 export enum FormFieldsBasicInfo {
   TITLE = 'competency', // just for preview testing 'title',
   JOB_SUMMARY = 'job-summary',
@@ -75,14 +88,5 @@ export enum FormFieldsPostingInfo {
   DATE_POSTED = 'date-posted',
   VALID_THROUGH = 'valid-through',
   JOB_OPENINGS = 'job-openings',
-}
-
-export enum FormFieldsAdditionalRequirements {
-  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
-  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
-  PHYSICAL_REQUIREMENT = 'physical-requirement',
-  SENSORY_REQUIREMENT = 'sensory-requirement',
-  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
-  SPECIAL_COMMITMENT = 'special-commitment'
 }
 

@@ -14,6 +14,8 @@ import { AdditionalRequirementsComponent } from './additional-requirements/addit
 import { CredentialRequirementsComponent } from './credential-requirements/credential-requirements.component';
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 import { PostingInfoComponent } from './posting-info/posting-info.component';
+import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
+import { CollapseModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,15 @@ import { PostingInfoComponent } from './posting-info/posting-info.component';
     CredentialRequirementsComponent,
     CompensationInfoComponent,
     PostingInfoComponent,
+    AssessmentInfoComponent,
   ],
   imports: [
     CommonModule,
     JobRoutingModule,
     ReactiveFormsModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    CollapseModule
   ]
 })
 export class JobModule { }
