@@ -1,7 +1,19 @@
-<ng-container [ngSwitch]="state">
-  <ng-container *ngSwitchCase="stateEnum.LOADING"><app-loading></app-loading></ng-container>
-  <ng-container *ngSwitchCase="stateEnum.EMPTY" [ngTemplateOutlet]="empty"></ng-container>
-  <ng-container *ngSwitchCase="stateEnum.LOADED" [ngTemplateOutlet]="competenciesForm"></ng-container>
+<ng-container *ngIf="(stateEnum.LOADING || stateEnum.LOADED) && state != stateEnum.EMPTY; else empty">
+
+  <div class="pt-4 d-flex justify-content-between">
+    <p>COMPETENCY RELATED INFORMATION</p>
+    <p class="flex-shrink-0">8 of 12</p>
+  </div>
+  <h1 class="pb-4">Confirm Competencies</h1>
+  <p class="w-75 mb-5">
+    We derived the following competencies from the job description you provided. Please review and adjust as needed.
+  </p>
+
+  <ng-container [ngSwitch]="state">
+    <ng-container *ngSwitchCase="stateEnum.LOADING"><app-loading></app-loading></ng-container>
+    <ng-container *ngSwitchCase="stateEnum.LOADED" [ngTemplateOutlet]="competenciesForm"></ng-container>
+  </ng-container>
+
 </ng-container>
 
 
@@ -9,15 +21,6 @@
 <!------ Loaded ------->
 <!--------------------->
 <ng-template #competenciesForm>
-  <div class="pt-4 d-flex justify-content-between">
-    <p>COMPETENCY RELATED INFORMATION</p>
-    <p class="flex-shrink-0">8 of 12</p>
-  </div>
-
-  <h1 class="pb-4">Confirm Competencies</h1>
-
-  <p class="w-75 mb-5">We derived the following competencies from the job description you provided. Please review and adjust as needed.</p>
-
   <form [formGroup]="form"
         (submit)="submitForm()">
 
