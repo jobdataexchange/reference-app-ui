@@ -4,16 +4,15 @@
     <p>COMPETENCY RELATED INFORMATION</p>
     <p class="flex-shrink-0">8 of 12</p>
   </div>
-  <h1 class="pb-4">Confirm Competencies</h1>
+  <h1 class="pb-4">Competencies</h1>
   <p class="w-75 mb-5">
-    We derived the following competencies from the job description you provided. Please review and adjust as needed.
+    We identified the following competencies for the job description you provided. Please review and adjust as needed.
   </p>
 
   <ng-container [ngSwitch]="state">
     <ng-container *ngSwitchCase="stateEnum.LOADING"><app-loading></app-loading></ng-container>
     <ng-container *ngSwitchCase="stateEnum.LOADED" [ngTemplateOutlet]="competenciesForm"></ng-container>
   </ng-container>
-
 </ng-container>
 
 
@@ -53,7 +52,6 @@
               <option [value]="competencySelectOptions.NONE">Does not contain competency information</option>
               <option [value]="competencySelectOptions.OTHER">Other user-specified competency</option>
             </select>
-
             <div class="competency-other mb-3 mb-md-0"
                  *ngIf="substatementControl.value.selectedCompetencyOption === competencySelectOptions.OTHER"
             >
@@ -64,11 +62,11 @@
                      placeholder="Competency"
               >
             </div>
-
           </div>
         </div>
       </div>
     </div>
+
     <div class="d-flex justify-content-between pt-5">
       <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"
               (click)="back()">
@@ -77,6 +75,7 @@
       </button>
       <button type="submit" class="btn btn-lg btn-primary">Next</button>
     </div>
+
   </form>
 </ng-template>
 

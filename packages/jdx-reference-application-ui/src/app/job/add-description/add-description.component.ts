@@ -22,6 +22,8 @@ export class AddDescriptionComponent implements OnInit {
 
   form: FormGroup;
 
+  fileName;
+
   isSubmitting = false;
 
   selectableFileTypes = '.doc, .docx, .txt';
@@ -43,6 +45,7 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   onFileUpload(files: FileList) {
+    this.fileName = files[0].name;
     this._uploadedFile = null;
     if (files && files.length) {
       this._uploadedFile = files[0];
