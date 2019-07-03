@@ -1,27 +1,25 @@
 <div class="pt-4 d-flex justify-content-between">
-  <p>COMPETENCY RELATED INFORMATION
-
-  </p>
+  <p>COMPETENCY RELATED INFORMATION</p>
   <p class="flex-shrink-0">7 of 12</p>
 </div>
 
-<h1 class="pb-4">Assessment Information
-</h1>
+<h1 class="pb-4">Assessment</h1>
+<p class="w-75 mb-5">
+  Specify the tools or methods used to assess job competencies.
+</p>
 
 <form [formGroup]=form
-      (submit)="next()">
-
+      (submit)="next()"
+>
 
   <app-form-wrapper classList="mb-2" [wrappedField]="f.ASSESSMENT">
     <app-textarea id="assessment"
                   rows="5"
                   [control]="this.form.get(f.ASSESSMENT)"
                   label="Assessment"
-                  helpBlock="Identify name, subject area, and type of assessment required."
+                  helpBlock="Describe assessment, including name, subject area, and type."
     ></app-textarea>
   </app-form-wrapper>
-
-
 
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"
@@ -31,6 +29,8 @@
     </button>
     <button type="submit"
             [attr.disabled]="!form.valid ? true : null "
-            class="btn btn-lg btn-primary">Next</button>
+            class="btn btn-lg btn-primary"
+    >Next</button>
   </div>
+
 </form>

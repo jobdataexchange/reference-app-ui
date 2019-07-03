@@ -3,8 +3,11 @@
   <p class="flex-shrink-0">5 of 12</p>
 </div>
 
-<h1 class="pb-4">Confirm Frameworks</h1>
-<p class="w-75 mb-5">We recommend the following frameworks for the job description you provided. Please review and adjust as needed.</p>
+<h1 class="pb-4">Frameworks</h1>
+<p class="w-75 mb-5">
+  We identified the following competency frameworks for the job description you provided. Please select those you wish
+  to include. The frameworks you select will help to determine the competency options displayed next.
+</p>
 
 <form *ngIf="form" [formGroup]="form" (submit)="submitForm()">
 
@@ -21,7 +24,9 @@
 
       >{{option.metrics['name']}}</option>
     </select>
-    <small id="competencyHelpBlock" class="form-text text-muted">This property includes: abilities, attitudes, knowledge, skills, tasks, and tools/technologies (associated with some task).</small>
+    <small id="competencyHelpBlock" class="form-text text-muted">
+      Identify attributes including abilities, attitudes, knowledge, skills, tasks, and task-specific tools/technologies.
+    </small>
   </div>
 
   <div class="d-flex justify-content-between pt-5">

@@ -14,7 +14,7 @@
                 [control]="this.form.get(f.CURRENCY)"
                 [options]="currencyOptions"
                 label="Currency"
-                helpBlock="The Currency (e.g. USD) used for the main salary information in this job posting or for this employee."></app-select>
+                helpBlock="Specify the unit of currency for this salary information."></app-select>
   </app-form-wrapper>
 
   <fieldset class="form-group mb-4">
@@ -36,8 +36,7 @@
       <app-select id="frequency"
                   [control]="this.form.get(f.FREQUENCY)"
                   [options]="frequencyOptions"
-                  label="Frequency"
-                  helpBlock="Base salary of the job or of an employee in an employee role including minimum and maximum salary and unit value (e.g. hour, day, week, month, or year)."></app-select>
+                  label="Frequency"></app-select>
     </app-form-wrapper>
   </fieldset>
 
@@ -45,7 +44,7 @@
     <app-input-text id="incentive-compensation"
                     [control]="this.form.get(f.INCENTIVE_COMPENSATION)"
                     label="Incentive Compensation"
-                    helpBlock="Description of bonus and commission compensation aspects of the job."></app-input-text>
+                    helpBlock="Describe bonus, commission, or other financial incentives for this job."></app-input-text>
   </app-form-wrapper>
 
   <div class="form-row mb-4">
@@ -96,7 +95,7 @@
     <button type="submit"
             [attr.disabled]="!form.valid ? true : null "
             class="btn btn-lg btn-primary"
-    >Next</button>
+    >Submit</button>
   </div>
 </form>
 

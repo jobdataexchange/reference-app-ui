@@ -1,9 +1,14 @@
 <h1 class="pt-4 pb-4">Success!</h1>
 
-<p class="w-75 mb-5">You have created **the Cyber Security Specialist** job posting.</p>
+<p class="w-75 mb-5">
+  You have created the {{jobTitle}} job description.
+</p>
 
 <div class="links pt-5 d-flex justify-content-end align-items-center">
   <div>
-    <a href="#" class="btn btn-lg btn-primary">View Job Posting</a>
+    <a href="javascript:void(0)"
+       class="btn btn-lg btn-primary"
+       (click)="viewPosting()"
+    >View Job Posting</a>
   </div>
 </div>

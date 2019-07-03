@@ -13,12 +13,14 @@
     <p class="flex-shrink-0">1 of 11</p>
   </div>
 
-  <p class="w-75 mb-5">Upload an existing document that includes your job description OR enter a brief description below.</p>
+  <p class="w-75 mb-5">Upload an existing document that includes your job description OR enter a description below.</p>
 
   <form *ngIf="form"
         [formGroup]="form"
         (submit)="submitForm()"
   >
+
+
 
     <div class="form-group mb-5">
       <div class="custom-file d-flex justify-content-center align-items-center flex-wrap p-5">
@@ -30,7 +32,9 @@
                [attr.disabled]="textArea.value.length ? true : null"
                #fileInput
         >
-        <span>Drag or</span><label class="custom-file-label pl-1 pr-1 m-0" for="customFile">upload</label><span>file</span>
+        <span>{{fileName ? 'Selected: ' + fileName : 'Drag or '}}</span>
+        <label class="custom-file-label pl-1 pr-1 m-0" for="customFile">{{fileName ? 'change' : 'update'}}</label>
+        <span>file</span>
         <div class="w-100 text-center">DOCX or TXT</div>
       </div>
     </div>

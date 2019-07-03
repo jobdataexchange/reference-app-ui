@@ -38,7 +38,7 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
 
   DEFAULT_CURRENCY_OPTION = 'USD';
 
-  DEFAULT_FREQUENCY_OPTION = 'Year';
+  DEFAULT_FREQUENCY_OPTION = 'Per Year';
 
   f = FormFieldsCompensationInfo;
 
@@ -123,7 +123,10 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     // TODO: real logic to get the options
     this.frequencyOptions = [
       {name: this.DEFAULT_FREQUENCY_OPTION, value: this.DEFAULT_FREQUENCY_OPTION},
-      {name: 'Hour', value: 'Hour'},
+      {name: 'Per Hour', value: 'Per Hour'},
+      {name: 'Per Day', value: 'Per Day'},
+      {name: 'Per Week', value: 'Per Week'},
+      {name: 'Per Month', value: 'Per Month'}
     ];
   }
 
