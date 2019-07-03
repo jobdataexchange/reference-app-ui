@@ -268,7 +268,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
+    this.navigateTo(JobRoutes.ASSESSMENT_INFO);
   }
 
   back() {

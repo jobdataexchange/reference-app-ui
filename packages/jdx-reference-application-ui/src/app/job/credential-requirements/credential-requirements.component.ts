@@ -54,7 +54,7 @@ export class CredentialRequirementsComponent extends BaseForm implements OnInit,
   }
 
   back() {
-    this.navigateTo(JobRoutes.COMPETENCIES);
+    this.navigateTo(JobRoutes.ASSESSMENT_INFO);
   }
 
   next() {

@@ -55,12 +55,12 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
   }
 
   back() {
-    this.navigateTo(JobRoutes.FRAMEWORKS);
+    this.navigateTo(JobRoutes.COMPETENCIES);
   }
 
   next() {
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.COMPETENCIES);
+    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
   }
 
 

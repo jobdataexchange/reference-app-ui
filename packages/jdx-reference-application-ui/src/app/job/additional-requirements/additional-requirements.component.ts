@@ -59,7 +59,7 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
   }
 
   back() {
-    this.navigateTo(JobRoutes.COMPETENCIES);
+    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
   }
 
   next() {
