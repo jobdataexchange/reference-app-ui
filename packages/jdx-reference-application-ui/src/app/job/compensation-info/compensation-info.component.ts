@@ -8,7 +8,7 @@ import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 import { Subscription } from 'rxjs';
 import { JobRoutes } from '../job-routing.module';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
-import { isArray, isNullOrUndefined } from 'util';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-compensation-info',
@@ -40,13 +40,15 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
 
   DEFAULT_FREQUENCY_OPTION = 'Per Year';
 
-  f = FormFieldsCompensationInfo;
+  annotatedPreview: AnnotatedPreview;
 
   currencyOptions: SelectTypeDefault[];
 
+  f = FormFieldsCompensationInfo;
+
   frequencyOptions: SelectTypeDefault[];
 
-  annotatedPreview: AnnotatedPreview;
+  jsonld;
 
   matches: 0;
 
@@ -62,46 +64,6 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
 
   ngOnDestroy(): void {
     this._jobSub.unsubscribe();
-  }
-
-  initSubscriptions() {
-    this._jobSub = this._jobService.job$.subscribe(job => {
-      this.annotatedPreview = job.annotatedPreview;
-      this.matches = this._jobService.previewMatchCountByPropertyName([this.f.JOB_BENEFITS]);
-      this.initForm(job);
-    });
-  }
-
-  private initForm(j: JobContext) {
-    this._jobBenefits = isArray(j.compensationInfo[this.f.JOB_BENEFITS])
-                       ? j.compensationInfo[this.f.JOB_BENEFITS]
-                       : this.getBenefitsArray();
-
-    this.form =
-      this._fb.group(
-        {
-          [this.f.CURRENCY]: [this.DEFAULT_CURRENCY_OPTION],
-          [this.f.MINIMUM]: [j.compensationInfo[this.f.MINIMUM]],
-          [this.f.MAXIMUM]: [j.compensationInfo[this.f.MAXIMUM]],
-          [this.f.FREQUENCY]: [this.DEFAULT_FREQUENCY_OPTION],
-          [this.f.INCENTIVE_COMPENSATION]: [j.compensationInfo[this.f.INCENTIVE_COMPENSATION]],
-          [this.f.JOB_BENEFITS]: this._fb.array( this._jobBenefits)
-        }
-      );
-  }
-
-  private getBenefitsArray() {
-    return [
-      'Health Insurance',
-      'Dental Insurance',
-      'Vision Insurance',
-      'Life Insurance',
-      'PTO',
-      '401(k)',
-      'Gym membership',
-      'Commuting/travel assistance',
-      'Workplace perks such as recreation activities, food and coffee'
-    ];
   }
 
   addBenefit() {
@@ -140,5 +102,45 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
   }
+
+  private initSubscriptions() {
+    this._jobSub = this._jobService.job$.subscribe(job => {
+      this.annotatedPreview = job.annotatedPreview;
+      this.matches = this._jobService.previewMatchCountByPropertyName([this.f.JOB_BENEFITS]);
+      this.initForm(job);
+    });
+  }
+
+  private initForm(j: JobContext) {
+    this._jobBenefits = isArray(j.compensationInfo[this.f.JOB_BENEFITS])
+                        ? j.compensationInfo[this.f.JOB_BENEFITS]
+                        : this.getBenefitsArray();
+    this.form =
+      this._fb.group(
+        {
+          [this.f.CURRENCY]: [this.DEFAULT_CURRENCY_OPTION],
+          [this.f.MINIMUM]: [j.compensationInfo[this.f.MINIMUM]],
+          [this.f.MAXIMUM]: [j.compensationInfo[this.f.MAXIMUM]],
+          [this.f.FREQUENCY]: [this.DEFAULT_FREQUENCY_OPTION],
+          [this.f.INCENTIVE_COMPENSATION]: [j.compensationInfo[this.f.INCENTIVE_COMPENSATION]],
+          [this.f.JOB_BENEFITS]: this._fb.array( this._jobBenefits)
+        }
+      );
+  }
+
+  private getBenefitsArray() {
+    return [
+      'Health Insurance',
+      'Dental Insurance',
+      'Vision Insurance',
+      'Life Insurance',
+      'PTO',
+      '401(k)',
+      'Gym membership',
+      'Commuting/travel assistance',
+      'Workplace perks such as recreation activities, food and coffee'
+    ];
+  }
+
 
 }
