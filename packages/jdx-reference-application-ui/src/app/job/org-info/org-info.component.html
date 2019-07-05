@@ -1,0 +1,65 @@
+<div class="pt-4 d-flex justify-content-between">
+  <p>Organization</p>
+</div>
+
+<h1 class="pb-4">Hiring Organization Information</h1>
+<p class="w-75 mb-5">
+  Information provided here will appear by default in your job descriptions. Fields are optional unless otherwise noted — but the more details you can provide, the better your job descriptions will be.
+</p>
+
+<form [formGroup]=form
+      (submit)="next()"
+>
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.ORG_NAME">
+    <app-input-text id="org-name"
+                    [control]="this.form.get(f.ORG_NAME)"
+                    [required]="true"
+                    helpBlock="Official organization name (for example, the registered company name)."
+                    label="Hiring Organization Name"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.HIRING_ORG_NAME_OVERVIEW">
+    <app-textarea id="org-hiring-name-overview"
+                  rows="3"
+                  [control]="this.form.get(f.HIRING_ORG_NAME_OVERVIEW)"
+                  label="Hiring Organization Overview"
+                  helpBlock="Describe the employer, career opportunities, and work environment."
+    ></app-textarea>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.ORG_EMAIL">
+    <app-input-text id="org-email"
+                    [control]="this.form.get(f.ORG_EMAIL)"
+                    label="Email"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.ORG_WEBSITE">
+    <app-input-text id="org-website"
+                    [control]="this.form.get(f.ORG_WEBSITE)"
+                    label="Website"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.HIRING_ORG_ADDRESS">
+    <app-input-text id="hiring-org-address"
+                    [control]="this.form.get(f.HIRING_ORG_ADDRESS)"
+                    label="Hiring Organization Address"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.ORG_PHONE">
+    <app-input-text id="org-phone"
+                    [control]="this.form.get(f.ORG_PHONE)"
+                    placeholder="(888) 888-8888"
+                    label="Phone Number"
+    ></app-input-text>
+  </app-form-wrapper>
+
+  <div class="d-flex justify-content-end pt-5">
+    <button type="submit"
+            class="btn btn-lg btn-primary next-button"
+    >Next</button>
+  </div>
+</form>
