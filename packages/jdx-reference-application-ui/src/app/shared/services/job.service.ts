@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DefaultService, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
+import { DefaultService, MatchTableRequest, PreviewResponse, Request } from '@jdx/jdx-reference-application-api-client';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
-  FormFieldsAdditionalRequirements, FormFieldsAssessmentInfo,
+  FormFieldsAdditionalRequirements,
+  FormFieldsAssessmentInfo,
   FormFieldsBasicInfo,
   FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
@@ -62,11 +63,28 @@ export class JobService {
     }
   }
 
+  private _jobSub = new BehaviorSubject<JobContext>(null);
+  job$ = this._jobSub.asObservable();
+
   private _currentJobContext: JobContext;
 
-  private _jobSub = new BehaviorSubject<JobContext>(null);
+  static createMatchTableRequest(id: PipelineID, threshold: number = null): MatchTableRequest {
+    const result = {};
+    Object.assign(result,
+      {pipelineID: id}
+    );
 
-  job$ = this._jobSub.asObservable();
+    if (threshold) {
+      Object.assign(result,
+        {threshold}
+      );
+    }
+    return result;
+  }
+
+  static createRequestObject(id: PipelineID): Request {
+    return { pipelineID: id};
+  }
 
   async newJob(id: PipelineID = null) {
     const job = {
@@ -94,7 +112,7 @@ export class JobService {
 
   updateJobPreview(id: PipelineID): Promise<any> {
     return this._api
-      .previewPost(this.createRequestObject(id))
+      .previewPost(JobService.createRequestObject(id))
       .toPromise()
       .then(p => {
         return {
@@ -106,10 +124,6 @@ export class JobService {
 
   isResponsePipelineIdCurrent(r: Request) {
     return r.pipelineID === this._currentJobContext.pipelineID;
-  }
-
-  createRequestObject(id: PipelineID): Request {
-    return { pipelineID: id};
   }
 
   previewMatchCountByPropertyName(p) {

@@ -25,11 +25,11 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
     super(_fb, _jobService, _router, _toastr);
   }
 
-  private _jobSub: Subscription = null;
-
   readonly JOB_SECTION_TYPE = 'assessmentInfo';
 
   f = FormFieldsAssessmentInfo;
+
+  private _jobSub: Subscription = null;
 
   ngOnInit() {
     this.initSubscriptions();
@@ -45,15 +45,6 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
     });
   }
 
-  private initForm(j: JobContext) {
-    this.form =
-      this._fb.group(
-        {
-          [this.f.ASSESSMENT]: j.assessmentInfo[this.f.ASSESSMENT],
-        }
-      );
-  }
-
   back() {
     this.navigateTo(JobRoutes.COMPETENCIES);
   }
@@ -61,6 +52,15 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
   next() {
     this.updateJobSection(this.form.value);
     this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
+  }
+
+  private initForm(j: JobContext) {
+    this.form =
+      this._fb.group(
+        {
+          [this.f.ASSESSMENT]: j.assessmentInfo[this.f.ASSESSMENT],
+        }
+      );
   }
 
 

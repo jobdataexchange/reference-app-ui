@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import {
   DefaultService,
-  MatchTableRequest,
   MatchTableResponse,
   Response,
   Substatements,
@@ -48,6 +47,17 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _toastr: ToastrService,
   ) {}
 
+  get state(): StateEnum {
+    if  (this._isLoading) {
+      return StateEnum.LOADING;
+    }
+    else {
+      return StateEnum.LOADED && this.substatementsFormArray.length
+             ? StateEnum.LOADED
+             : StateEnum.EMPTY;
+    }
+  }
+
   get substatementControls() {
     return this.substatementsFormArray.controls;
   }
@@ -60,30 +70,10 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, substatementsFormArray);
   }
 
-  stateEnum = StateEnum;
-
-  competencySelectOptions = CompetencySelectOptions;
-
-  form: FormGroup;
-
-  get state(): StateEnum {
-    if  (this._isLoading) {
-      return StateEnum.LOADING;
-    }
-    else {
-      return StateEnum.LOADED && this.substatementsFormArray.length
-             ? StateEnum.LOADED
-             : StateEnum.EMPTY;
-    }
+  get threshold() {
+    console.log('threshold', this.form.get(this.THRESHOLD_FIELD).value);
+    return parseFloat(this.form.get(this.THRESHOLD_FIELD).value);
   }
-
-  private _isLoading: boolean;
-
-  private _matchTableSub: Subscription;
-
-  private _matchTableResponse: MatchTableResponse;
-
-  private _pipelineID: PipelineID;
 
   readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
 
@@ -92,6 +82,20 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   readonly COMPETENCY = 'competency';
 
   readonly COMPETENCY_FORM_ARRAY_NAME = 'competencyArray';
+
+  stateEnum = StateEnum;
+
+  competencySelectOptions = CompetencySelectOptions;
+
+  form: FormGroup;
+
+  private _isLoading: boolean;
+
+  private _matchTableSub: Subscription;
+
+  private _matchTableResponse: MatchTableResponse;
+
+  private _pipelineID: PipelineID;
 
   ngOnInit() {
     this.initForm();
@@ -141,6 +145,25 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       .finally();
   }
 
+  next() {
+    this.navigateTo(JobRoutes.ASSESSMENT_INFO);
+  }
+
+  back() {
+    this.navigateTo(JobRoutes.FRAMEWORKS);
+  }
+
+  updateThreshold() {
+    this._isLoading = true;
+    return this.fetchMatchTable()
+      .subscribe(mt => {
+        console.log('<- _api.matchTablePost ', mt);
+        this._matchTableResponse = mt;
+        this.createAnnotatedSubstatementsArray(mt.matchTable);
+        this._isLoading = false;
+      });
+  }
+
   private onSuccess(r: Response) {
     console.log('<- api.userActionsPost', r);
     this.next();
@@ -152,11 +175,11 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-      this.form =
-        this._fb.group({
-          [this.THRESHOLD_FIELD]: 0.45,
-          [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
-        });
+    this.form =
+      this._fb.group({
+        [this.THRESHOLD_FIELD]: 0.45,
+        [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
+      });
   }
   private fetchMatchTable(): Observable<MatchTableResponse> | null {
 
@@ -167,7 +190,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     }
 
     return this._api.matchTablePost(
-      this.createMatchTableRequest(this._pipelineID, this.threshold)
+      JobService.createMatchTableRequest(this._pipelineID, this.threshold)
     )
       .pipe(map(this.filterOutDuplicateRecommendations));
   }
@@ -207,22 +230,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
         });
   }
 
-  get threshold() {
-    console.log('threshold', this.form.get(this.THRESHOLD_FIELD).value);
-    return parseFloat(this.form.get(this.THRESHOLD_FIELD).value);
-  }
-
-  updateThreshold() {
-    this._isLoading = true;
-    return this.fetchMatchTable()
-      .subscribe(mt => {
-        console.log('<- _api.matchTablePost ', mt);
-        this._matchTableResponse = mt;
-        this.createAnnotatedSubstatementsArray(mt.matchTable);
-        this._isLoading = false;
-      });
-  }
-
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
     this.substatementsFormArray = this._fb.array(substatements.map(
       s => this._fb.group( this.createAnnotatedSubstatement(s))));
@@ -250,29 +257,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       )
     );
     return arr;
-  }
-
-  createMatchTableRequest(id: PipelineID, threshold: number = null): MatchTableRequest {
-    const result = {};
-    Object.assign(result,
-      {pipelineID: id}
-    );
-
-    console.log(threshold);
-    if (threshold) {
-      Object.assign(result,
-        {threshold}
-      );
-    }
-    return result;
-  }
-
-  next() {
-    this.navigateTo(JobRoutes.ASSESSMENT_INFO);
-  }
-
-  back() {
-    this.navigateTo(JobRoutes.FRAMEWORKS);
   }
 
   private navigateTo(route: JobRoutes) {
