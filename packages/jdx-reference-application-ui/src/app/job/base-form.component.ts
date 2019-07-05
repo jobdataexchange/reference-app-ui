@@ -84,6 +84,15 @@ export enum FormFieldsEmploymentRelationship {
   WORK_HOURS = 'work-hours'
 }
 
+export enum FormFieldsOrgInfo {
+  ORG_NAME = 'org-name',
+  HIRING_ORG_NAME_OVERVIEW = 'hiring-org-name',
+  ORG_EMAIL = 'org-email',
+  ORG_WEBSITE = 'org-website',
+  HIRING_ORG_ADDRESS = 'hiring-org-address',
+  ORG_PHONE = 'org-phone',
+}
+
 export enum FormFieldsPostingInfo {
   DATE_POSTED = 'date-posted',
   VALID_THROUGH = 'valid-through',

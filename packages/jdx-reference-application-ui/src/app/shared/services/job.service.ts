@@ -8,6 +8,7 @@ import {
   FormFieldsCompensationInfo,
   FormFieldsCredentialRequirements,
   FormFieldsEmploymentRelationship,
+  FormFieldsOrgInfo,
   FormFieldsPostingInfo
 } from '../../job/base-form.component';
 import { createEmptyObjectFromEnum } from '../utils/enum-utils';
@@ -23,6 +24,7 @@ export type JobSectionType =
   'credentialRequirements' |
   'compensationInfo'       |
   'employmentRelationship' |
+  'orgInfo'                |
   'postingInfo'            ;
 
 export interface AnnotatedPreview {
@@ -38,6 +40,7 @@ export interface JobContext {
   compensationInfo: {};
   credentialRequirements: {};
   employmentRelationship: {};
+  orgInfo: {};
   postingInfo: {};
   pipelineID: PipelineID;
   version: string;
@@ -78,6 +81,7 @@ export class JobService {
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
       compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo),
+      orgInfo: createEmptyObjectFromEnum(FormFieldsOrgInfo),
       postingInfo: createEmptyObjectFromEnum(FormFieldsPostingInfo),
       annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
     };

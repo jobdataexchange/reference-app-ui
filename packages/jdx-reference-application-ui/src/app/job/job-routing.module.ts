@@ -11,6 +11,7 @@ import { CredentialRequirementsComponent } from './credential-requirements/crede
 import { CompensationInfoComponent } from './compensation-info/compensation-info.component';
 import { PostingInfoComponent } from './posting-info/posting-info.component';
 import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
+import { OrgInfoComponent } from './org-info/org-info.component';
 
 export enum JobRoutes {
   ADDITIONAL_REQUIREMENTS = 'additional-requirements',
@@ -23,6 +24,7 @@ export enum JobRoutes {
   DESCRIPTION = 'add-description',
   EMPLOYMENT_RELATIONSHIP = 'employment-relationship',
   FRAMEWORKS = 'frameworks',
+  ORG_INFO = 'org-info',
   POSTING_INFO = 'posting-info'
 }
 
@@ -90,6 +92,11 @@ const routes: Routes = [
   {
     path: JobRoutes.ASSESSMENT_INFO,
     component: AssessmentInfoComponent
+  },
+
+  {
+    path: JobRoutes.ORG_INFO,
+    component: OrgInfoComponent
   }
 
 ];

@@ -16,6 +16,7 @@ import { CompensationInfoComponent } from './compensation-info/compensation-info
 import { PostingInfoComponent } from './posting-info/posting-info.component';
 import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
 import { CollapseModule } from 'ngx-bootstrap';
+import { OrgInfoComponent } from './org-info/org-info.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CollapseModule } from 'ngx-bootstrap';
     CompensationInfoComponent,
     PostingInfoComponent,
     AssessmentInfoComponent,
+    OrgInfoComponent
   ],
   imports: [
     CommonModule,

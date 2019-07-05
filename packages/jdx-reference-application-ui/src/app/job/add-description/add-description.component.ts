@@ -20,6 +20,22 @@ export class AddDescriptionComponent implements OnInit {
     private _toastr: ToastrService,
   ) { }
 
+  private get uploadFile() {
+    if (this._uploadedFile) {
+      return this._uploadedFile;
+    }
+
+    const userEnteredText = this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value;
+
+    if (userEnteredText) {
+      return new File(
+        [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
+        this.JOB_DESCRIPTION_FILE_NAME,
+        {type: 'text/plain'}
+      );
+    }
+  }
+
   form: FormGroup;
 
   fileName;
@@ -66,24 +82,11 @@ export class AddDescriptionComponent implements OnInit {
       .finally(() => this.isSubmitting = false);
   }
 
-  private get uploadFile() {
-    if (this._uploadedFile) {
-      return this._uploadedFile;
-    }
-
-    const userEnteredText = this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value;
-
-    if (userEnteredText) {
-      return new File(
-        [this.form.controls[this.JOB_DESCRIPTION_FIELD_NAME].value],
-        this.JOB_DESCRIPTION_FILE_NAME,
-        {type: 'text/plain'}
-      );
-    }
+  back() {
+    this.navigateTo(JobRoutes.ORG_INFO);
   }
 
-  private onSuccess(r: RawJobDescriptionResponse) {
-    this._jobService.newJob(r.pipelineID);
+  next() {
     this.navigateTo(JobRoutes.BASIC_INFO);
   }
 
@@ -91,11 +94,14 @@ export class AddDescriptionComponent implements OnInit {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 
+  private onSuccess(r: RawJobDescriptionResponse) {
+    this._jobService.newJob(r.pipelineID);
+    this.next();
+  }
+
   private onError(e) {
     console.log('[[ Error ]] uploadJobDescriptionFilePost ', e);
     this._toastr.error(e.message, 'Error Posting Job Description');
   }
-
-
 
 }

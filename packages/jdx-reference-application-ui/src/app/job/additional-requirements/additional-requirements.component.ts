@@ -44,6 +44,15 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
     });
   }
 
+  back() {
+    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
+  }
+
+  next() {
+    this.updateJobSection(this.form.value);
+    this.navigateTo(JobRoutes.COMPENSATION_INFO);
+  }
+
   private initForm(j: JobContext) {
     this.form =
       this._fb.group(
@@ -58,12 +67,4 @@ export class AdditionalRequirementsComponent extends BaseForm implements OnInit,
       );
   }
 
-  back() {
-    this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
-  }
-
-  next() {
-    this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.COMPENSATION_INFO);
-  }
 }
