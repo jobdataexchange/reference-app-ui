@@ -27,6 +27,7 @@
     "@angular/router": "~7.2.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "ng-intercom": "^8.0.0",
     "ngx-bootstrap": "^4.2.0",
     "ngx-toastr": "^10.0.4",
     "tslib": "^1.9.0",
