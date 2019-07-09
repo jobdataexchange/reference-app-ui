@@ -115,6 +115,8 @@ const routes: Routes = [
     component: ViewJobComponent
   },
 
+
+  // This path should not be part of this routing module, it should be moved once additional org development is undertaken.
   {
     path: JobRoutes.ORG_INFO,
     component: OrgInfoComponent
