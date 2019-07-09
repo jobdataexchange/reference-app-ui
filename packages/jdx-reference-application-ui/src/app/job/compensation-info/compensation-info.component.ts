@@ -100,7 +100,7 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     // remove any empty benefits that the use may have added but failed to entered a value
     this.form.value[this.f.JOB_BENEFITS] = this.form.value[this.f.JOB_BENEFITS].filter( b => b);
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
+    this.navigateTo(JobRoutes.CONFIRM_DESCRIPTION);
   }
 
   private initSubscriptions() {

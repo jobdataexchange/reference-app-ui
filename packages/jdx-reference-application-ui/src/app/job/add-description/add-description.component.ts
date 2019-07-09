@@ -87,7 +87,7 @@ export class AddDescriptionComponent implements OnInit {
   }
 
   next() {
-    this.navigateTo(JobRoutes.BASIC_INFO);
+    this.navigateTo(JobRoutes.DESCRIPTION_PREVIEW);
   }
 
   navigateTo(route: JobRoutes) {

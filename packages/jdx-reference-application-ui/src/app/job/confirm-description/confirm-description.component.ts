@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
-import { Router } from '@angular/router';
-import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
+import { JobService } from '../../shared/services/job.service';
+import { Router } from '@angular/router';
 import { FormFieldsBasicInfo } from '../base-form.component';
-
+import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 
 @Component({
-  selector: 'app-confirm-completion',
-  templateUrl: './confirm-completion.component.html',
-  styleUrls: ['./confirm-completion.component.css']
+  selector: 'app-confirm-description',
+  templateUrl: './confirm-description.component.html',
+  styleUrls: ['./confirm-description.component.css']
 })
-export class ConfirmCompletionComponent implements OnInit, OnDestroy {
+export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   constructor(
     private _jobService: JobService,
@@ -32,14 +31,18 @@ export class ConfirmCompletionComponent implements OnInit, OnDestroy {
 
   initSubscriptions() {
     this._jobSub = this._jobService.job$
-      .subscribe( j => j.basicInfo[FormFieldsBasicInfo.TITLE]);
+      .subscribe( j => this.jobTitle = j.basicInfo[FormFieldsBasicInfo.TITLE]);
   }
 
-  viewJobPosting() {
+  viewJob() {
     this.navigateTo(JobRoutes.VIEW_JOB);
   }
 
-  private navigateTo(route: JobRoutes) {
+  createPosting() {
+    this.navigateTo(JobRoutes.POSTING_INFO);
+  }
+
+  navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
 

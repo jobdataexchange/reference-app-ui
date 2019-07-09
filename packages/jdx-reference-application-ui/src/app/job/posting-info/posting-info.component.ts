@@ -24,7 +24,7 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
     super(_fb, _jobService, _router, _toastr);
   }
 
-  readonly JOB_SECTION_TYPE = 'additionalRequirements';
+  readonly JOB_SECTION_TYPE = 'postingInfo';
 
   f = FormFieldsPostingInfo;
 
@@ -40,10 +40,16 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
   }
 
   initSubscriptions() {
-    this._jobSub = this._jobService.job$.subscribe(job => {
-      console.log('JOB ', job)
-      this.initForm(job);
-    });
+    this._jobSub = this._jobService.job$.subscribe(job => this.initForm(job));
+  }
+
+  back() {
+    this.navigateTo(JobRoutes.CONFIRM_DESCRIPTION);
+  }
+
+  next() {
+    this.updateJobSection(this.form.value);
+    this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
   }
 
   private initForm(j: JobContext) {
@@ -55,15 +61,6 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
           [this.f.JOB_OPENINGS]: [j.postingInfo[this.f.JOB_OPENINGS]]
         }
       );
-  }
-
-  back() {
-    this.navigateTo(JobRoutes.COMPETENCIES);
-  }
-
-  next() {
-    this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.COMPENSATION_INFO);
   }
 
 }

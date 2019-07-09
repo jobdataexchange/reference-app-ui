@@ -12,6 +12,9 @@ import { CompensationInfoComponent } from './compensation-info/compensation-info
 import { PostingInfoComponent } from './posting-info/posting-info.component';
 import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
 import { OrgInfoComponent } from './org-info/org-info.component';
+import { DescriptionPreviewComponent } from './description-preview/description-preview.component';
+import { ConfirmDescriptionComponent } from './confirm-description/confirm-description.component';
+import { ViewJobComponent } from './view-job/view-job.component';
 
 export enum JobRoutes {
   ADDITIONAL_REQUIREMENTS = 'additional-requirements',
@@ -20,12 +23,15 @@ export enum JobRoutes {
   COMPETENCIES = 'competencies',
   COMPENSATION_INFO = 'compensation-info',
   CONFIRM_COMPLETION = 'confirm-completion',
+  CONFIRM_DESCRIPTION = 'confirm-description',
   CREDENTIAL_REQUIREMENTS = 'credential-requirements',
   DESCRIPTION = 'add-description',
+  DESCRIPTION_PREVIEW = 'description-preview',
   EMPLOYMENT_RELATIONSHIP = 'employment-relationship',
   FRAMEWORKS = 'frameworks',
   ORG_INFO = 'org-info',
-  POSTING_INFO = 'posting-info'
+  POSTING_INFO = 'posting-info',
+  VIEW_JOB = 'view-job'
 }
 
 export function createRouteUrlByJobRoute(r: JobRoutes): string {
@@ -42,6 +48,11 @@ const routes: Routes = [
   {
     path: JobRoutes.DESCRIPTION,
     component: AddDescriptionComponent
+  },
+
+  {
+    path: JobRoutes.DESCRIPTION_PREVIEW,
+    component: DescriptionPreviewComponent
   },
 
   {
@@ -90,8 +101,18 @@ const routes: Routes = [
   },
 
   {
+    path: JobRoutes.CONFIRM_DESCRIPTION,
+    component: ConfirmDescriptionComponent
+  },
+
+  {
     path: JobRoutes.ASSESSMENT_INFO,
     component: AssessmentInfoComponent
+  },
+
+  {
+    path: JobRoutes.VIEW_JOB,
+    component: ViewJobComponent
   },
 
   {
