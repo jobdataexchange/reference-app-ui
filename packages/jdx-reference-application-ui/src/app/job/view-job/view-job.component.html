@@ -1,0 +1,14 @@
+<h1 class="pt-4 pb-4">{{jobTitle}}</h1>
+
+<p class="w-75 mb-5">Json representative of field data</p>
+
+<pre>{{jsonLd | json}}</pre>
+
+<div class="links pt-5 d-flex justify-content-end align-items-center">
+  <div>
+    <a href="javascript:void(0)"
+       class="btn btn-lg btn-primary"
+       (click)="createNewJob()"
+    >Create Another Job</a>
+  </div>
+</div>

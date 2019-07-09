@@ -1,17 +1,14 @@
 <h1 class="pt-4 pb-4">Success!</h1>
 
 <p class="w-75 mb-5">
-  You have created the {{jobTitle}} job description.
+  You have created the {{jobTitle}} job posting.
 </p>
 
 <div class="links pt-5 d-flex justify-content-end align-items-center">
   <div>
     <a href="javascript:void(0)"
        class="btn btn-lg btn-primary"
-       (click)="viewPosting()"
+       (click)="viewJobPosting()"
     >View Job Posting</a>
   </div>
 </div>
-
-<p class="font-italic">Json representative of field data</p>
-<pre>{{jsonLd | json}}</pre>

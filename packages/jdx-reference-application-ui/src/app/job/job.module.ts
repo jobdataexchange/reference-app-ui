@@ -17,6 +17,9 @@ import { PostingInfoComponent } from './posting-info/posting-info.component';
 import { AssessmentInfoComponent } from './assessment-info/assessment-info.component';
 import { CollapseModule } from 'ngx-bootstrap';
 import { OrgInfoComponent } from './org-info/org-info.component';
+import { DescriptionPreviewComponent } from './description-preview/description-preview.component';
+import { ConfirmDescriptionComponent } from './confirm-description/confirm-description.component';
+import { ViewJobComponent } from './view-job/view-job.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { OrgInfoComponent } from './org-info/org-info.component';
     CompensationInfoComponent,
     PostingInfoComponent,
     AssessmentInfoComponent,
-    OrgInfoComponent
+    OrgInfoComponent,
+    DescriptionPreviewComponent,
+    ConfirmDescriptionComponent,
+    ViewJobComponent
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,6 @@ export type JobSectionType =
   'credentialRequirements' |
   'compensationInfo'       |
   'employmentRelationship' |
-  'orgInfo'                |
   'postingInfo'            ;
 
 export interface AnnotatedPreview {
@@ -41,7 +40,6 @@ export interface JobContext {
   compensationInfo: {};
   credentialRequirements: {};
   employmentRelationship: {};
-  orgInfo: {};
   postingInfo: {};
   pipelineID: PipelineID;
   version: string;
@@ -56,6 +54,18 @@ export class JobService {
     private _envConfig: EnvironmentConfigService,
     private _localStorage: LocalStorageService,
   ) {
+
+  /* This should be supported by an Org service and moved to the Org module in future development.
+   * There is currently no support for multiple Orgs, or associating specific jobs to organization.
+   * Future development will need to support this.
+   */
+    if (!this._localStorage.has(LocalStorageTypes.OGR)) {
+      this._localStorage.set(
+        LocalStorageTypes.OGR,
+        createEmptyObjectFromEnum(FormFieldsOrgInfo)
+        );
+    }
+
     if ( this._localStorage.has(LocalStorageTypes.JOB) &&
          this._localStorage.get(LocalStorageTypes.JOB).version === this._envConfig.environmentConfig.version
     ) {
@@ -66,10 +76,13 @@ export class JobService {
     }
   }
 
+  private _currentJobContext: JobContext;
+
   private _jobSub = new BehaviorSubject<JobContext>(null);
+
   job$ = this._jobSub.asObservable();
 
-  private _currentJobContext: JobContext;
+  jdxMatchCount: number;
 
   static createMatchTableRequest(id: PipelineID, threshold: number = null): MatchTableRequest {
     const result = {};
@@ -99,7 +112,6 @@ export class JobService {
       credentialRequirements: createEmptyObjectFromEnum(FormFieldsCredentialRequirements),
       additionalRequirements: createEmptyObjectFromEnum(FormFieldsAdditionalRequirements),
       compensationInfo: createEmptyObjectFromEnum(FormFieldsCompensationInfo),
-      orgInfo: createEmptyObjectFromEnum(FormFieldsOrgInfo),
       postingInfo: createEmptyObjectFromEnum(FormFieldsPostingInfo),
       annotatedPreview: isNullOrUndefined(id) ? null : await(this.updateJobPreview(id)),
     };
@@ -112,6 +124,17 @@ export class JobService {
     }
     this._currentJobContext[section] = data;
     this.setJob(this._currentJobContext);
+  }
+
+  /* This should be supported by an Org service and moved to the Org module in future development.
+   * There is currently no support for multiple orgs, or associating specific jobs to organization.
+   * Future development will need to support this.
+   */
+  updateOrgSection(orgData: {}) {
+    this._localStorage.set(
+      LocalStorageTypes.OGR,
+      orgData
+    );
   }
 
   updateJobPreview(id: PipelineID): Promise<any> {
@@ -147,7 +170,16 @@ export class JobService {
 
   private announceCurrentJob(job: JobContext) {
     this._jobSub.next(job);
+    this.updateInternalContext(job);
+  }
+
+  private updateInternalContext(job: JobContext) {
     this._currentJobContext = job;
+    this.jdxMatchCount = isNullOrUndefined(job.annotatedPreview) ||
+                         isNullOrUndefined(job.annotatedPreview.rawPreview) ||
+                         isNullOrUndefined(job.annotatedPreview.rawPreview['preview'].fields)
+                         ? 0
+                         : job.annotatedPreview.rawPreview['preview'].fields.length;
   }
 
   private createPreviewMap(p: PreviewResponse) {

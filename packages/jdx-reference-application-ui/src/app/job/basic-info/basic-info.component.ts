@@ -90,7 +90,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   }
 
   back() {
-    this.navigateTo(JobRoutes.DESCRIPTION);
+    this.navigateTo(JobRoutes.DESCRIPTION_PREVIEW);
   }
 
   next() {

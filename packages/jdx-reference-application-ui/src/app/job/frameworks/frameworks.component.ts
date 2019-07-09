@@ -82,6 +82,14 @@ export class FrameworksComponent implements OnInit, OnDestroy {
       .finally(() => this.isSubmitting = false);
   }
 
+  back() {
+    this.navigateTo(JobRoutes.EMPLOYMENT_RELATIONSHIP);
+  }
+
+  next() {
+    this.navigateTo(JobRoutes.COMPETENCIES);
+  }
+
   private createFrameworkSelectionRequest(): FrameworkSelectionRequest {
     return {
       pipelineID: this._currentPipelineId,
@@ -100,7 +108,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private getFrameworkRecommendation(id) {
     if (isNullOrUndefined(this._currentPipelineId)) {
       this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
-      return this.navigateTo(JobRoutes.DESCRIPTION);
+      return this.next();
     }
 
     console.log('this._currentPipelineId ', this._currentPipelineId);
@@ -116,7 +124,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   private onSuccess(r: Response) {
     console.log('<- uploadJobDescriptionFilePost ', r);
     if (this._jobService.isResponsePipelineIdCurrent(r)) {
-      this.navigateTo(JobRoutes.COMPETENCIES);
+
+      this.next();
     } else {
       // TODO: handle this case.
       console.log('[ERROR] Response PipelineId does not match current id');
@@ -129,12 +138,8 @@ export class FrameworksComponent implements OnInit, OnDestroy {
     this._toastr.error(e.message, title || 'Unexpected Error');
   }
 
-  navigateTo(route: JobRoutes) {
+  private navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
-  }
-
-  back() {
-    this.navigateTo(JobRoutes.BASIC_INFO);
   }
 }
 

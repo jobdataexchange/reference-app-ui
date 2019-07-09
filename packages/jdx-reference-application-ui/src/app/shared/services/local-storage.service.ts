@@ -27,5 +27,6 @@ export class LocalStorageService {
 }
 
 export enum LocalStorageTypes {
-  JOB = 'job'
+  JOB = 'job',
+  OGR = 'org'
 }
