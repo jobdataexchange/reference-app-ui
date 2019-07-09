@@ -15,6 +15,7 @@ import { InfoComponent } from './info/info.component';
 import { EnvironmentApiClientConfiguration } from './shared/services/api-configuration.service';
 import { ModalModule } from 'ngx-bootstrap';
 import { ModalComponent } from './shared/components/modal/modal.component';
+import { IntercomModule } from 'ng-intercom';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,11 @@ import { ModalComponent } from './shared/components/modal/modal.component';
       disableTimeOut: true,
       tapToDismiss: false
     }),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    IntercomModule.forRoot({
+      appId: 'gdgtfd61',
+      updateOnRouterChange: true
+    }),
   ],
   entryComponents: [
     ModalComponent
