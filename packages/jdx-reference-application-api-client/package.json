@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "clean": "rm -rf generated-sources && rm -rf dist",
-    "generate-sources": "mkdir -p generated-sources && npx openapi-generator version && cp .openapi-generator-ignore generated-sources/.openapi-generator-ignore && npx openapi-generator generate -i jdx-reference-backend-application.openapi_3-0.0.9.yaml -g typescript-angular -o  generated-sources --additional-properties=ngVersion=7.2.12,fileNaming=kebab-case",
+    "generate-sources": "mkdir -p generated-sources && npx openapi-generator version && cp .openapi-generator-ignore generated-sources/.openapi-generator-ignore && npx openapi-generator generate -i jdx-reference-backend-application.openapi_3-0.0.10.yaml -g typescript-angular -o  generated-sources --additional-properties=ngVersion=7.2.12,fileNaming=kebab-case",
     "build": "npm run generate-sources",
     "package": "npm run clean && npm run build && ng-packagr -p ng-package.json",
     "package_only": "ng-packagr -p ng-package.json"
