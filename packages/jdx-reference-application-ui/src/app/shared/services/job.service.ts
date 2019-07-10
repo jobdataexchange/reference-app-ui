@@ -186,7 +186,7 @@ export class JobService {
     const ap = {};
     p['preview'].fields.forEach( f =>  {
       const tempFieldName = f.field;
-      (ap[tempFieldName]) ? ap[tempFieldName].push(f.paragraph_number) : ap[tempFieldName] = [];
+      (ap[tempFieldName]) ? ap[tempFieldName].push(f['paragraph_number']) : ap[tempFieldName] = [];
     });
     return ap;
   }
