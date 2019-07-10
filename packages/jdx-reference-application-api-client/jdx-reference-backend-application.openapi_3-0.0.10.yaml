@@ -407,11 +407,110 @@ components:
               maxLength: 1024
               example: "Making and selling software products"
             jobLocation:
-              $ref: '#/components/schemas/place'
+              type: string
+              maxLength: 1024
             occupationCategory:
               $ref: '#/components/schemas/annotatedDefinedTerm'
             industryCategory:
               $ref: '#/components/schemas/annotatedDefinedTerm'
+            assessment:
+              type: string
+              maxLength: 1024
+            applicantLocationRequirement:
+              type: string
+              maxLength: 1024
+            citizenshipRequirement:
+              type: string
+              maxLength: 1024
+            physicalRequirement:
+              type: string
+              maxLength: 1024
+            sensoryRequirement:
+              type: string
+              maxLength: 1024
+            securityClearanceRequirement:
+              type: string
+              maxLength: 1024
+            specialCommitment:
+              type: string
+              maxLength: 1024
+            title:
+              type: string
+              maxLength: 1024
+            jobSummary:
+              type: string
+              maxLength: 1024
+            jobLocationType:
+              type: string
+              maxLength: 1024
+            employmentUnit:
+              type: string
+              maxLength: 1024
+            employerIdentifier:
+              type: string
+              maxLength: 1024
+            requirements:
+              type: string
+              maxLength: 1024
+            salaryCurrency:
+              type: string
+              maxLength: 1024
+            salaryMinimum:
+              type: string
+              maxLength: 1024
+            salaryMaximum:
+              type: string
+              maxLength: 1024
+            salaryFrequency:
+              type: string
+              maxLength: 1024
+            incentiveCompensation:
+              type: string
+              maxLength: 1024
+            jobBenefits:
+              type: array
+              items:
+                type: string
+                maxLength: 1024
+            employmentAgreement:
+              type: string
+              maxLength: 1024
+            jobTerm:
+              type: string
+              maxLength: 1024
+            jobSchedule:
+              type: string
+              maxLength: 1024
+            workHours:
+              type: string
+              maxLength: 1024
+            employerName:
+              type: string
+              maxLength: 1024
+            employerOverview:
+              type: string
+              maxLength: 1024
+            employerEmail:
+              type: string
+              maxLength: 1024
+            employerWebsite:
+              type: string
+              maxLength: 1024
+            employerAddress:
+              type: string
+              maxLength: 1024
+            employerPhone:
+              type: string
+              maxLength: 1024
+            datePosted:
+              type: string
+              maxLength: 1024
+            validThrough:
+              type: string
+              maxLength: 1024
+            jobOpenings:
+              type: string
+              maxLength: 1024
 
     jobDescriptionContextResponse:
       allOf:
