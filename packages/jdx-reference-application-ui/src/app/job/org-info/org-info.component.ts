@@ -56,7 +56,7 @@ export class OrgInfoComponent implements OnInit {
       this._fb.group(
         {
           [this.f.ORG_NAME]:                   [o[this.f.ORG_NAME], Validators.required],
-          [this.f.HIRING_ORG_NAME_OVERVIEW]:   [o[this.f.HIRING_ORG_NAME_OVERVIEW]],
+          [this.f.HIRING_ORG_OVERVIEW]:   [o[this.f.HIRING_ORG_OVERVIEW]],
           [this.f.ORG_EMAIL]:                  [o[this.f.ORG_EMAIL]],
           [this.f.ORG_WEBSITE]:                [o[this.f.ORG_WEBSITE]],
           [this.f.HIRING_ORG_ADDRESS]:         [o[this.f.HIRING_ORG_ADDRESS]],

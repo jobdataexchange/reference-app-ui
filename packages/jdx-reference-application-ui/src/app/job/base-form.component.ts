@@ -43,25 +43,25 @@ export enum FormFieldsAssessmentInfo {
 }
 
 export enum FormFieldsAdditionalRequirements {
-  APPLICATION_LOCATION_REQUIREMENT = 'application-location-requirement',
-  CITIZENSHIP_REQUIREMENT = 'citizenship-requirement',
-  PHYSICAL_REQUIREMENT = 'physical-requirement',
-  SENSORY_REQUIREMENT = 'sensory-requirement',
-  SECURITY_CLEARANCE_REQUIREMENT = 'security-clearance-requirement',
-  SPECIAL_COMMITMENT = 'special-commitment'
+  APPLICATION_LOCATION_REQUIREMENT = 'applicantLocationRequirement',
+  CITIZENSHIP_REQUIREMENT = 'citizenshipRequirement',
+  PHYSICAL_REQUIREMENT = 'physicalRequirement',
+  SENSORY_REQUIREMENT = 'sensoryRequirement',
+  SECURITY_CLEARANCE_REQUIREMENT = 'securityClearanceRequirement',
+  SPECIAL_COMMITMENT = 'specialCommitment'
 }
 
 export enum FormFieldsBasicInfo {
-  TITLE = 'competency', // just for preview testing 'title',
-  JOB_SUMMARY = 'job-summary',
-  INDUSTRY = 'industry',
-  INDUSTRY_CODE = 'industry-code',
-  OCCUPATION_CATEGORY = 'occupation-category',
-  JOB_LOCATION = 'job-location',
-  JOB_LOCATION_TYPE = 'job-location-type',
-  EMPLOYMENT_UNIT = 'employment-unit',
-  JOB_IDENTIFIER = 'job-identifier',
-  EMPLOYER_IDENTIFIER = 'employer-identifier',
+  TITLE = 'title', // just for preview testing 'title',
+  JOB_SUMMARY = 'jobSummary',
+  INDUSTRY = 'primaryEconomicActivity',
+  INDUSTRY_CODE = 'industryCategory',
+  OCCUPATION_CATEGORY = 'occupationCategory',
+  JOB_LOCATION = 'jobLocation',
+  JOB_LOCATION_TYPE = 'jobLocationType',
+  EMPLOYMENT_UNIT = 'employmentUnit',
+  JOB_IDENTIFIER = 'jobIdentifier',
+  EMPLOYER_IDENTIFIER = 'employerIdentifier',
 }
 
 export enum FormFieldsCredentialRequirements {
@@ -69,33 +69,33 @@ export enum FormFieldsCredentialRequirements {
 }
 
 export enum FormFieldsCompensationInfo {
-  CURRENCY = 'currency',
-  MINIMUM = 'minimum',
-  MAXIMUM = 'maximum',
-  FREQUENCY = 'frequency',
-  INCENTIVE_COMPENSATION = 'incentive-compensation',
-  JOB_BENEFITS = 'job-Benefits'
+  CURRENCY = 'salaryCurrency',
+  MINIMUM = 'salaryMinimum',
+  MAXIMUM = 'salaryMaximum',
+  FREQUENCY = 'salaryFrequency',
+  INCENTIVE_COMPENSATION = 'incentiveCompensation',
+  JOB_BENEFITS = 'jobBenefits'
 }
 
 export enum FormFieldsEmploymentRelationship {
-  EMPLOYMENT_AGREEMENT = 'employment-agreement',
-  JOB_TERM = 'job-term',
-  JOB_SCHEDULE = 'job-schedule',
-  WORK_HOURS = 'work-hours'
+  EMPLOYMENT_AGREEMENT = 'employmentAgreement',
+  JOB_TERM = 'jobTerm',
+  JOB_SCHEDULE = 'jobSchedule',
+  WORK_HOURS = 'workHours'
 }
 
 export enum FormFieldsOrgInfo {
-  ORG_NAME = 'org-name',
-  HIRING_ORG_NAME_OVERVIEW = 'hiring-org-name',
-  ORG_EMAIL = 'org-email',
-  ORG_WEBSITE = 'org-website',
-  HIRING_ORG_ADDRESS = 'hiring-org-address',
-  ORG_PHONE = 'org-phone',
+  ORG_NAME = 'employerName',
+  HIRING_ORG_OVERVIEW = 'employerOverview',
+  ORG_EMAIL = 'employerEmail',
+  ORG_WEBSITE = 'employerWebsite',
+  HIRING_ORG_ADDRESS = 'employerAddress',
+  ORG_PHONE = 'employerPhone',
 }
 
 export enum FormFieldsPostingInfo {
-  DATE_POSTED = 'date-posted',
-  VALID_THROUGH = 'valid-through',
-  JOB_OPENINGS = 'job-openings',
+  DATE_POSTED = 'datePosted',
+  VALID_THROUGH = 'validThrough',
+  JOB_OPENINGS = 'jobOpenings',
 }
 
