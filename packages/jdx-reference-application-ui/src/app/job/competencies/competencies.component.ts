@@ -242,20 +242,25 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
       substatementID: s.substatementID,
       annotatedName: '',
       annotatedDescription: '',
-      selectedCompetencyOption: s.matches[0].recommendationID,
+      selectedCompetencyOption: isNullOrUndefined(s.matches[0]) ? CompetencySelectOptions.NONE : s.matches[0].recommendationID,
       [this.COMPETENCY_FORM_ARRAY_NAME]: this.setCompetencies(s.matches)
     };
   }
 
   private setCompetencies(compentencies: SubstatementsMatches[]) {
     const arr = new FormArray([]);
-    compentencies.forEach(compentency =>
-      arr.push(
-        this._fb.control(
-        {[this.COMPETENCY]: compentency}
-        )
-      )
-    );
+
+    const createControl = (compentency) => {
+      return this._fb.control({ [ this.COMPETENCY ]: compentency });
+    };
+
+    if (!!compentencies.length) {
+      compentencies.forEach(c => arr.push(createControl(c)));
+    }
+    else {
+        arr.push(createControl( CompetencySelectOptions.NONE));
+    }
+
     return arr;
   }
 

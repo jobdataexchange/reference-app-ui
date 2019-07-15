@@ -4,8 +4,8 @@ import {
   Framework,
   FrameworkRecommendationResponse,
   FrameworkSelectionRequest,
-  Response,
-  ScoredRecommendation
+  FrameworkRecommendations,
+  Response
 } from '@jdx/jdx-reference-application-api-client';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JobService } from '../../shared/services/job.service';
@@ -33,7 +33,7 @@ export class FrameworksComponent implements OnInit, OnDestroy {
 
   isSubmitting = false;
 
-  frameworkRecommendations: ScoredRecommendation[] = [];
+  frameworkRecommendations: FrameworkRecommendations[] = [];
 
   readonly FRAMEWORK_FIELD_NAME = 'competency-framework';
 
@@ -106,15 +106,14 @@ export class FrameworksComponent implements OnInit, OnDestroy {
   }
 
   private getFrameworkRecommendation(id) {
-    if (isNullOrUndefined(this._currentPipelineId)) {
+    if (isNullOrUndefined(id)) {
       this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
       return this.next();
     }
 
-    console.log('this._currentPipelineId ', this._currentPipelineId);
     this._frameworkRecommendationSub =
       this._api
-        .frameworkRecommendationsPost({ pipelineID: this._currentPipelineId })
+        .frameworkRecommendationsPost({ pipelineID: id })
         .subscribe(
           (r: FrameworkRecommendationResponse) => this.frameworkRecommendations = r.frameworkRecommendations,
           (e: any) => this.onError(e, 'Error Fetching Framework Recommendations')
