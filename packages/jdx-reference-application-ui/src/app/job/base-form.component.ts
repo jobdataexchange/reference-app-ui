@@ -2,14 +2,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { createRouteUrlByJobRoute, JobRoutes } from './job-routing.module';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { JobSectionType, JobService } from '../shared/services/job.service';
+import { JobContext, JobSectionType, JobService } from '../shared/services/job.service';
+import {
+  DefaultService,
+  JobDescriptionContextRequest,
+  JobDescriptionContextResponse
+} from '@jdx/jdx-reference-application-api-client';
+import { LocalStorageService, LocalStorageTypes } from '../shared/services/local-storage.service';
 
 export abstract class BaseForm {
   protected constructor(
+    protected _api: DefaultService,
     protected _fb: FormBuilder,
     protected _jobService: JobService,
+    protected _localStorage: LocalStorageService,
     protected _router: Router,
-    protected _toastr: ToastrService
+    protected _toastr: ToastrService,
   ) {}
 
   form: FormGroup;
@@ -19,6 +27,8 @@ export abstract class BaseForm {
   protected abstract back();
 
   protected abstract next();
+
+  protected abstract onSuccess();
 
   navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
@@ -30,12 +40,56 @@ export abstract class BaseForm {
   }
 
   protected updateJobSection(data: {}) {
+    console.log('updateJobSection :: JOB_SECTION_TYPE , data',this.JOB_SECTION_TYPE, data);
     try {
       this._jobService.updateJobSection(this.JOB_SECTION_TYPE, data);
+      this.postContext();
     } catch (e) {
       this.onError(e);
     }
   }
+
+  private postContext() {
+    const context = this.createJobDescriptionContextRequest(
+      this._localStorage.get(LocalStorageTypes.JOB)
+    );
+
+    console.log('-> uploadJobDescriptionContextPost', context)
+    this._api.uploadJobDescriptionContextPost(context)
+      .toPromise()
+      .then((r: JobDescriptionContextResponse) => {
+        console.log('<- uploadJobDescriptionContextPost', r);
+        this.onSuccess();
+      })
+      .catch( e => this.onError(e));
+  }
+
+  private createJobDescriptionContextRequest(job: JobContext): JobDescriptionContextRequest {
+    const {
+      annotatedPreview,
+      pipelineID,
+      version,
+      ...cleanedJob
+    } = job;
+
+    let j = {};
+
+// flattened to field name and value e.g { "industry": "Tech" }
+    Object.keys(cleanedJob).forEach( k => {
+      j = {
+        ...j,
+        ...job[k]
+      };
+    });
+
+    return {
+      pipelineID: this._localStorage.get(LocalStorageTypes.JOB)['pipelineID'],
+      ...this._localStorage.get(LocalStorageTypes.OGR),
+      ...j
+    };
+
+  }
+
 }
 
 export enum FormFieldsAssessmentInfo {
@@ -43,7 +97,7 @@ export enum FormFieldsAssessmentInfo {
 }
 
 export enum FormFieldsAdditionalRequirements {
-  APPLICATION_LOCATION_REQUIREMENT = 'applicantLocationRequirement',
+  APPLICATION_LOCATION_REQUIREMENT = 'applicationLocationRequirement',
   CITIZENSHIP_REQUIREMENT = 'citizenshipRequirement',
   PHYSICAL_REQUIREMENT = 'physicalRequirement',
   SENSORY_REQUIREMENT = 'sensoryRequirement',
@@ -52,11 +106,11 @@ export enum FormFieldsAdditionalRequirements {
 }
 
 export enum FormFieldsBasicInfo {
-  TITLE = 'title', // just for preview testing 'title',
+  TITLE = 'jobTitle',
   JOB_SUMMARY = 'jobSummary',
   INDUSTRY = 'primaryEconomicActivity',
-  INDUSTRY_CODE = 'industryCategory',
-  OCCUPATION_CATEGORY = 'occupationCategory',
+  INDUSTRY_CODE = 'industryCode',
+  OCCUPATION_CODE = 'occupationCode',
   JOB_LOCATION = 'jobLocation',
   JOB_LOCATION_TYPE = 'jobLocationType',
   EMPLOYMENT_UNIT = 'employmentUnit',

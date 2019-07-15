@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { JobRoutes } from '../job-routing.module';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 
 @Component({
@@ -19,10 +20,11 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
     _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   readonly JOB_SECTION_TYPE = 'assessmentInfo';
@@ -51,6 +53,9 @@ export class AssessmentInfoComponent extends BaseForm implements OnInit, OnDestr
 
   next() {
     this.updateJobSection(this.form.value);
+  }
+
+  protected onSuccess() {
     this.navigateTo(JobRoutes.CREDENTIAL_REQUIREMENTS);
   }
 

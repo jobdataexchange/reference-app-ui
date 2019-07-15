@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-posting-info',
@@ -18,10 +19,11 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
     _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   readonly JOB_SECTION_TYPE = 'postingInfo';
@@ -49,6 +51,9 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
 
   next() {
     this.updateJobSection(this.form.value);
+  }
+
+  onSuccess() {
     this.navigateTo(JobRoutes.CONFIRM_COMPLETION);
   }
 
