@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.10"
+  version: "0.0.14"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -176,22 +176,22 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
-  /get-scored-recommendations:
+  /get-score:
     post:
-      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
+      summary: "Provides a scored based on how much metadata you provide and the quality of that data."
       requestBody:
-        description: Get framework-recommendations for a given Pipeline ID.
+        description: Get score for a given Pipeline ID.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/request'
       responses:
         '200':
-          description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
+          description: Provides a score for your pipeline work.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/scoreResponse'
+                $ref: '#/components/schemas/pipelineScoreResponse'
         '422':
           $ref: '#/components/responses/422'
         '400':
@@ -200,30 +200,55 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-  /set-scored-recommendations:
-    post:
-      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
-      requestBody:
-        description: Contains a user replacement to analyze and provide recommendation for
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/scoreRequest'
-      responses:
-        '200':
-          description: The frameworkRecommendation response object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/scoreResponse'
-        '422':
-          $ref: '#/components/responses/422'
-        '400':
-          $ref: '#/components/responses/400'
-        '415':
-          $ref: '#/components/responses/415'
-        '503':
-          $ref: '#/components/responses/503'
+
+  # /get-scored-recommendations:
+  #   post:
+  #     summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
+  #     requestBody:
+  #       description: Get framework-recommendations for a given Pipeline ID.
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/request'
+  #     responses:
+  #       '200':
+  #         description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/scoreResponse'
+  #       '422':
+  #         $ref: '#/components/responses/422'
+  #       '400':
+  #         $ref: '#/components/responses/400'
+  #       '415':
+  #         $ref: '#/components/responses/415'
+  #       '503':
+  #         $ref: '#/components/responses/503'
+  # /set-scored-recommendations:
+  #   post:
+  #     summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
+  #     requestBody:
+  #       description: Contains a user replacement to analyze and provide recommendation for
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/scoreRequest'
+  #     responses:
+  #       '200':
+  #         description: The frameworkRecommendation response object
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/scoreResponse'
+  #       '422':
+  #         $ref: '#/components/responses/422'
+  #       '400':
+  #         $ref: '#/components/responses/400'
+  #       '415':
+  #         $ref: '#/components/responses/415'
+  #       '503':
+  #         $ref: '#/components/responses/503'
 
   /user-actions:
     post:
@@ -249,6 +274,33 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
+
+  /generate-job-schema-plus:
+    post:
+      summary: Generate JobSchema+
+      requestBody:
+        description: Generate JobSchema+ from a given pipeline_id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: JobSchema+ file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateJobSchemaPlusResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+
+
   /health:
     get:
       summary: Health Check
@@ -409,14 +461,14 @@ components:
             jobLocation:
               type: string
               maxLength: 1024
-            occupationCategory:
-              $ref: '#/components/schemas/annotatedDefinedTerm'
-            industryCategory:
-              $ref: '#/components/schemas/annotatedDefinedTerm'
+            occupationCode:
+              type: string
+            industryCode:
+              type: string
             assessment:
               type: string
               maxLength: 1024
-            applicantLocationRequirement:
+            applicationLocationRequirement:
               type: string
               maxLength: 1024
             citizenshipRequirement:
@@ -434,7 +486,7 @@ components:
             specialCommitment:
               type: string
               maxLength: 1024
-            title:
+            jobTitle:
               type: string
               maxLength: 1024
             jobSummary:
@@ -596,10 +648,7 @@ components:
             frameworkRecommendations:
               type: array
               items:
-                $ref: '#/components/schemas/scoredRecommendation'
-        # - type: array
-        #   items:
-        #     $ref: '#/components/schemas/scoredRecommendation'
+                $ref: '#/components/schemas/frameworkRecommendations'
 
     matchTableRequest:
       allOf:
@@ -657,18 +706,33 @@ components:
                 type: string
                 example: "0.9"
 
-    scoreRequest:
+    # scoreRequest:
+    #   allOf:
+    #     - $ref: '#/components/schemas/request'
+    #     - type: object
+    #       properties:
+    #         annotatedDefinedTerm:
+    #           $ref: '#/components/schemas/annotatedDefinedTerm'
+
+    pipelineScoreResponse:
       allOf:
-        - $ref: '#/components/schemas/request'
-        - type: object
-          properties:
-            annotatedDefinedTerm:
-              $ref: '#/components/schemas/annotatedDefinedTerm'
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/pipelineScoreObject'
 
-    scoreResponse:
-      $ref: '#/components/schemas/frameworkRecommendationResponse'
+    pipelineScoreObject:
+      type: object
+      properties:
+        score:
+          type: string
+          example: "A+"
+        explanation:
+          type: string
+          example: "By not providing a location, search engines cannot index your job posting correctly."
 
-    scoredRecommendation:
+    # scoreResponse:
+    #   $ref: '#/components/schemas/frameworkRecommendationResponse'
+
+    frameworkRecommendations:
       type: object
       properties:
         value:
@@ -681,49 +745,80 @@ components:
           type: string
           format: date-time
           example: "2017-09-21T17:32:28Z"
-        metrics:
-          $ref: '#/components/schemas/metrics'
+        frameworkData:
+          $ref: '#/components/schemas/frameworkData'
 
-    metrics:
+    frameworkData:
       type: object
       properties:
-        userType:
-          description: the type of user the metric was derived from. For example, a count derived from a `collaborative` is the number of employers in that collaborative, whereas a count derived from `pilot user` is the number of `pilot users` at that time (e.g. using a recomemendation)
-          type: string
-          enum: [abstract, user, pilot user, collaborative]
-          example: abstract
         uuid:
-          description: If given, the matching uuid in the matchTable (a row in the matchTable) that this `scoredRecommendation` applies to (e.g. one of several `scoredRecommendation`s that could be assigned to a particular competency property in the json-ld file). If no uuid present and recommendation, then this applies to the entire converted job description (e.g., in general you can be recommended to include additional competencies of a certain type based on comparative measures)
+          description: uuid of framework
           type: string
           format: uuid
           example:  "f6052610-8032-43af-940d-24db36e57187"
         objectType:
-          description: If `score`, this object simply rates the matching uuid identified object. If `recommendation` an actual recommendation, with `recommendedContent` and other justifications, are provided.
+          description: competency, industry, occupation?
           type: string
-          enum: [recommendation, score]
-          example: recommendation
-        statisticType:
+          example: competency
+        name:
+          description: name of the framework
           type: string
-          enum: [count, mean, median]
-          example: count
-        extraInfo:
-          description: Typically for `recomendation` `objectType`s, essentially provides a justification for the recommendation in terms of descriptive statistics in regards to class (`metricClass`), e.g. a justification for this recommendation because most `collaborative` users have this `topic`
-          type: object
-          properties:
-            totalNumber:
-              type: number
-              example: 100
-            recommendedContent:
-              description: A string to motivate the user to take some action, typically justified by the metricClass and aiming at improving the job description along the same lines as the metricClass
-              type: string
-              maxLength: 1024
-              example: Include more about IDE tools since a majority of employers in this collaborative have done so.
-        metricClass:
-          description: >-
-            In a scoring context (e.g. `objectType: score`) this describes what kind of framework is being recommended. In a recommendation context this describes the nature of the `recommendedContent` and the area that recommendation seeks to help the user improve in. For example, a `metricClass: actionable`, with `recommendedContent: Consider using more action verbs to describe this competency. 55 out of 100 users in your collaborative have done so.`
+          example: Cybersecurity ClearingHouse Model
+
+
+    generateJobSchemaPlusResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/jobSchemaPlusFile'
+
+    jobSchemaPlusFile:
+      type: object
+      properties:
+        jobSchemaPlusFile:
           type: string
-          example: topic
-          enum: [occupation, industry, competency, observable, actionable, brief, topic]
+          format: json
+          example: "{ 'title': 'example job schema plus file' }"
+
+    # metrics:
+    #   type: object
+    #   properties:
+    #     userType:
+    #       description: the type of user the metric was derived from. For example, a count derived from a `collaborative` is the number of employers in that collaborative, whereas a count derived from `pilot user` is the number of `pilot users` at that time (e.g. using a recomemendation)
+    #       type: string
+    #       enum: [abstract, user, pilot user, collaborative]
+    #       example: abstract
+    #     uuid:
+    #       description: If given, the matching uuid in the matchTable (a row in the matchTable) that this `scoredRecommendation` applies to (e.g. one of several `scoredRecommendation`s that could be assigned to a particular competency property in the json-ld file). If no uuid present and recommendation, then this applies to the entire converted job description (e.g., in general you can be recommended to include additional competencies of a certain type based on comparative measures)
+    #       type: string
+    #       format: uuid
+    #       example:  "f6052610-8032-43af-940d-24db36e57187"
+    #     objectType:
+    #       description: If `score`, this object simply rates the matching uuid identified object. If `recommendation` an actual recommendation, with `recommendedContent` and other justifications, are provided.
+    #       type: string
+    #       enum: [recommendation, score]
+    #       example: recommendation
+    #     statisticType:
+    #       type: string
+    #       enum: [count, mean, median]
+    #       example: count
+    #     extraInfo:
+    #       description: Typically for `recomendation` `objectType`s, essentially provides a justification for the recommendation in terms of descriptive statistics in regards to class (`metricClass`), e.g. a justification for this recommendation because most `collaborative` users have this `topic`
+    #       type: object
+    #       properties:
+    #         totalNumber:
+    #           type: number
+    #           example: 100
+    #         recommendedContent:
+    #           description: A string to motivate the user to take some action, typically justified by the metricClass and aiming at improving the job description along the same lines as the metricClass
+    #           type: string
+    #           maxLength: 1024
+    #           example: Include more about IDE tools since a majority of employers in this collaborative have done so.
+    #     metricClass:
+    #       description: >-
+    #         In a scoring context (e.g. `objectType: score`) this describes what kind of framework is being recommended. In a recommendation context this describes the nature of the `recommendedContent` and the area that recommendation seeks to help the user improve in. For example, a `metricClass: actionable`, with `recommendedContent: Consider using more action verbs to describe this competency. 55 out of 100 users in your collaborative have done so.`
+    #       type: string
+    #       example: topic
+    #       enum: [occupation, industry, competency, observable, actionable, brief, topic]
 
     userActionRequest:
       allOf:

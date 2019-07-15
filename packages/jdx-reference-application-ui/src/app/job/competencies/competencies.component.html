@@ -44,11 +44,14 @@
           <div class="col-md-9">
             <select class="form-control form-control-lg mb-3 mb-md-0" [id]="'competency'+i"
                     (change)="substatementControl.value.selectedCompetencyOption = $event.target.value"
-                    [value]="substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'][0].value.competency.recommendationID"
+                    [value]="substatementControl.value.selectedCompetencyOption"
             >
-              <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'];"
-                      [value]="competencyControl.value.competency.recommendationID"
-              >{{competencyControl.value.competency.name}}</option>
+              <ng-container *ngIf="substatementControl.value.selectedCompetencyOption !== competencySelectOptions.NONE">
+                <option *ngFor="let competencyControl of substatementControl.get(COMPETENCY_FORM_ARRAY_NAME)['controls'];"
+                        [value]="competencyControl.value.competency.recommendationID"
+                >{{competencyControl.value.competency.name}}</option>
+              </ng-container>
+
               <option [value]="competencySelectOptions.NONE">Does not contain competency information</option>
               <option [value]="competencySelectOptions.OTHER">Other user-specified competency</option>
             </select>

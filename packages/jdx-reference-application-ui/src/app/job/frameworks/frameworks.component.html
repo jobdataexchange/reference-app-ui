@@ -20,9 +20,10 @@
             multiple
     >
       <option *ngFor="let option of frameworkRecommendations"
-              [value]="option.metrics.uuid"
-
-      >{{option.metrics['name']}}</option>
+              [value]="option.frameworkData.uuid"
+      >
+        {{option.frameworkData['name']}}
+      </option>
     </select>
     <small id="competencyHelpBlock" class="form-text text-muted">
       Identify attributes including abilities, attitudes, knowledge, skills, tasks, and task-specific tools/technologies.
