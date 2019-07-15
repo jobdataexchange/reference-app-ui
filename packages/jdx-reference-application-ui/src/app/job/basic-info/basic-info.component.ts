@@ -9,6 +9,7 @@ import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+import { naicsSelectOptions } from '../naicsValues';
 
 
 @Component({
@@ -75,14 +76,9 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
       );
   }
 
-  // these may turn into true Getters once the real logic is in
   getIndustryCodes() {
     // TODO: real logic to get the Industry codes
-    this.industryCodes = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
-    ];
+    this.industryCodes = naicsSelectOptions;
   }
 
   getOccupationCategory() {
