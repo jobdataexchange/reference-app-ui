@@ -8,6 +8,7 @@ import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 import { JobRoutes } from '../job-routing.module';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-employment-relationship',
@@ -19,10 +20,11 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
     _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   readonly JOB_SECTION_TYPE = 'employmentRelationship';
@@ -117,6 +119,10 @@ export class EmploymentRelationshipComponent extends BaseForm implements OnInit,
 
   next() {
     this.updateJobSection(this.form.value);
+  }
+
+  onSuccess() {
     this.navigateTo(JobRoutes.FRAMEWORKS);
   }
+
 }

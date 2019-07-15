@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { JobRoutes } from '../job-routing.module';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
 import { isArray } from 'util';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-compensation-info',
@@ -20,10 +21,11 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   get jobBenefitsControls(): FormControl[] {
@@ -100,6 +102,9 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
     // remove any empty benefits that the use may have added but failed to entered a value
     this.form.value[this.f.JOB_BENEFITS] = this.form.value[this.f.JOB_BENEFITS].filter( b => b);
     this.updateJobSection(this.form.value);
+  }
+
+  protected onSuccess() {
     this.navigateTo(JobRoutes.CONFIRM_DESCRIPTION);
   }
 

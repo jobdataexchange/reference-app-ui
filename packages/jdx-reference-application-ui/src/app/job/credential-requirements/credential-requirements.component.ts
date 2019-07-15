@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 import { JobRoutes } from '../job-routing.module';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-credential-requirements',
@@ -18,10 +19,11 @@ export class CredentialRequirementsComponent extends BaseForm implements OnInit,
     _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   private _jobSub: Subscription = null;
@@ -59,9 +61,10 @@ export class CredentialRequirementsComponent extends BaseForm implements OnInit,
 
   next() {
     this.updateJobSection(this.form.value);
-    this.navigateTo(JobRoutes.ADDITIONAL_REQUIREMENTS);
   }
 
-
+  protected onSuccess() {
+    this.navigateTo(JobRoutes.ADDITIONAL_REQUIREMENTS);
+  }
 
 }

@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { JobRoutes } from '../job-routing.module';
 import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
+import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+
 
 @Component({
   selector: 'app-basic-info',
@@ -14,12 +17,14 @@ import { Subscription } from 'rxjs';
 })
 export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   constructor(
+    _api: DefaultService,
     _fb: FormBuilder,
     _jobService: JobService,
+    _localStorage: LocalStorageService,
     _router: Router,
     _toastr: ToastrService
   ) {
-    super(_fb, _jobService, _router, _toastr);
+    super(_api, _fb, _jobService, _localStorage, _router, _toastr);
   }
 
   f = FormFieldsBasicInfo;
@@ -60,7 +65,7 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
           [this.f.JOB_SUMMARY]:         [j.basicInfo[this.f.JOB_SUMMARY]],
           [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
           [this.f.INDUSTRY_CODE]:       [j.basicInfo[this.f.INDUSTRY_CODE]],
-          [this.f.OCCUPATION_CATEGORY]: [j.basicInfo[this.f.OCCUPATION_CATEGORY]],
+          [this.f.OCCUPATION_CODE]: [ j.basicInfo[this.f.OCCUPATION_CODE]],
           [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.JOB_LOCATION], Validators.required],
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
@@ -95,6 +100,9 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   next() {
     this.updateJobSection(this.form.value);
+  }
+
+  protected onSuccess() {
     this.navigateTo(JobRoutes.EMPLOYMENT_RELATIONSHIP);
   }
 

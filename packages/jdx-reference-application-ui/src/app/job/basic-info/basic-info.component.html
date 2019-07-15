@@ -44,9 +44,9 @@
     ></app-select>
   </app-form-wrapper>
 
-  <app-form-wrapper classList="mb-2" [wrappedField]="f.OCCUPATION_CATEGORY">
+  <app-form-wrapper classList="mb-2" [wrappedField]="f.OCCUPATION_CODE">
     <app-select id="occupation-category"
-                [control]="this.form.get(f.OCCUPATION_CATEGORY)"
+                [control]="this.form.get(f.OCCUPATION_CODE)"
                 [options]="occupationCategories"
                 label="Occupation Category"
                 defaultOptionText="Select"
