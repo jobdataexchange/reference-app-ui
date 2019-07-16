@@ -14,7 +14,7 @@
                 [control]="this.form.get(f.CURRENCY)"
                 [options]="currencyOptions"
                 label="Currency"
-                helpBlock="Specify the unit of currency for this salary information."></app-select>
+                helpBlock="Specify the unit of currency for this salary information. Note for the pilot test this function is set to USD."></app-select>
   </app-form-wrapper>
 
   <fieldset class="form-group mb-4">
@@ -44,7 +44,7 @@
     <app-input-text id="incentive-compensation"
                     [control]="this.form.get(f.INCENTIVE_COMPENSATION)"
                     label="Incentive Compensation"
-                    helpBlock="Describe bonus, commission, or other financial incentives for this job."></app-input-text>
+                    helpBlock="Describe bonus, commission, or other financial incentives for this job. Type “No Incentive Compensation” if the job doesn’t include incentive compensation."></app-input-text>
   </app-form-wrapper>
 
   <div class="form-row mb-4">
@@ -71,6 +71,11 @@
           </button>
         </div>
       </fieldset>
+
+      <p>
+        <strong>Some pre-filled job benefits are above. You can remove, edit, and add as many  benefits as you would like.</strong>
+      </p>
+
       <button type="button"
               class="add-benefit btn btn-outline-primary btn-lg"
               (click)="addBenefit()"
@@ -83,7 +88,6 @@
       ></app-preview-alert>
     </div>
   </div>
-
 
   <div class="d-flex justify-content-between pt-5">
     <button type="button" class="btn btn-lg text-primary d-flex align-items-center p-0"

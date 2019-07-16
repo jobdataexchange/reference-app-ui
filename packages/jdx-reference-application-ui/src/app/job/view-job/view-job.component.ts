@@ -7,6 +7,7 @@ import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { LocalStorageService, LocalStorageTypes } from '../../shared/services/local-storage.service';
 import { DefaultService, GenerateJobSchemaPlusResponse } from '@jdx/jdx-reference-application-api-client';
 import { flatMap } from 'rxjs/operators';
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-view-job',
@@ -27,6 +28,11 @@ export class ViewJobComponent implements OnInit, OnDestroy {
 
   private _jobSub: Subscription = null;
   private _resultSub: Subscription = null;
+
+  download() {
+    const blob = new Blob([this.jobSchemaPlusResponse.jobSchemaPlusFile], { type: 'application/json' });
+    saveAs(blob, 'jobSchemaPlus.json');
+  }
 
   /**
    * API may return a string or an array of strings for a given field.

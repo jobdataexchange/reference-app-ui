@@ -6,7 +6,7 @@
 
 <h1 class="pb-4">Hiring Organization Information</h1>
 <p class="w-75 mb-5">
-  Information provided here will appear by default in your job descriptions. Fields are optional unless otherwise noted — but the more details you can provide, the better your job descriptions will be.
+  Information provided here will appear by default in your job description. All fields are optional except for fields with a (*). However, your score at the end of the JDX prototype will be determined on the number of fields you fill out and the type of information provided.
 </p>
 
 <form [formGroup]=form
@@ -16,7 +16,7 @@
     <app-input-text id="org-name"
                     [control]="this.form.get(f.ORG_NAME)"
                     [required]="true"
-                    helpBlock="Official organization name (for example, the registered company name)."
+                    helpBlock="The official name of the organization (e.g. the registered company name)."
                     label="Hiring Organization Name"
     ></app-input-text>
   </app-form-wrapper>
@@ -26,7 +26,7 @@
                   rows="3"
                   [control]="this.form.get(f.HIRING_ORG_OVERVIEW)"
                   label="Hiring Organization Overview"
-                  helpBlock="Describe the employer, career opportunities, and work environment."
+                  helpBlock="A short summary of the employer, career opportunities, and work environment (e.g. the “About” section or introduction paragraph in a job posting)."
     ></app-textarea>
   </app-form-wrapper>
 
@@ -34,6 +34,7 @@
     <app-input-text id="org-email"
                     [control]="this.form.get(f.ORG_EMAIL)"
                     label="Email"
+                    helpBlock="Include a general email for the hiring organization or the hiring manager’s email address."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -41,6 +42,7 @@
     <app-input-text id="org-website"
                     [control]="this.form.get(f.ORG_WEBSITE)"
                     label="Website"
+                    helpBlock="Include a link to the hiring organization’s main webpage or to the job announcement."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -48,6 +50,7 @@
     <app-input-text id="hiring-org-address"
                     [control]="this.form.get(f.HIRING_ORG_ADDRESS)"
                     label="Hiring Organization Address"
+                    helpBlock="Include the address of the hiring organization’s headquarters."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -56,6 +59,7 @@
                     [control]="this.form.get(f.ORG_PHONE)"
                     placeholder="(888) 888-8888"
                     label="Phone Number"
+                    helpBlock="Include a general phone number for the hiring organization or to the hiring manager."
     ></app-input-text>
   </app-form-wrapper>
 

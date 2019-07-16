@@ -3,16 +3,16 @@
   <p class="flex-shrink-0">6 of 12</p>
 </div>
 
-<h1 class="pb-4">Frameworks</h1>
+<h1 class="pb-4">Competency Frameworks</h1>
 <p class="w-75 mb-5">
-  We identified the following competency frameworks for the job description you provided. Please select those you wish
-  to include. The frameworks you select will help to determine the competency options displayed next.
+  We identified the following competency frameworks based on the job description and additional information you provided. Please select at least one competency framework to use (no more than three).  The frameworks you select will help to determine the competency suggestions displayed next.
 </p>
 
 <form *ngIf="form" [formGroup]="form" (submit)="submitForm()">
 
   <div class="form-group mb-4">
     <label class="font-weight-bold" for="competency-framework">Competency Framework</label>
+    <span class="required">*</span>
     <select id="competency-framework"
             class="form-control form-control-lg"
             aria-describedby="competencyHelpBlock"
@@ -26,7 +26,8 @@
       </option>
     </select>
     <small id="competencyHelpBlock" class="form-text text-muted">
-      Identify attributes including abilities, attitudes, knowledge, skills, tasks, and task-specific tools/technologies.
+      <p>Competencies refer to the abilities, attitudes, knowledge, skills, tasks, and task-specific tools/technologies of an individual.</p>
+      <p>NOTE: All competency frameworks listed in the box above are being used solely for pilot testing purposes and will not be made available to the public in any form.</p>
     </small>
   </div>
 

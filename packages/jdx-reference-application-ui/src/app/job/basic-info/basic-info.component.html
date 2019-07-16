@@ -4,7 +4,7 @@
 </div>
 
 <h1 class="pb-4">General Information</h1>
-<p class="w-75 mb-5">Provide as much information as possible to increase JDX compliance.</p>
+<p class="w-75 mb-5">Provide as much information as possible to increase your final JDX prototype score.</p>
 
 <form [formGroup]=form
       (submit)="next()"
@@ -22,7 +22,7 @@
                   rows="3"
                   [control]="this.form.get(f.JOB_SUMMARY)"
                   label="Job Summary"
-                  helpBlock="Responsibilities, qualifications, skills, working hours, education, and experience required."
+                  helpBlock="A summary of the job including responsibilities, qualifications, skills, working hours, education, and experience."
     ></app-textarea>
   </app-form-wrapper>
 
@@ -30,7 +30,7 @@
     <app-input-text id="industry"
                     [control]="this.form.get(f.INDUSTRY)"
                     label="Industry Description"
-                    helpBlock="The primary economic activity at this job location."
+                    helpBlock="A description of the primary economic or work activities (e.g. software development, healthcare services, electronic manufacturing)."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -40,7 +40,7 @@
                 [options]="industryCodes"
                 label="Industry Code"
                 defaultOptionText="Select"
-                helpBlock="The code associated with the primary economic activity at this job location."
+                helpBlock="The code associated with the primary economic activity in the country of employment (i.e. NAICS code)."
     ></app-select>
   </app-form-wrapper>
 
@@ -50,6 +50,7 @@
                 [options]="occupationCategories"
                 label="Occupation Category"
                 defaultOptionText="Select"
+                helpBlock="Category of the relevant occupation of the job used in the country of employment (e.g. in the U.S. it’s a SOC code)."
     ></app-select>
   </app-form-wrapper>
 
@@ -59,6 +60,7 @@
                     [required]="true"
                     label="Job Location"
                     placeholder="City, State"
+                    helpBlock="Geographic location where the job will be physically performed."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -66,7 +68,7 @@
     <app-input-text id="job-location-type"
                     [control]="this.form.get(f.JOB_LOCATION_TYPE)"
                     label="Job Location Type"
-                    helpBlock="Locations where this job can be performed (for example, in person, remote/telecommute, or a combination)."
+                    helpBlock="Locations where this job can be performed (e.g. in person, remote/telecommute, or a combination)."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -82,7 +84,7 @@
     <app-input-text id="job-identifier"
                     [control]="this.form.get(f.JOB_IDENTIFIER)"
                     label="Job Identifier"
-                    helpBlock="Identifier for internal or external uses (for example, job, job posting, and department)."
+                    helpBlock="Identifier for JDX prototype internal use."
     ></app-input-text>
   </app-form-wrapper>
 
@@ -90,7 +92,7 @@
     <app-input-text id="employer-identifier"
                     [control]="this.form.get(f.EMPLOYER_IDENTIFIER)"
                     label="Employer Job Identifier"
-                    helpBlock="Employer identifier for this position."
+                    helpBlock="Employer identifier for this position (i.e. coding for your internal processes)."
     ></app-input-text>
   </app-form-wrapper>
 
