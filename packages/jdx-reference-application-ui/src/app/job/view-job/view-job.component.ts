@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { FormFieldsBasicInfo } from '../base-form.component';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { LocalStorageService, LocalStorageTypes } from '../../shared/services/local-storage.service';
+import { DefaultService, GenerateJobSchemaPlusResponse } from '@jdx/jdx-reference-application-api-client';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-job',
@@ -14,16 +16,26 @@ import { LocalStorageService, LocalStorageTypes } from '../../shared/services/lo
 export class ViewJobComponent implements OnInit, OnDestroy {
 
   constructor(
+    private _api: DefaultService,
     private _localStorage: LocalStorageService,
     private _jobService: JobService,
     private _router: Router
   ) { }
 
   jobTitle: string;
-
-  jsonLd;
+  jobSchemaPlusResponse: GenerateJobSchemaPlusResponse;
 
   private _jobSub: Subscription = null;
+  private _resultSub: Subscription = null;
+
+  /**
+   * API may return a string or an array of strings for a given field.
+   * Normalize this into an array of strings for the template to iterate over.
+   */
+  getParagraphsForFieldName(fieldName: string): string[] {
+    const rawValue = this.jobSchemaPlusResponse.humanReadable.data[fieldName];
+    return (rawValue instanceof Array) ? rawValue : [rawValue];
+  }
 
   ngOnInit() {
     this.initSubscriptions();
@@ -31,58 +43,21 @@ export class ViewJobComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._jobSub.unsubscribe();
+    this._resultSub.unsubscribe();
   }
 
   initSubscriptions() {
     this._jobSub = this._jobService.job$
       .subscribe( j => {
         this.jobTitle = j.basicInfo[FormFieldsBasicInfo.TITLE];
-        this.reportJsonLd(j);
       });
+    this._resultSub = this._jobService.job$.pipe(
+      flatMap(j => this._api.generateJobSchemaPlusPost({pipelineID: j.pipelineID}))
+    ).subscribe(response => this.jobSchemaPlusResponse = response);
   }
 
   createNewJob() {
     this.navigateTo(JobRoutes.DESCRIPTION);
-  }
-
-  // private reportOrgInfo(org: LocalStorageTypes.OGR) {
-  //
-  //   const {
-  //     annotatedPreview,
-  //     pipelineID,
-  //     version,
-  //     ...cleanedJob
-  //   } = org;
-  // }
-
-  private reportJsonLd(job: JobContext) {
-    const {
-      annotatedPreview,
-      pipelineID,
-      version,
-      ...cleanedJob
-    } = job;
-
-    // Nested object, each form field 'nested' in view name e.g { "basicInfo": { "industry": "Tech"} }
-    // this.jsonLd = {
-    //   org: {...this._localStorage.get(LocalStorageTypes.OGR)},
-    //   ...cleanedJob
-    // };
-
-    // flattened to field name and value e.g { "industry": "Tech" }
-    let j = {};
-
-    Object.keys(cleanedJob).forEach( k => {
-      j = {
-        ...j,
-        ...job[k]
-      };
-    });
-
-    this.jsonLd = {
-      ...this._localStorage.get(LocalStorageTypes.OGR),
-      ...j
-    };
   }
 
   private navigateTo(route: JobRoutes) {
