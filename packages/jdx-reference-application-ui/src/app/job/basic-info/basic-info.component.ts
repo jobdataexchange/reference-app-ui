@@ -78,13 +78,11 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   }
 
   getIndustryCodes() {
-    // TODO: real logic to get the Industry codes
-    this.industryCodes = socSelectOptions;
+    this.industryCodes = naicsSelectOptions.sort((o1, o2) => o1.name > o2.name ? 1 : -1);
   }
 
   getOccupationCategory() {
-    // TODO: real logic to get the Occupation Categories
-    this.occupationCategories = naicsSelectOptions;
+    this.occupationCategories = socSelectOptions.sort((o1, o2) => o1.name > o2.name ? 1 : -1);
   }
 
   back() {
