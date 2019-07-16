@@ -13,7 +13,7 @@
     <p class="flex-shrink-0">2 of 12</p>
   </div>
 
-  <p class="w-75 mb-5">Upload an existing document that includes your job description OR enter a description below.</p>
+  <p class="w-75 mb-5">Upload the job description that you shared with our team during your onboarding session (you should have received your job description via email from BrightHive before your pilot test). You can also copy and paste the job description below.</p>
 
   <form *ngIf="form"
         [formGroup]="form"
@@ -31,9 +31,9 @@
                #fileInput
         >
         <span>{{fileName ? 'Selected: ' + fileName : 'Drag or '}}</span>
-        <label class="custom-file-label pl-1 pr-1 m-0" for="customFile">{{fileName ? 'change' : 'update'}}</label>
+        <label class="custom-file-label pl-1 pr-1 m-0" for="customFile">{{fileName ? 'change' : 'upload'}}</label>
         <span>file</span>
-        <div class="w-100 text-center">DOCX or TXT</div>
+        <div class="w-100 text-center">.doc, .docx, or .txt</div>
       </div>
     </div>
 
