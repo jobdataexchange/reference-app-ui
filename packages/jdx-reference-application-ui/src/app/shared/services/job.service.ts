@@ -3,7 +3,6 @@ import { DefaultService, MatchTableRequest, PreviewResponse, Request } from '@jd
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
-  AutoFillPropertyNames,
   FormFieldsAdditionalRequirements,
   FormFieldsAssessmentInfo,
   FormFieldsBasicInfo,
@@ -156,24 +155,13 @@ export class JobService {
            : this._currentJobContext.annotatedPreview.previewMap[p].length;
   }
 
-  autoFillValuefromAutoFillPropertyName(f: AutoFillPropertyNames) {
-    const j = this._currentJobContext;
+  autoFillValueByFormField(jcProp: keyof JobContext, field: string) {
+    const  j = this._currentJobContext;
 
-    switch (f) {
-      case AutoFillPropertyNames.SOC: {
-        return isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill) ||
-               isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.SOC])
-               ? ''
-               : j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.SOC];
-      }
+    return j[jcProp][field] === ''
+           ? j.annotatedPreview.rawPreview.preview.autofill && j.annotatedPreview.rawPreview.preview.autofill[field] || ''
+           : j[jcProp][field];
 
-      case AutoFillPropertyNames.NAISC: {
-        return isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill) ||
-               isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.NAISC])
-               ? ''
-               : j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.NAISC];
-      }
-    }
   }
 
 
@@ -194,16 +182,16 @@ export class JobService {
     this._currentJobContext = job;
     this.jdxMatchCount = isNullOrUndefined(job.annotatedPreview) ||
                          isNullOrUndefined(job.annotatedPreview.rawPreview) ||
-                         isNullOrUndefined(job.annotatedPreview.rawPreview['preview'].fields)
+                         isNullOrUndefined(job.annotatedPreview.rawPreview.preview.fields)
                          ? 0
-                         : job.annotatedPreview.rawPreview['preview'].fields.length;
+                         : job.annotatedPreview.rawPreview.preview.fields.length;
   }
 
   private createPreviewMap(p: PreviewResponse) {
     const ap = {};
-    p['preview'].fields.forEach( f =>  {
+    p.preview.fields.forEach( f =>  {
       const tempFieldName = f.field;
-      (ap[tempFieldName]) ? ap[tempFieldName].push(f['paragraph_number']) : ap[tempFieldName] = [];
+      (ap[tempFieldName]) ? ap[tempFieldName].push(f.paragraphNumber) : ap[tempFieldName] = [];
     });
     return ap;
   }

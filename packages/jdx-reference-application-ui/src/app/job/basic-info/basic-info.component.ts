@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AutoFillPropertyNames, BaseForm, FormFieldsBasicInfo } from '../base-form.component';
+import { BaseForm, FormFieldsBasicInfo } from '../base-form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectTypeDefault } from '../../shared/components/forms/select/select.component';
@@ -11,7 +11,6 @@ import { LocalStorageService } from '../../shared/services/local-storage.service
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 import { socSelectOptions } from '../socData';
 import { naicsSelectOptions } from '../naicsData';
-import { isNullOrUndefined } from 'util';
 
 
 @Component({
@@ -61,24 +60,14 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   }
 
   private initForm(j: JobContext) {
-
-    const socValue = j.basicInfo[this.f.INDUSTRY_CODE] === ''
-                   ? this._jobService.autoFillValuefromAutoFillPropertyName(AutoFillPropertyNames.SOC)
-                   : j.basicInfo[this.f.INDUSTRY_CODE];
-
-
-    const naiscValue = j.basicInfo[this.f.OCCUPATION_CODE] === ''
-                       ? this._jobService.autoFillValuefromAutoFillPropertyName(AutoFillPropertyNames.NAISC)
-                       : j.basicInfo[this.f.OCCUPATION_CODE];
-
     this.form =
       this._fb.group(
         {
-          [this.f.TITLE]:               [j.basicInfo[this.f.TITLE], Validators.required],
+          [this.f.TITLE]:               this._jobService.autoFillValueByFormField('basicInfo', this.f.TITLE),
           [this.f.JOB_SUMMARY]:         [j.basicInfo[this.f.JOB_SUMMARY]],
           [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
-          [this.f.INDUSTRY_CODE]:       [socValue],
-          [this.f.OCCUPATION_CODE]:     [naiscValue],
+          [this.f.INDUSTRY_CODE]:       this._jobService.autoFillValueByFormField('basicInfo', this.f.INDUSTRY_CODE),
+          [this.f.OCCUPATION_CODE]:     this._jobService.autoFillValueByFormField('basicInfo', this.f.OCCUPATION_CODE),
           [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.JOB_LOCATION], Validators.required],
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],

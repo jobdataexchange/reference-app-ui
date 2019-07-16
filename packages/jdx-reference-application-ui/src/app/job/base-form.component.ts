@@ -92,11 +92,6 @@ export abstract class BaseForm {
 
 }
 
-export enum AutoFillPropertyNames {
- SOC = 'soc',
- NAISC = 'naisc'
-}
-
 export enum FormFieldsAssessmentInfo {
   ASSESSMENT= 'assessment'
 }
