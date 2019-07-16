@@ -84,17 +84,12 @@ export class JobService {
 
   jdxMatchCount: number;
 
-  static createMatchTableRequest(id: PipelineID, threshold: number = null): MatchTableRequest {
+  static createMatchTableRequest(id: PipelineID): MatchTableRequest {
     const result = {};
     Object.assign(result,
       {pipelineID: id}
     );
 
-    if (threshold) {
-      Object.assign(result,
-        {threshold}
-      );
-    }
     return result;
   }
 

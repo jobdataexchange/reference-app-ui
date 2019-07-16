@@ -70,14 +70,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.form.setControl(this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME, substatementsFormArray);
   }
 
-  get threshold() {
-    console.log('threshold', this.form.get(this.THRESHOLD_FIELD).value);
-    return parseFloat(this.form.get(this.THRESHOLD_FIELD).value);
-  }
-
   readonly ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME = 'annotatedSubstatementArray';
-
-  readonly THRESHOLD_FIELD = 'threshold';
 
   readonly COMPETENCY = 'competency';
 
@@ -153,17 +146,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this.navigateTo(JobRoutes.FRAMEWORKS);
   }
 
-  updateThreshold() {
-    this._isLoading = true;
-    return this.fetchMatchTable()
-      .subscribe(mt => {
-        console.log('<- _api.matchTablePost ', mt);
-        this._matchTableResponse = mt;
-        this.createAnnotatedSubstatementsArray(mt.matchTable);
-        this._isLoading = false;
-      });
-  }
-
   private onSuccess(r: Response) {
     console.log('<- api.userActionsPost', r);
     this.next();
@@ -177,7 +159,6 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private initForm() {
     this.form =
       this._fb.group({
-        [this.THRESHOLD_FIELD]: 0.45,
         [this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]: this._fb.array([])
       });
   }
@@ -190,9 +171,11 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     }
 
     return this._api.matchTablePost(
-      JobService.createMatchTableRequest(this._pipelineID, this.threshold)
+      JobService.createMatchTableRequest(this._pipelineID)
     )
-      .pipe(map(this.filterOutDuplicateRecommendations));
+      .pipe(
+        map(this.filterOutDuplicateRecommendations)
+      );
   }
 
   /*
