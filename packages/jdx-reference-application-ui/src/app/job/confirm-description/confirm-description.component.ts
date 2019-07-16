@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { FormFieldsBasicInfo } from '../base-form.component';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DefaultService } from '@jdx/jdx-reference-application-api-client';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirm-description',
@@ -14,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   constructor(
+    private _api: DefaultService,
     private _fb: FormBuilder,
     private _jobService: JobService,
     private _router: Router
@@ -21,8 +24,10 @@ export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   jobTitle: string;
   form: FormGroup;
+  scoreText: string;
 
   private _jobSub: Subscription = null;
+  private _scoreSub: Subscription = null;
 
   ngOnInit() {
     this.initSubscriptions();
@@ -31,11 +36,16 @@ export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._jobSub.unsubscribe();
+    this._scoreSub.unsubscribe();
   }
 
   initSubscriptions() {
     this._jobSub = this._jobService.job$
       .subscribe( j => this.jobTitle = j.basicInfo[FormFieldsBasicInfo.TITLE]);
+    this._api.getScorePost({pipelineID: 'foo'});
+    this._scoreSub = this._jobService.job$.pipe(flatMap(j =>
+      this._api.getScorePost({pipelineID: j.pipelineID})
+    )).subscribe(scoreResponse => this.scoreText = scoreResponse.explanation);
   }
 
   initForm() {

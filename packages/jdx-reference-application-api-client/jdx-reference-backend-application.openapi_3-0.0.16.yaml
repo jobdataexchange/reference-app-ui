@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.14"
+  version: "0.0.16"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -775,9 +775,24 @@ components:
       type: object
       properties:
         jobSchemaPlusFile:
+          description: The output of JDX.
           type: string
           format: json
           example: "{ 'title': 'example job schema plus file' }"
+        humanReadable:
+          type: object
+          properties:
+            schema:
+              type: array
+              items:
+                type: string
+              description: Defines the order the values should be in.
+              example: ["title", "competencies"]
+            data:
+              type: object
+              description: Flattened version of the JobSchema+ for easy viewing.
+              format: json
+              example: { 'title': 'example job schema plus file', 'competencies': ['comp1', 'comp2']}
 
     # metrics:
     #   type: object

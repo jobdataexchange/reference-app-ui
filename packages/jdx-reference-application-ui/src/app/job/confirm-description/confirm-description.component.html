@@ -6,10 +6,16 @@
   job description to view and use internally. The employer would also be able to choose what portions of
   the job description they would like to include in a job posting.</p>
 
-<p class="w-75 mb-5">However, for the JDX pilot we are asking each employer to take the next step to create a sample job
+<p class="w-75">However, for the JDX pilot we are asking each employer to take the next step to create a sample job
   posting using all of the information from their job description.</p>
 
-<form [formGroup]="form" (submit)="next()">
+<div class="mt-5" *ngIf="scoreText">
+  <h3>Score</h3>
+  <p class="w-75">{{scoreText}}</p>
+</div>
+
+<form class="mt-5" [formGroup]="form" (submit)="next()">
+  <h3>Confirm</h3>
   <div class="form-row mb-4">
     <div class="form-check col-md-9">
 
