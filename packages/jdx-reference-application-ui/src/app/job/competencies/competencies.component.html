@@ -48,7 +48,7 @@
             >
               <label class="font-weight-bold mt-3" [for]="'competencyName'+i">Competency</label>
               <input type="text" class="form-control form-control-lg" [id]="'competencyName'+i"
-                     [value]="substatementControl.value.annotatedName"
+                     [value]="substatementControl.value.substatement"
                      (change)="substatementControl.value.annotatedName = $event.target.value"
                      placeholder="Competency"
               >
