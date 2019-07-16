@@ -1,14 +1,16 @@
 <h1 class="pt-4 pb-4">{{jobTitle}}</h1>
 
-<p class="w-75 mb-5">Json representative of field data</p>
+<p class="w-75 mb-5">Below is an example of the linked data that you have created to make your job description and posting machine readable and able to edit at anytime.</p>
 
-<pre>{{jsonLd | json}}</pre>
+<div *ngFor="let fieldName of jobSchemaPlusResponse?.humanReadable?.schema">
+  <h3>{{fieldName}}</h3>
+  <p *ngFor="let text of getParagraphsForFieldName(fieldName)">{{text}}</p>
+</div>
 
 <div class="links pt-5 d-flex justify-content-end align-items-center">
   <div>
-    <a href="javascript:void(0)"
-       class="btn btn-lg btn-primary"
-       (click)="createNewJob()"
-    >Create Another Job</a>
+    <button type="button" class="btn btn-lg btn-primary"
+            (click)="createNewJob()"
+    >Create Another Job</button>
   </div>
 </div>
