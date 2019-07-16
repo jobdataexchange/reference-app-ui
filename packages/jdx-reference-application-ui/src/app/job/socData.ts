@@ -1,4 +1,4 @@
-export const naicsSelectOptions = [
+export const socSelectOptions = [
   {value: '11-1011.00', name: 'Chief Executives'},
   {value: '11-1011.03', name: 'Chief Sustainability Officers'},
   {value: '11-1021.00', name: 'General and Operations Managers'},

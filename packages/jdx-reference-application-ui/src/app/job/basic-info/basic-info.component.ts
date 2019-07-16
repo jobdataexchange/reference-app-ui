@@ -9,8 +9,8 @@ import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
-import { sixDigitOptions } from '../sixDigit';
-import { occupationSelectOptions } from '../ocupationData';
+import { socSelectOptions } from '../socData';
+import { naicsSelectOptions } from '../naicsData';
 
 
 @Component({
@@ -42,8 +42,6 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   readonly JOB_SECTION_TYPE = 'basicInfo';
 
   ngOnInit() {
-    this.getIndustryCodes();
-    this.getOccupationCategory();
     this.initSubscriptions();
   }
 
@@ -54,6 +52,8 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
   initSubscriptions() {
     this._jobSub = this._jobService.job$.subscribe(job => {
       this.jobIdentifier = job.pipelineID;
+      this.getIndustryCodes();
+      this.getOccupationCategory();
       this.initForm(job);
       this.form.patchValue({[this.f.JOB_IDENTIFIER]: this.jobIdentifier});
     });
@@ -63,11 +63,11 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
     this.form =
       this._fb.group(
         {
-          [this.f.TITLE]:               [j.basicInfo[this.f.TITLE], Validators.required],
+          [this.f.TITLE]:               this._jobService.autoFillValueByFormField('basicInfo', this.f.TITLE),
           [this.f.JOB_SUMMARY]:         [j.basicInfo[this.f.JOB_SUMMARY]],
           [this.f.INDUSTRY]:            [j.basicInfo[this.f.INDUSTRY]],
-          [this.f.INDUSTRY_CODE]:       [j.basicInfo[this.f.INDUSTRY_CODE]],
-          [this.f.OCCUPATION_CODE]: [ j.basicInfo[this.f.OCCUPATION_CODE]],
+          [this.f.INDUSTRY_CODE]:       this._jobService.autoFillValueByFormField('basicInfo', this.f.INDUSTRY_CODE),
+          [this.f.OCCUPATION_CODE]:     this._jobService.autoFillValueByFormField('basicInfo', this.f.OCCUPATION_CODE),
           [this.f.JOB_LOCATION]:        [j.basicInfo[this.f.JOB_LOCATION], Validators.required],
           [this.f.JOB_LOCATION_TYPE]:   [j.basicInfo[this.f.JOB_LOCATION_TYPE]],
           [this.f.EMPLOYMENT_UNIT]:     [j.basicInfo[this.f.EMPLOYMENT_UNIT]],
@@ -79,12 +79,12 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   getIndustryCodes() {
     // TODO: real logic to get the Industry codes
-    this.industryCodes = sixDigitOptions;
+    this.industryCodes = socSelectOptions;
   }
 
   getOccupationCategory() {
     // TODO: real logic to get the Occupation Categories
-    this.occupationCategories = occupationSelectOptions;
+    this.occupationCategories = naicsSelectOptions;
   }
 
   back() {

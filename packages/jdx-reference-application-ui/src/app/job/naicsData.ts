@@ -1,4 +1,4 @@
-export const occupationSelectOptions = [
+export const naicsSelectOptions = [
   {value: '111110', name: 'Soybean Farming'},
   {value: '111120', name: 'Oilseed (except Soybean) Farming'},
   {value: '111130', name: 'Dry Pea and Bean Farming'},
