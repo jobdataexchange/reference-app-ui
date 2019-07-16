@@ -65,6 +65,10 @@ export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
     this.navigateTo(JobRoutes.POSTING_INFO);
   }
 
+  back() {
+    this.navigateTo(JobRoutes.COMPENSATION_INFO);
+  }
+
   navigateTo(route: JobRoutes) {
     this._router.navigateByUrl(createRouteUrlByJobRoute(route));
   }
