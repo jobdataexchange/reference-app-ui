@@ -3,6 +3,7 @@ import { DefaultService, MatchTableRequest, PreviewResponse, Request } from '@jd
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService, LocalStorageTypes } from './local-storage.service';
 import {
+  AutoFillPropertyNames,
   FormFieldsAdditionalRequirements,
   FormFieldsAssessmentInfo,
   FormFieldsBasicInfo,
@@ -154,6 +155,27 @@ export class JobService {
            ? 0
            : this._currentJobContext.annotatedPreview.previewMap[p].length;
   }
+
+  autoFillValuefromAutoFillPropertyName(f: AutoFillPropertyNames) {
+    const j = this._currentJobContext;
+
+    switch (f) {
+      case AutoFillPropertyNames.SOC: {
+        return isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill) ||
+               isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.SOC])
+               ? ''
+               : j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.SOC];
+      }
+
+      case AutoFillPropertyNames.NAISC: {
+        return isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill) ||
+               isNullOrUndefined(j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.NAISC])
+               ? ''
+               : j.annotatedPreview.rawPreview.preview.autofill[AutoFillPropertyNames.NAISC];
+      }
+    }
+  }
+
 
   private setJob(job: JobContext) {
     this.announceCurrentJob(job);
