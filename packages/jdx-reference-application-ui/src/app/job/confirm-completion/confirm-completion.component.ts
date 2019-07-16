@@ -32,7 +32,7 @@ export class ConfirmCompletionComponent implements OnInit, OnDestroy {
 
   initSubscriptions() {
     this._jobSub = this._jobService.job$
-      .subscribe( j => j.basicInfo[FormFieldsBasicInfo.TITLE]);
+      .subscribe( j => this.jobTitle = j.basicInfo[FormFieldsBasicInfo.TITLE]);
   }
 
   viewJobPosting() {
