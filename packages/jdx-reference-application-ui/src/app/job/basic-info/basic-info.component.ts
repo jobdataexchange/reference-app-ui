@@ -9,7 +9,8 @@ import { JobContext, JobService } from '../../shared/services/job.service';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { DefaultService } from '@jdx/jdx-reference-application-api-client';
-import { naicsSelectOptions } from '../naicsValues';
+import { sixDigitOptions } from '../sixDigit';
+import { occupationSelectOptions } from '../ocupationData';
 
 
 @Component({
@@ -78,16 +79,12 @@ export class BasicInfoComponent extends BaseForm implements OnInit, OnDestroy {
 
   getIndustryCodes() {
     // TODO: real logic to get the Industry codes
-    this.industryCodes = naicsSelectOptions;
+    this.industryCodes = sixDigitOptions;
   }
 
   getOccupationCategory() {
     // TODO: real logic to get the Occupation Categories
-    this.occupationCategories = [
-      {name: 'Option 1', value: 'option1'},
-      {name: 'Option 2', value: 'option2'},
-      {name: 'Option 3', value: 'option3'}
-    ];
+    this.occupationCategories = occupationSelectOptions;
   }
 
   back() {
