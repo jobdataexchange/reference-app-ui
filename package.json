@@ -1,6 +1,6 @@
 {
   "name": "@jdx/jdx-reference-application",
-  "version": "0.6.0",
+  "version": "1.0.3",
   "description": "monorepo for JDX Reference Application",
   "main": "index.js",
   "files": [
