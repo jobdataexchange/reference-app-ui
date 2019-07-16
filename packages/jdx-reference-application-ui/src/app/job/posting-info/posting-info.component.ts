@@ -46,7 +46,7 @@ export class PostingInfoComponent extends BaseForm implements OnInit, OnDestroy 
   }
 
   back() {
-    this.navigateTo(JobRoutes.COMPENSATION_INFO);
+    this.navigateTo(JobRoutes.CONFIRM_DESCRIPTION);
   }
 
   next() {

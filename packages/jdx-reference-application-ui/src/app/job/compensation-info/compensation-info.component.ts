@@ -105,7 +105,7 @@ export class CompensationInfoComponent extends BaseForm implements OnInit, OnDes
   }
 
   protected onSuccess() {
-    this.navigateTo(JobRoutes.POSTING_INFO);
+    this.navigateTo(JobRoutes.CONFIRM_DESCRIPTION);
   }
 
   private initSubscriptions() {
