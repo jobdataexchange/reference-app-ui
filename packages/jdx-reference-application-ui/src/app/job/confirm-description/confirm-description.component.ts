@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormFieldsBasicInfo } from '../base-form.component';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DefaultService } from '@jdx/jdx-reference-application-api-client';
 
 @Component({
   selector: 'app-confirm-description',
@@ -14,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   constructor(
+    private _api: DefaultService,
     private _fb: FormBuilder,
     private _jobService: JobService,
     private _router: Router
@@ -23,6 +25,7 @@ export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   private _jobSub: Subscription = null;
+  private _scoreSub: Subscription = null;
 
   ngOnInit() {
     this.initSubscriptions();
