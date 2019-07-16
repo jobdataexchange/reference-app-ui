@@ -4,6 +4,7 @@ import { JobService } from '../../shared/services/job.service';
 import { Router } from '@angular/router';
 import { FormFieldsBasicInfo } from '../base-form.component';
 import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-confirm-description',
@@ -13,16 +14,19 @@ import { createRouteUrlByJobRoute, JobRoutes } from '../job-routing.module';
 export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
 
   constructor(
+    private _fb: FormBuilder,
     private _jobService: JobService,
     private _router: Router
   ) { }
 
   jobTitle: string;
+  form: FormGroup;
 
   private _jobSub: Subscription = null;
 
   ngOnInit() {
     this.initSubscriptions();
+    this.initForm();
   }
 
   ngOnDestroy(): void {
@@ -34,11 +38,20 @@ export class ConfirmDescriptionComponent implements OnInit, OnDestroy {
       .subscribe( j => this.jobTitle = j.basicInfo[FormFieldsBasicInfo.TITLE]);
   }
 
+  initForm() {
+    this.form =
+      this._fb.group(
+        {
+          validation: [false, Validators.requiredTrue],
+        }
+      );
+  }
+
   viewJob() {
     this.navigateTo(JobRoutes.VIEW_JOB);
   }
 
-  createPosting() {
+  next() {
     this.navigateTo(JobRoutes.POSTING_INFO);
   }
 
