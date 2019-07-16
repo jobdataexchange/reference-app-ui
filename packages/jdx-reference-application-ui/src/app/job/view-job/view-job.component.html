@@ -1,6 +1,11 @@
 <h1 class="pt-4 pb-4">{{jobTitle}}</h1>
 
-<p class="w-75 mb-5">Below is an example of the linked data that you have created to make your job description and posting machine readable and able to edit at anytime.</p>
+<p class="w-75 mb-5">
+  This is currently the only opportunity you have to save your data. Below you
+  will find the simplest way to view the data contained in your newly created
+  JobSchema+ file. Please click "Download JobSchema+ File". We also recommend
+  that you print this page as PDF if you would like to share this with anyone.
+</p>
 
 <div *ngFor="let fieldName of jobSchemaPlusResponse?.humanReadable?.schema">
   <h3>{{fieldName}}</h3>
