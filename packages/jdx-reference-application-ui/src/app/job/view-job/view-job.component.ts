@@ -30,7 +30,7 @@ export class ViewJobComponent implements OnInit, OnDestroy {
   private _resultSub: Subscription = null;
 
   download() {
-    const blob = new Blob([this.jobSchemaPlusResponse.jobSchemaPlusFile], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(this.jobSchemaPlusResponse.jobSchemaPlusFile, null, 4)], { type: 'application/json' });
     saveAs(blob, 'jobSchemaPlus.json');
   }
 
