@@ -1,0 +1,959 @@
+openapi: 3.0.0
+info:
+  title: JDX reference application API
+  description: This is a collection of schemas and endpoints for the various JDX,
+    Concentric Sky facing REST endpoints, the schemas define an API contract of sorts
+    between the request and response expectations of the JDX reference application.
+    This API is to be mutually developed by Concentric Sky and BrightHive.
+  termsOfService: https://www.uschamberfoundation.org/workforce-development/JDX
+  contact:
+    email: engineering@brighthive.io
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 0.0.17
+externalDocs:
+  description: Find out more about JDX
+  url: https://www.uschamberfoundation.org/workforce-development/JDX
+servers:
+- url: https://jdx-api.brighthive.net
+  description: Live API
+- url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
+  description: Server running off of swagger spec that returns mock examples
+paths:
+  /upload-job-description-file:
+    post:
+      summary: Upload a raw job description file.
+      requestBody:
+        description: |
+          Upload a raw job description in one of the given formats for the server to begin the automatic competency translation service.
+
+          Allowed file types
+          ___
+          DOCX, DOC - Microsoft Word file format (version 2012+)
+
+          TXT - Text file format
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/rawJobDescriptionRequest'
+      responses:
+        200:
+          description: Created. A pipeline was created and the provided job description
+            was converted to text and attached to the pipeline.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rawJobDescriptionResponse'
+        400:
+          description: Bad Request
+        422:
+          description: Validation error
+        500:
+          description: Internal server error
+  /preview:
+    post:
+      summary: Get preview of job description with tagged matches.
+      requestBody:
+        description: Get preview of job description wth tagged matches.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        200:
+          description: Provides a chunked job description with matches that refer
+            to the given paragraph chunks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/previewResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /upload-job-description-context:
+    post:
+      summary: Provide job description context (e.g metadata) on the job description
+      requestBody:
+        description: job description context
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jobDescriptionContextRequest'
+      responses:
+        200:
+          description: Stored the context object associated with `pipelineID`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jobDescriptionContextResponse'
+        400:
+          description: Bad Request
+        404:
+          description: Pipeline was not found
+        422:
+          description: Validation error
+        500:
+          description: Internal server error
+        503:
+          description: Service is down
+  /framework-recommendations:
+    post:
+      summary: Get framework recommendations based on the uploaded job descripton
+        and context.
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        200:
+          description: Provides a list of frameworks, including competencies, occupation
+            and industries, that the user may choose from (one or more).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frameworkRecommendationResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /framework-selections:
+    post:
+      summary: The user indicates what frameworks they selected
+      requestBody:
+        description: framework selections
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/frameworkSelectionRequest'
+      responses:
+        200:
+          description: Stored the context object associated with `pipelineID`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frameworkSelectionResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /match-table:
+    post:
+      summary: Get the match table associated with the provided `pipelineID`
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/matchTableRequest'
+      responses:
+        200:
+          description: Provides a match table with `uuid` references along with a
+            json-ld object. The json-ld object contains `uuid`'s that reference into
+            the match table, for instance, containing a list of possble competencies
+            that the user should be asked to choose among, reject or approve one of.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/matchTableResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /get-score:
+    post:
+      summary: Provides a scored based on how much metadata you provide and the quality
+        of that data.
+      requestBody:
+        description: Get score for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        200:
+          description: Provides a score for your pipeline work.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pipelineScoreResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /user-actions:
+    post:
+      summary: Provide the user responses as a list of user actions
+      requestBody:
+        description: Contains a list of user responses
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userActionRequest'
+      responses:
+        200:
+          description: The user actions response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userActionResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /generate-job-schema-plus:
+    post:
+      summary: Generate JobSchema+
+      requestBody:
+        description: Generate JobSchema+ from a given pipeline_id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        200:
+          description: JobSchema+ file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateJobSchemaPlusResponse'
+        400:
+          description: Bad Request error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestError'
+        415:
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unsupportedMediaTypeError'
+        422:
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validationError'
+        503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceUnavailableError'
+  /health:
+    get:
+      summary: Health Check
+      description: The health check endpoint can be used to check if the API is up.
+        If the API is running it will return a 200 OK response.
+      responses:
+        200:
+          description: The API is up!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/healthResponse'
+components:
+  schemas:
+    serviceUnavailableError:
+      type: object
+      properties:
+        message:
+          maxLength: 1024
+          type: string
+          example: Server is down. Please contact engineering@brighthive.io
+    unsupportedMediaTypeError:
+      type: object
+      properties:
+        message:
+          maxLength: 1024
+          type: string
+          example: Provided XML, this media type not supported, please provide json
+    badRequestError:
+      type: object
+      properties:
+        message:
+          maxLength: 1024
+          type: string
+          example: Malformed syntax, `{` is missing on line 102
+    validationError:
+      type: object
+      properties:
+        message:
+          maxLength: 1024
+          type: string
+          example: Your request failed to validate. Email not in correct <user>@<host>
+            form
+        statusCode:
+          maximum: 9999
+          minimum: -1
+          type: integer
+          description: A code identifying the message response. A code of `1` indicates
+            success.
+          example: 1
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/validationError_validationErrors'
+    request:
+      type: object
+      properties:
+        pipelineID:
+          type: string
+          description: An identifier for this jdx reference application _session_
+            of converting a raw job description. On first request this is ignored.
+          format: uuid
+          example: 824b40ae-2e95-4823-8c61-330865b10bd7
+    response:
+      type: object
+      properties:
+        pipelineID:
+          type: string
+          description: An identifier for this jdx reference application session of
+            converting a raw job description
+          format: uuid
+          example: 824b40ae-2e95-4823-8c61-330865b10bd7
+        timestamp:
+          type: string
+          description: A timestamp of when this response was generated
+          format: date-time
+    rawJobDescriptionRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          description: The file to upload
+          format: binary
+    rawJobDescriptionResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - type: object
+        properties:
+          fileText:
+            type: string
+            description: number of words in the converted job description
+            example: |
+              Job Title - ACME software developer.
+              Duties - Carry out meetings. Write code.
+          convertedLength:
+            maximum: 999999
+            minimum: 0
+            type: integer
+            description: number of words in the converted job description
+            example: 240
+    jobDescriptionContextRequest:
+      allOf:
+      - $ref: '#/components/schemas/request'
+      - type: object
+        properties:
+          primaryEconomicActivity:
+            maxLength: 1024
+            type: string
+            example: Making and selling software products
+          jobLocation:
+            maxLength: 1024
+            type: string
+          occupationCode:
+            type: string
+          industryCode:
+            type: string
+          assessment:
+            maxLength: 1024
+            type: string
+          applicationLocationRequirement:
+            maxLength: 1024
+            type: string
+          citizenshipRequirement:
+            maxLength: 1024
+            type: string
+          physicalRequirement:
+            maxLength: 1024
+            type: string
+          sensoryRequirement:
+            maxLength: 1024
+            type: string
+          securityClearanceRequirement:
+            maxLength: 1024
+            type: string
+          specialCommitment:
+            maxLength: 1024
+            type: string
+          jobTitle:
+            maxLength: 1024
+            type: string
+          jobSummary:
+            maxLength: 1024
+            type: string
+          jobLocationType:
+            maxLength: 1024
+            type: string
+          employmentUnit:
+            maxLength: 1024
+            type: string
+          employerIdentifier:
+            maxLength: 1024
+            type: string
+          requirements:
+            maxLength: 1024
+            type: string
+          salaryCurrency:
+            maxLength: 1024
+            type: string
+          salaryMinimum:
+            maxLength: 1024
+            type: string
+          salaryMaximum:
+            maxLength: 1024
+            type: string
+          salaryFrequency:
+            maxLength: 1024
+            type: string
+          incentiveCompensation:
+            maxLength: 1024
+            type: string
+          jobBenefits:
+            type: array
+            items:
+              maxLength: 1024
+              type: string
+          employmentAgreement:
+            maxLength: 1024
+            type: string
+          jobTerm:
+            maxLength: 1024
+            type: string
+          jobSchedule:
+            maxLength: 1024
+            type: string
+          workHours:
+            maxLength: 1024
+            type: string
+          employerName:
+            maxLength: 1024
+            type: string
+          employerOverview:
+            maxLength: 1024
+            type: string
+          employerEmail:
+            maxLength: 1024
+            type: string
+          employerWebsite:
+            maxLength: 1024
+            type: string
+          employerAddress:
+            maxLength: 1024
+            type: string
+          employerPhone:
+            maxLength: 1024
+            type: string
+          datePosted:
+            maxLength: 1024
+            type: string
+          validThrough:
+            maxLength: 1024
+            type: string
+          jobOpenings:
+            maxLength: 1024
+            type: string
+    jobDescriptionContextResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - $ref: '#/components/schemas/jobDescriptionContextRequest'
+    previewResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - type: object
+        properties:
+          preview:
+            $ref: '#/components/schemas/previewObject'
+    previewObject:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/previewFields'
+        paragraphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/previewParagraphs'
+        autofill:
+          $ref: '#/components/schemas/previewObject_autofill'
+    previewFields:
+      type: object
+      properties:
+        field:
+          type: string
+          example: (JobMaster).title
+        paragraph_number:
+          type: integer
+          example: 1
+    previewParagraphs:
+      type: string
+      example: Posted on 4/2/2021 18:23:01
+    frameworkSelectionRequest:
+      allOf:
+      - $ref: '#/components/schemas/request'
+      - type: object
+        properties:
+          frameworks:
+            $ref: '#/components/schemas/frameworks'
+    frameworks:
+      type: object
+      properties:
+        competency:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        occupation:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+    frameworkSelectionResponse:
+      $ref: '#/components/schemas/response'
+    frameworkRecommendationResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - type: object
+        properties:
+          frameworkRecommendations:
+            type: array
+            items:
+              $ref: '#/components/schemas/frameworkRecommendations'
+    matchTableRequest:
+      allOf:
+      - $ref: '#/components/schemas/request'
+      - type: object
+        properties:
+          threshold:
+            type: number
+            example: 0.55
+    matchTableResponse:
+      allOf:
+      - $ref: '#/components/schemas/matchTableRows'
+      - $ref: '#/components/schemas/response'
+    matchTableRows:
+      properties:
+        matchTable:
+          type: array
+          items:
+            $ref: '#/components/schemas/substatements'
+    substatements:
+      properties:
+        substatementID:
+          type: string
+          description: UUID referring to
+          format: uuid
+          example: 1fa85f64-5717-4562-b3fc-2c963f66afa6
+        substatement:
+          type: string
+          description: this is the job description substatment text
+          example: Can perform test driven development
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/substatements_matches'
+    pipelineScoreResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - $ref: '#/components/schemas/pipelineScoreObject'
+    pipelineScoreObject:
+      type: object
+      properties:
+        score:
+          type: string
+          example: A+
+        explanation:
+          type: string
+          example: By not providing a location, search engines cannot index your job
+            posting correctly.
+    frameworkRecommendations:
+      type: object
+      properties:
+        value:
+          minimum: 0
+          type: number
+          description: numeric score, higher is better
+          example: 3.14
+        validUntil:
+          type: string
+          description: A timestamp of the time up until this is valid
+          format: date-time
+        frameworkData:
+          $ref: '#/components/schemas/frameworkData'
+    frameworkData:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: uuid of framework
+          format: uuid
+          example: f6052610-8032-43af-940d-24db36e57187
+        objectType:
+          type: string
+          description: competency, industry, occupation?
+          example: competency
+        name:
+          type: string
+          description: name of the framework
+          example: Cybersecurity ClearingHouse Model
+    generateJobSchemaPlusResponse:
+      allOf:
+      - $ref: '#/components/schemas/response'
+      - $ref: '#/components/schemas/jobSchemaPlusFile'
+    jobSchemaPlusFile:
+      type: object
+      properties:
+        jobSchemaPlusFile:
+          type: object
+          description: The output of JDX.
+          format: json
+          example:
+            key: example job schema plus file
+        humanReadable:
+          $ref: '#/components/schemas/jobSchemaPlusFile_humanReadable'
+    userActionRequest:
+      allOf:
+      - $ref: '#/components/schemas/request'
+      - type: object
+        properties:
+          matchTableSelections:
+            type: array
+            items:
+              $ref: '#/components/schemas/matchTableSelection'
+    matchTableSelection:
+      type: object
+      properties:
+        substatementID:
+          type: string
+          description: UUID referring to
+          format: uuid
+          example: 1fa85f64-5717-4562-b3fc-2c963f66afa6
+        accept:
+          $ref: '#/components/schemas/accept'
+        replace:
+          $ref: '#/components/schemas/replace'
+    userActionResponse:
+      $ref: '#/components/schemas/response'
+    annotatedDefinedTerm:
+      type: object
+      properties:
+        name:
+          maxLength: 1024
+          type: string
+          example: SOC
+        description:
+          maxLength: 1024
+          type: string
+          example: Standardized Occupation Code, for use in the US
+        termCode:
+          type: string
+          description: A code that identifies this DefinedTerm within a DefinedTermSet.
+          example: 15-1131.00
+        definedTermSet:
+          type: string
+          description: A defined term set that contains this term.
+          example: Standard Occupational Classification system
+    framework:
+      type: object
+      properties:
+        frameworkID:
+          type: string
+          description: A JDX numerical identifier for this framework
+          format: uuid
+          example: 4aee8089-2ea6-4167-b39b-381102d29c74
+      description: a standard framework
+    place:
+      type: object
+      properties:
+        name:
+          maxLength: 1024
+          type: string
+          example: ACME Fairfax
+        description:
+          maxLength: 1024
+          type: string
+          example: A place where software is built
+        faxNumber:
+          maxLength: 128
+          type: string
+          example: +17039999999
+        telephone:
+          maxLength: 64
+          type: string
+          example: +17039999999
+        address:
+          $ref: '#/components/schemas/postalAddress'
+        geo:
+          $ref: '#/components/schemas/geoCoordinates'
+      description: A fixed physical location
+    geoCoordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          example: 123.4554534534
+        longitude:
+          type: number
+          example: 223.4554534534
+      description: Geographic coordinates of a place or event.
+    postalAddress:
+      type: object
+      properties:
+        name:
+          maxLength: 1024
+          type: string
+          example: ACME Fairfax
+        streetAddress:
+          maxLength: 1024
+          type: string
+          example: 101 Acme Way
+        addressLocality:
+          maxLength: 1024
+          type: string
+          example: Fairfax
+        addressRegion:
+          maxLength: 1024
+          type: string
+          example: Virgina
+        addressCountry:
+          maxLength: 1024
+          type: string
+          example: United States of America
+        postalCode:
+          maxLength: 1024
+          type: string
+          example: "22032"
+      description: the mailing address of an entity
+    healthResponse:
+      type: object
+      properties:
+        api:
+          type: integer
+          example: 200
+    validationError_validationErrors:
+      type: object
+      properties:
+        field:
+          type: string
+        reason:
+          type: string
+    previewObject_autofill:
+      type: object
+      properties:
+        industryCode:
+          type: string
+          example: "1235"
+        occupationCode:
+          type: string
+          example: "5332"
+    substatements_matches:
+      type: object
+      properties:
+        recommendationID:
+          type: string
+          example: 2fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          example: what is this for?
+        description:
+          type: string
+          example: Performs TDD
+        definedTermSet:
+          type: string
+          example: Standard Occupational Classification system
+        termCode:
+          type: string
+          example: 19-1131.00
+        value:
+          type: string
+          example: "0.9"
+    jobSchemaPlusFile_humanReadable:
+      type: object
+      properties:
+        schema:
+          type: array
+          description: Defines the order the values should be in.
+          example:
+          - title
+          - competencies
+          items:
+            type: string
+        data:
+          type: object
+          description: Flattened version of the JobSchema+ for easy viewing.
+          format: json
+          example:
+            title: example human readable
+            competencies:
+            - comp1
+            - comp2
+    accept:
+      type: object
+      properties:
+        recommendationID:
+          type: string
+          example: 2fa85f64-5717-4562-b3fc-2c963f66afa6
+    replace:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the competency
+          example: Baking
+        description:
+          type: string
+          description: The text for the competency
+          example: The act of cooking yeast in the oven to create bread.
+  responses:
+    400:
+      description: Bad Request error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/badRequestError'
+    415:
+      description: Unsupported media type
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/unsupportedMediaTypeError'
+    422:
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/validationError'
+    503:
+      description: Service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/serviceUnavailableError'
