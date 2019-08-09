@@ -24,7 +24,7 @@ export enum CompetencySelectOptions {
 export enum StateEnum {
   LOADED = 'loaded',
   LOADING = 'loading',
-  EMPTY =  'empty'
+  EMPTY = 'empty'
 }
 
 export interface AnnotatedSubstatement extends Substatements {
@@ -45,16 +45,16 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     private _pipeLineIdService: JobService,
     private _router: Router,
     private _toastr: ToastrService,
-  ) {}
+  ) { }
 
   get state(): StateEnum {
-    if  (this._isLoading) {
+    if (this._isLoading) {
       return StateEnum.LOADING;
     }
     else {
       return StateEnum.LOADED && this.substatementsFormArray.length
-             ? StateEnum.LOADED
-             : StateEnum.EMPTY;
+        ? StateEnum.LOADED
+        : StateEnum.EMPTY;
     }
   }
 
@@ -63,7 +63,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   get substatementsFormArray(): FormArray {
-    return this.form.controls[ this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME ] as FormArray;
+    return this.form.controls[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME] as FormArray;
   }
 
   set substatementsFormArray(substatementsFormArray: FormArray) {
@@ -96,19 +96,20 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._matchTableSub) {this._matchTableSub.unsubscribe(); }
+    if (this._matchTableSub) { this._matchTableSub.unsubscribe(); }
   }
 
   submitForm() {
     const userActionRequest: UserActionRequest = {
       pipelineID: this._pipelineID,
       matchTableSelections: this.form.value[this.ANNOTATED_SUBSTATEMENT_FORM_ARRAY_NAME]
-        .map( (annotatedSubstatement: AnnotatedSubstatement) => {
+        .map((annotatedSubstatement: AnnotatedSubstatement) => {
           if (annotatedSubstatement.selectedCompetencyOption === CompetencySelectOptions.OTHER) {
+            const substatementValue = annotatedSubstatement.annotatedName.length > 0 ? annotatedSubstatement.annotatedName : annotatedSubstatement.substatement;
             return {
               substatementID: annotatedSubstatement.substatementID,
               replace: {
-                name: annotatedSubstatement.annotatedName
+                name: substatementValue
               }
             };
           }
@@ -134,7 +135,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     this._api.userActionsPost(userActionRequest)
       .toPromise()
       .then((r: Response) => this.onSuccess(r))
-      .catch( e => this.onError(e))
+      .catch(e => this.onError(e))
       .finally();
   }
 
@@ -165,7 +166,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
   private fetchMatchTable(): Observable<MatchTableResponse> | null {
 
     if (isNullOrUndefined(this._pipelineID)) {
-      this._toastr.error('No PipelineID found. Starting over!', null, {disableTimeOut: false});
+      this._toastr.error('No PipelineID found. Starting over!', null, { disableTimeOut: false });
       this.navigateTo(JobRoutes.DESCRIPTION);
       return null;
     }
@@ -215,7 +216,7 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
 
   private createAnnotatedSubstatementsArray(substatements: Substatements[]) {
     this.substatementsFormArray = this._fb.array(substatements.map(
-      s => this._fb.group( this.createAnnotatedSubstatement(s))));
+      s => this._fb.group(this.createAnnotatedSubstatement(s))));
 
   }
 
@@ -234,14 +235,14 @@ export class CompetenciesComponent implements OnInit, OnDestroy {
     const arr = new FormArray([]);
 
     const createControl = (compentency) => {
-      return this._fb.control({ [ this.COMPETENCY ]: compentency });
+      return this._fb.control({ [this.COMPETENCY]: compentency });
     };
 
     if (!!compentencies.length) {
       compentencies.forEach(c => arr.push(createControl(c)));
     }
     else {
-        arr.push(createControl( CompetencySelectOptions.NONE));
+      arr.push(createControl(CompetencySelectOptions.NONE));
     }
 
     return arr;
