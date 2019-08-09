@@ -78,17 +78,18 @@ To run the pattern library locally:
     
 This starts a local development server on port 3000.
 
-
 ## Build and Deploy
 
 ### Build the Angular Application
+
+For details on setting up the deployment environment, see the guide [here](ENVIRONMENT.md).
 
 Scripts are included in the top level package.json for build operations. To build a new version
 of the Angular application, from the project root:
 
     npm version <newversion> # (see https://docs.npmjs.com/cli/version)
     npm run package
-    
+
 The output is in `dist`.
 
 ### Deploy the Angular Application
